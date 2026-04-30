@@ -33,8 +33,8 @@
             <h1 class="display-6 fw-bold text-primary-custom mb-2" style="font-family: 'Outfit', sans-serif;">Pesanan
                 Berhasil Dibuat!</h1>
             <p class="fs-5 text-muted mb-4">Terima kasih telah mempercayakan momen spesial Anda bersama kami.</p>
-            <div class="order-badge">
-                Order No: CTR-20260423-0001
+            <div class="order-badge" id="orderNumberBadge">
+                Order No: Loading...
             </div>
         </header>
 
@@ -49,34 +49,19 @@
                         <h2>Detail Pesanan</h2>
                     </div>
 
-                    <div class="d-flex flex-column mt-4">
-                        <div class="receipt-item">
-                            <div>
-                                <p class="receipt-item-title">Lapis Legit Premium</p>
-                                <p class="receipt-item-desc">2 Potong</p>
-                            </div>
-                            <span class="receipt-item-price">Rp 24.000</span>
-                        </div>
+                    <div class="d-flex flex-column mt-4" id="orderItemsContainer">
+                        <!-- Items will be rendered here dynamically -->
+                        <div class="text-center py-3 text-muted small">Memuat detail pesanan...</div>
+                    </div>
 
-                        <div class="receipt-item">
-                            <div>
-                                <p class="receipt-item-title">Kelepon Pandan</p>
-                                <p class="receipt-item-desc">5 pcs</p>
-                            </div>
-                            <span class="receipt-item-price">Rp 22.500</span>
+                    <div class="border-top mt-3 pt-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted small">Biaya Pengiriman</span>
+                            <span class="fw-medium small" id="shippingCostText">Rp 0</span>
                         </div>
-
-                        <div class="receipt-item">
-                            <div>
-                                <p class="receipt-item-title">Biaya Layanan</p>
-                                <p class="receipt-item-desc">Sistem</p>
-                            </div>
-                            <span class="receipt-item-price">Rp 2.000</span>
-                        </div>
-
-                        <div class="receipt-total">
+                        <div class="receipt-total mt-2">
                             <span>Total Tagihan</span>
-                            <span>Rp 48.500</span>
+                            <span id="totalAmountText">Rp 0</span>
                         </div>
                     </div>
                 </div>
@@ -122,7 +107,7 @@
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-muted mb-1">Order No.</label>
                             <input type="text" class="form-control bg-light py-2 text-muted fw-medium"
-                                value="CTR-20260423-0001" readonly
+                                id="orderNumberInput" value="..." readonly
                                 style="cursor: not-allowed; border: 1px solid rgba(0,0,0,0.1);">
                         </div>
                         <div class="mb-4">
@@ -142,7 +127,7 @@
                             class="btn btn-primary-custom w-100 py-3 fw-bold rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2"
                             onclick="alert('Bukti pembayaran berhasil diunggah!'); window.location.href='pembelian.html'">
                             <span class="material-symbols-outlined fs-5">send</span>
-                            UPLOAD BUKTI BAYAR
+                            Upload Bukti Bayar
                         </button>
                     </form>
                 </div>
@@ -154,7 +139,7 @@
         <!-- Helpful Tip -->
         <div class="text-center mt-4">
             <div class="tip-box">
-                <span class="fs-5">ðŸ’¡</span>
+                <span class="material-symbols-outlined fs-5">info</span>
                 <span class="small">Halaman tertutup? Anda bisa upload bukti kapan saja via menu <a
                         href="upload-payment.html" class="fw-bold text-primary-custom text-decoration-none">Upload
                         Bukti</a></span>
@@ -170,6 +155,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/order-confirmation.js"></script>
     <script src="js/upload.js"></script>
     <script src="js/load-components.js"></script>
 </body>

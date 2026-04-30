@@ -12,7 +12,7 @@ class CartManager {
     init() {
         this.updateBadge();
         this.bindMenuEvents();
-        
+
         // Cart Page
         if (document.querySelector('.col-lg-8 .d-flex.flex-column.gap-3') && document.querySelector('.summary-card')) {
             this.renderCart();
@@ -31,7 +31,7 @@ class CartManager {
             try {
                 const parsed = JSON.parse(stored);
                 if (parsed.packages && parsed.regularItems) return parsed;
-            } catch (e) {}
+            } catch (e) { }
         }
         return { packages: [], regularItems: [] };
     }
@@ -39,7 +39,7 @@ class CartManager {
     saveCart() {
         localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(this.state));
         this.updateBadge();
-        
+
         if (document.querySelector('.summary-card')) {
             this.renderCart();
         }
@@ -54,7 +54,7 @@ class CartManager {
     }
 
     // --- Core Operations ---
-    
+
     addRegularItem(product) {
         const existingItem = this.state.regularItems.find(item => item.id === product.id);
         if (existingItem) {
@@ -158,7 +158,7 @@ class CartManager {
     }
 
     // --- Validation ---
-    
+
     validateCart() {
         let valid = true;
         let reasons = [];
@@ -207,7 +207,7 @@ class CartManager {
                     const priceText = card.querySelector('.text-secondary-custom').innerText;
                     const price = parseInt(priceText.replace(/[^0-9]/g, ''));
                     const img = card.querySelector('img').src;
-                    
+
                     this.addRegularItem({
                         id: name.toLowerCase().replace(/\s+/g, '-'),
                         name: name,
@@ -228,7 +228,7 @@ class CartManager {
                     const priceText = card.querySelector('.text-secondary-custom').innerText;
                     const price = parseInt(priceText.replace(/[^0-9]/g, ''));
                     const img = card.querySelector('img').src;
-                    
+
                     this.selectedProductForPackage = {
                         id: name.toLowerCase().replace(/\s+/g, '-'),
                         name: name,
@@ -258,7 +258,7 @@ class CartManager {
                 const input = document.getElementById('newPackageName');
                 const name = input.value.trim() || 'Paket Baru';
                 const newPkgId = this.createPackage(name);
-                
+
                 if (this.selectedProductForPackage) {
                     this.addItemToPackage(newPkgId, this.selectedProductForPackage);
                     input.value = '';
@@ -273,7 +273,7 @@ class CartManager {
     openAddToPackageModal() {
         const modalEl = document.getElementById('addToPackageModal');
         if (!modalEl) return;
-        
+
         document.getElementById('modalProductImage').src = this.selectedProductForPackage.image;
         document.getElementById('modalProductName').innerText = this.selectedProductForPackage.name;
         document.getElementById('modalProductPrice').innerText = this.formatRp(this.selectedProductForPackage.price);
@@ -287,7 +287,7 @@ class CartManager {
     renderPackageListInModal() {
         const container = document.getElementById('packageListContainer');
         if (!container) return;
-        
+
         container.innerHTML = '';
         if (this.state.packages.length === 0) {
             container.innerHTML = '<p class="text-muted small">Belum ada paket. Silakan buat di bawah.</p>';
@@ -316,8 +316,8 @@ class CartManager {
             if (container) cartContainers.add(container);
         });
 
-        const totalItems = this.state.regularItems.reduce((sum, item) => sum + item.qty, 0) + 
-                           this.state.packages.reduce((sum, pkg) => sum + (pkg.items.reduce((s, i) => s + i.qty, 0) * (pkg.qty || 1)), 0);
+        const totalItems = this.state.regularItems.reduce((sum, item) => sum + item.qty, 0) +
+            this.state.packages.reduce((sum, pkg) => sum + (pkg.items.reduce((s, i) => s + i.qty, 0) * (pkg.qty || 1)), 0);
 
         cartContainers.forEach(container => {
             let badge = container.querySelector('.cart-badge');
@@ -358,7 +358,7 @@ class CartManager {
         this.state.packages.forEach(pkg => {
             const pQty = pkg.qty || 1;
             const pkgTotal = pkg.items.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            
+
             let itemsHTML = '';
             if (pkg.items.length === 0) {
                 itemsHTML = '<div class="text-muted small py-2">Paket ini masih kosong.</div>';
@@ -493,12 +493,12 @@ class CartManager {
         const validationContainer = document.getElementById('cartValidationContainer');
         const pkgWarning = document.getElementById('packageCountWarning');
         const itemWarning = document.getElementById('itemCountWarning');
-        
+
         if (btnCheckout && validationContainer) {
             if (this.state.packages.length > 0 || reasons.includes('packageCountWarning')) {
                 validationContainer.classList.remove('d-none');
                 pkgWarning.innerText = `Total Paket Kue Satuan: ${totalPackageCount} / 10 paket`;
-                
+
                 if (totalPackageCount < 10) {
                     pkgWarning.parentElement.classList.replace('alert-success', 'alert-warning');
                     pkgWarning.parentElement.querySelector('.material-symbols-outlined').innerText = 'warning';
@@ -606,7 +606,7 @@ class CartManager {
         if (!cartContainer) return;
 
         cartContainer.addEventListener('click', (e) => {
-            
+
             // Package Qty Update
             if (e.target.closest('.btn-pkg-plus')) {
                 const pkgId = e.target.closest('[data-pkg-id]').getAttribute('data-pkg-id');
@@ -709,7 +709,7 @@ class CheckoutController {
         try {
             const addrsStr = localStorage.getItem('zaralis_addresses');
             if (addrsStr) addresses = JSON.parse(addrsStr);
-        } catch(e) {}
+        } catch (e) { }
 
         const addressSelectContainer = document.getElementById('savedAddressesContainer');
         const addressSelect = document.getElementById('savedAddressSelect');
@@ -718,7 +718,7 @@ class CheckoutController {
         if (addresses.length > 0) {
             // Tampilkan dropdown alamat
             if (addressSelectContainer) addressSelectContainer.classList.remove('d-none');
-            
+
             // Populate dropdown
             addresses.forEach(addr => {
                 const isMain = addr.isMain ? ' (Utama)' : '';
@@ -1002,7 +1002,7 @@ class CheckoutController {
             try {
                 const addrsStr = localStorage.getItem('zaralis_addresses');
                 if (addrsStr) addresses = JSON.parse(addrsStr);
-            } catch(e) {}
+            } catch (e) { }
 
             if (addresses.length >= 3) return;
 
@@ -1043,7 +1043,7 @@ class CheckoutController {
         let valid = true;
 
         // Check required fields
-        const requiredFields = ['firstName','lastName','email','phone','deliveryDate','deliveryTime','streetName','houseNumber','kelurahan','kecamatan'];
+        const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'deliveryDate', 'deliveryTime', 'streetName', 'houseNumber', 'kelurahan', 'kecamatan'];
         requiredFields.forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;

@@ -1,75 +1,93 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Determine the base path in case some files are in subdirectories
-    const isSubdir = window.location.pathname.includes('/admin/');
-    const basePath = isSubdir ? '../' : '';
+// ============================================================
+// js/load-components.js  (versi baru — berbasis session PHP)
+// Menggantikan load-components.js yang lama
+// ============================================================
 
-    // Cek status login
-    const isLoggedIn = localStorage.getItem('zaralis_user') !== null && !isSubdir;
-    const navbarFile = isLoggedIn ? "components/navbar-auth.html" : "components/navbar.html";
+document.addEventListener('DOMContentLoaded', async function () {
+    const isSubdir   = window.location.pathname.includes('/admin/');
+    const basePath   = isSubdir ? '../' : '';
+    const apiBase    = basePath + 'api/auth/';
 
-    // Load Navbar
-    const navbarPlaceholder = document.getElementById("navbar-placeholder");
+    // -------------------------------------------------------
+    // 1. Cek status login dari session PHP
+    // -------------------------------------------------------
+    let authStatus = { logged_in: false };
+    try {
+        const res    = await fetch(apiBase + 'status.php');
+        authStatus   = await res.json();
+    } catch (e) {
+        console.warn('Gagal cek status login:', e);
+    }
+
+    const isLoggedIn = authStatus.logged_in;
+    const navbarFile = isLoggedIn
+        ? basePath + 'components/navbar-auth.html'
+        : basePath + 'components/navbar.html';
+
+    // -------------------------------------------------------
+    // 2. Load Navbar
+    // -------------------------------------------------------
+    const navbarPlaceholder = document.getElementById('navbar-placeholder');
     if (navbarPlaceholder) {
-        fetch(basePath + navbarFile)
-            .then(response => response.text())
-            .then(data => {
-                navbarPlaceholder.innerHTML = data;
-                highlightActiveLink();
-                
-                // Isi data pengguna jika login
-                if (isLoggedIn && typeof window.populateAuthNavbar === 'function') {
-                    window.populateAuthNavbar();
-                }
-            })
-            .catch(error => console.error('Error loading navbar:', error));
+        try {
+            const html = await fetch(navbarFile).then(r => r.text());
+            navbarPlaceholder.innerHTML = html;
+            highlightActiveLink();
+
+            if (isLoggedIn) {
+                populateAuthNavbar(authStatus);
+            }
+        } catch (e) {
+            console.error('Gagal load navbar:', e);
+        }
     }
 
-    // Load Footer
-    const footerPlaceholder = document.getElementById("footer-placeholder");
+    // -------------------------------------------------------
+    // 3. Load Footer
+    // -------------------------------------------------------
+    const footerPlaceholder = document.getElementById('footer-placeholder');
     if (footerPlaceholder) {
-        fetch(basePath + "components/footer.html")
-            .then(response => response.text())
-            .then(data => {
-                footerPlaceholder.innerHTML = data;
-            })
-            .catch(error => console.error('Error loading footer:', error));
+        try {
+            const html = await fetch(basePath + 'components/footer.html').then(r => r.text());
+            footerPlaceholder.innerHTML = html;
+        } catch (e) {
+            console.error('Gagal load footer:', e);
+        }
     }
+
+    // -------------------------------------------------------
+    // 4. Expose logout ke window (dipanggil dari navbar-auth.html)
+    // -------------------------------------------------------
+    window.logout = async function (e) {
+        if (e) e.preventDefault();
+        try {
+            await fetch(apiBase + 'logout.php', { method: 'POST' });
+        } catch (_) {}
+        window.location.href = basePath + 'login.php';
+    };
 });
 
-function highlightActiveLink() {
-    const currentPath = window.location.pathname.split("/").pop() || "index.html";
-    const navLinks = document.querySelectorAll("#navbar-placeholder .nav-link-custom");
-    
-    // Remove active class from all
-    navLinks.forEach(link => {
-        link.classList.remove("active");
-        
-        // Add active class if it matches the current path
-        const linkPath = link.getAttribute("href");
-        if (linkPath === currentPath || (currentPath === '' && linkPath === 'index.html')) {
-            link.classList.add("active");
-        }
-    });
+// -------------------------------------------------------
+// Isi data user di navbar-auth
+// -------------------------------------------------------
+function populateAuthNavbar(authStatus) {
+    const nameEl   = document.querySelector('.dropdown-item-name');
+    const avatarEl = document.querySelector('.user-avatar');
+
+    if (nameEl)   nameEl.textContent = authStatus.name  || '';
+    if (avatarEl) avatarEl.src       = authStatus.avatar_url || '';
 }
 
-// Tambahkan utilitas populateAuthNavbar
-window.populateAuthNavbar = function() {
-    try {
-        const userStr = localStorage.getItem('zaralis_user');
-        if (!userStr) return;
-        const user = JSON.parse(userStr);
-        
-        const nameLabel = document.querySelector('.dropdown-item-name');
-        if (nameLabel) {
-            nameLabel.textContent = `${user.firstName} ${user.lastName}`;
+// -------------------------------------------------------
+// Aktifkan link navbar sesuai halaman yang sedang dibuka
+// -------------------------------------------------------
+function highlightActiveLink() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.php';
+    document.querySelectorAll('#navbar-placeholder .nav-link-custom').forEach(link => {
+        link.classList.remove('active');
+        const href = (link.getAttribute('href') || '').split('/').pop();
+        if (href === currentPage || (currentPage === '' && href === 'index.php')) {
+            link.classList.add('active');
         }
-        
-        const avatarImg = document.querySelector('.user-avatar');
-        if (avatarImg) {
-            const encodedName = encodeURIComponent(`${user.firstName} ${user.lastName}`);
-            avatarImg.src = `https://ui-avatars.com/api/?name=${encodedName}&background=2D6A4F&color=fff`;
-        }
-    } catch(e) {
-        console.error('Failed to populate auth navbar', e);
-    }
+    });
 }

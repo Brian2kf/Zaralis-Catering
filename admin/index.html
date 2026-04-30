@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Zarali's Catering</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/custom.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+
+    <!-- Mobile Header -->
+    <div class="d-md-none bg-white border-bottom p-3 d-flex justify-content-between align-items-center w-100 position-fixed top-0 z-3">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-link text-dark p-0" id="sidebarToggle">
+                <span class="material-symbols-outlined fs-2">menu</span>
+            </button>
+            <h1 class="h5 fw-bold mb-0" style="font-family: 'Outfit', sans-serif;">Zarali's</h1>
+        </div>
+        <div class="sidebar-logo" style="width: 32px; height: 32px; font-size: 0.8rem;">ZC</div>
+    </div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="admin-sidebar-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="admin-main mt-5 mt-md-0">
+        
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4">
+            <div>
+                <h2 class="display-6 fw-bold text-dark tracking-tight mb-1" style="font-family: 'Outfit', sans-serif;">Dashboard Overview</h2>
+                <p class="text-muted mb-0">Kamis, 24 Oktober 2026</p>
+            </div>
+        </div>
+
+        <!-- Summary Cards Grid (3 Columns) -->
+        <div class="row g-4 mb-4">
+            <!-- Card 1: Pesanan Baru -->
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <p class="stat-title">Pesanan Baru</p>
+                        <div class="stat-icon primary">
+                            <span class="material-symbols-outlined fs-5">shopping_basket</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <p class="stat-value">5</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Pending Verifikasi -->
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <p class="stat-title">Pending Verifikasi</p>
+                        <div class="stat-icon warning">
+                            <span class="material-symbols-outlined fs-5">hourglass_empty</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <p class="stat-value">3</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Menu Aktif -->
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <p class="stat-title">Menu Aktif</p>
+                        <div class="stat-icon info" style="background-color: rgba(113, 54, 56, 0.1); color: #713638;">
+                            <span class="material-symbols-outlined fs-5">restaurant_menu</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <p class="stat-value">20</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts & Tables Section -->
+        <div class="row g-4">
+            <!-- Chart Section -->
+            <div class="col-lg-8">
+                <div class="content-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h3 class="content-title">Grafik Penjualan Mingguan</h3>
+                            <p class="text-muted small mt-1 mb-0">Total: Rp 8.500.000 <span class="text-primary-custom fw-bold ms-2">+12%</span></p>
+                        </div>
+                        <button class="btn btn-link text-muted p-1 rounded">
+                            <span class="material-symbols-outlined">more_vert</span>
+                        </button>
+                    </div>
+                    
+                    <div class="w-100 position-relative" style="min-height: 250px;">
+                        <!-- Simulated Line Chart with SVG -->
+                        <svg class="w-100 h-100 overflow-visible" viewBox="0 0 500 150" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Grid lines -->
+                            <line stroke="rgba(0,0,0,0.1)" stroke-dasharray="4" stroke-width="0.5" x1="0" x2="500" y1="0" y2="0"></line>
+                            <line stroke="rgba(0,0,0,0.1)" stroke-dasharray="4" stroke-width="0.5" x1="0" x2="500" y1="50" y2="50"></line>
+                            <line stroke="rgba(0,0,0,0.1)" stroke-dasharray="4" stroke-width="0.5" x1="0" x2="500" y1="100" y2="100"></line>
+                            <line stroke="rgba(0,0,0,0.1)" stroke-width="1" x1="0" x2="500" y1="150" y2="150"></line>
+                            <!-- Gradient Definition -->
+                            <defs>
+                                <linearGradient id="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#2D6A4F" stop-opacity="0.3"></stop>
+                                    <stop offset="100%" stop-color="#2D6A4F" stop-opacity="0"></stop>
+                                </linearGradient>
+                            </defs>
+                            <!-- Area Fill -->
+                            <path d="M0,120 C50,100 100,130 150,90 C200,50 250,70 300,40 C350,10 400,60 450,30 L500,20 L500,150 L0,150 Z" fill="url(#chart-gradient)"></path>
+                            <!-- Line -->
+                            <path d="M0,120 C50,100 100,130 150,90 C200,50 250,70 300,40 C350,10 400,60 450,30 L500,20" fill="none" stroke="#2D6A4F" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+                            <!-- Data Points -->
+                            <circle cx="150" cy="90" fill="#ffffff" r="4" stroke="#2D6A4F" stroke-width="2"></circle>
+                            <circle cx="300" cy="40" fill="#ffffff" r="4" stroke="#2D6A4F" stroke-width="2"></circle>
+                            <circle cx="450" cy="30" fill="#ffffff" r="4" stroke="#2D6A4F" stroke-width="2"></circle>
+                        </svg>
+                        
+                        <!-- X-Axis Labels -->
+                        <div class="d-flex justify-content-between w-100 mt-2 px-1">
+                            <span class="text-muted small" style="font-size: 0.75rem;">Sen</span>
+                            <span class="text-muted small" style="font-size: 0.75rem;">Sel</span>
+                            <span class="text-muted small" style="font-size: 0.75rem;">Rab</span>
+                            <span class="text-muted small" style="font-size: 0.75rem;">Kam</span>
+                            <span class="text-muted small" style="font-size: 0.75rem;">Jum</span>
+                            <span class="text-muted small" style="font-size: 0.75rem;">Sab</span>
+                            <span class="text-muted small" style="font-size: 0.75rem;">Min</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="col-lg-4">
+                <div class="content-card d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="content-title fs-5">Pesanan Terbaru</h3>
+                        <a href="pesanan.html" class="small text-primary-custom fw-semibold text-decoration-none">Lihat Semua</a>
+                    </div>
+                    
+                    <div class="table-responsive flex-grow-1">
+                        <table class="table table-borderless table-hover mb-0">
+                            <thead class="border-bottom">
+                                <tr>
+                                    <th class="py-2 text-muted small text-uppercase tracking-wider fw-semibold px-0" style="font-size: 0.75rem;">ID & Pelanggan</th>
+                                    <th class="py-2 text-muted small text-uppercase tracking-wider fw-semibold text-end px-0" style="font-size: 0.75rem;">Status / Nilai</th>
+                                </tr>
+                            </thead>
+                            <tbody style="border-top: 1px solid rgba(0,0,0,0.05);">
+                                <!-- Row 1 -->
+                                <tr class="border-bottom">
+                                    <td class="py-3 px-0">
+                                        <div class="d-flex flex-column">
+                                            <span class="fw-semibold text-dark" style="font-size: 0.875rem;">#ORD-089</span>
+                                            <span class="text-muted text-truncate" style="font-size: 0.8rem; max-width: 120px;">Bpk. Budi Santoso</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-0 text-end">
+                                        <div class="d-flex flex-column align-items-end gap-1">
+                                            <span class="badge rounded-pill fw-semibold" style="background-color: rgba(224, 122, 95, 0.1); color: #E07A5F; font-size: 0.7rem;">Pending</span>
+                                            <span class="fw-medium text-dark" style="font-size: 0.875rem;">Rp 450k</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 2 -->
+                                <tr class="border-bottom">
+                                    <td class="py-3 px-0">
+                                        <div class="d-flex flex-column">
+                                            <span class="fw-semibold text-dark" style="font-size: 0.875rem;">#ORD-088</span>
+                                            <span class="text-muted text-truncate" style="font-size: 0.8rem; max-width: 120px;">Ibu Ningsih</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-0 text-end">
+                                        <div class="d-flex flex-column align-items-end gap-1">
+                                            <span class="badge rounded-pill fw-semibold" style="background-color: rgba(45, 106, 79, 0.1); color: #2D6A4F; font-size: 0.7rem;">Selesai</span>
+                                            <span class="fw-medium text-dark" style="font-size: 0.875rem;">Rp 1.2M</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 3 -->
+                                <tr class="border-bottom">
+                                    <td class="py-3 px-0">
+                                        <div class="d-flex flex-column">
+                                            <span class="fw-semibold text-dark" style="font-size: 0.875rem;">#ORD-087</span>
+                                            <span class="text-muted text-truncate" style="font-size: 0.8rem; max-width: 120px;">Kantor PT Maju</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-0 text-end">
+                                        <div class="d-flex flex-column align-items-end gap-1">
+                                            <span class="badge rounded-pill bg-light text-muted fw-semibold" style="font-size: 0.7rem;">Disiapkan</span>
+                                            <span class="fw-medium text-dark" style="font-size: 0.875rem;">Rp 850k</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 4 -->
+                                <tr>
+                                    <td class="py-3 px-0">
+                                        <div class="d-flex flex-column">
+                                            <span class="fw-semibold text-dark" style="font-size: 0.875rem;">#ORD-086</span>
+                                            <span class="text-muted text-truncate" style="font-size: 0.8rem; max-width: 120px;">Arisan Keluarga</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-0 text-end">
+                                        <div class="d-flex flex-column align-items-end gap-1">
+                                            <span class="badge rounded-pill fw-semibold" style="background-color: rgba(45, 106, 79, 0.1); color: #2D6A4F; font-size: 0.7rem;">Selesai</span>
+                                            <span class="fw-medium text-dark" style="font-size: 0.875rem;">Rp 300k</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>
+
+
+
+

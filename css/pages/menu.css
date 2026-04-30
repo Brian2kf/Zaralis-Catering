@@ -1,0 +1,22 @@
+/* Custom CSS for Menu Page */
+
+/* Hide scrollbar for horizontal scrolling chips */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Chip buttons hover effect */
+.chip-btn:hover {
+    background-color: #f8f9fa !important;
+    color: #2D6A4F !important;
+    border-color: #2D6A4F !important;
+}
+
+/* Specific text color for pricing */
+.text-secondary-custom {
+    color: #E07A5F;
+}

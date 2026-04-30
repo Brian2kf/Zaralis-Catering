@@ -1,0 +1,52 @@
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top py-3 shadow-sm" style="background-color: #FFF8F0;">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary-custom fs-4" href="index.html">Zarali's Catering</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="index.html">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="menu.html">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="track-order.html">Cek Pesanan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="upload-payment.html">Upload Bukti</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+                    <a href="cart.html" class="btn btn-link text-primary-custom p-2 text-decoration-none rounded-circle bg-light d-flex align-items-center justify-content-center transition-colors">
+                        <span class="material-symbols-outlined fs-5">shopping_cart</span>
+                    </a>
+                    
+                    <!-- Notifications -->
+                    <button class="btn btn-link text-primary-custom p-2 text-decoration-none rounded-circle bg-light d-flex align-items-center justify-content-center position-relative transition-colors border-0">
+                        <span class="material-symbols-outlined fs-5">notifications</span>
+                        <!-- Notification Dot (Hanya muncul jika ada notifikasi baru) -->
+                        <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" style="margin-top: 5px; margin-left: -5px;">
+                            <span class="visually-hidden">New alerts</span>
+                        </span>
+                    </button>
+                    
+                    <!-- User Profile Avatar -->
+                    <div class="dropdown">
+                        <img src="https://ui-avatars.com/api/?name=User&background=2D6A4F&color=fff" alt="User Avatar" class="user-avatar dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s;">
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
+                            <li><span class="dropdown-item fw-bold text-dark dropdown-item-name disabled" style="pointer-events: none;">User Name</span></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item fw-semibold nav-link-custom" href="pembelian.html">Riwayat Pembelian</a></li>
+                            <li><a class="dropdown-item fw-semibold nav-link-custom" href="profile.html">Informasi Pribadi</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger fw-semibold" href="#" onclick="window.logout(event)">Keluar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>

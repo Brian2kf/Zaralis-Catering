@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keuangan - Zarali's Catering Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap"
+        rel="stylesheet">
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/custom.css">
+    <link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+<body class="admin-body">
+
+    <!-- Mobile Header -->
+    <div
+        class="d-md-none bg-white border-bottom p-3 d-flex justify-content-between align-items-center w-100 position-fixed top-0 z-3">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-link text-dark p-0" id="sidebarToggle">
+                <span class="material-symbols-outlined fs-2">menu</span>
+            </button>
+            <h1 class="h5 fw-bold mb-0" style="font-family: 'Outfit', sans-serif;">Zarali's</h1>
+        </div>
+        <div class="sidebar-logo" style="width: 32px; height: 32px; font-size: 0.8rem;">ZC</div>
+    </div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="admin-sidebar-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="admin-main mt-5 mt-md-0 pb-5">
+
+        <!-- Header Section -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 border-bottom pb-3">
+            <div>
+                <h2 class="display-6 fw-bold text-dark tracking-tight mb-1" style="font-family: 'Outfit', sans-serif;">
+                    Dashboard Keuangan</h2>
+                <p class="text-muted mb-0 fs-6">Ringkasan aktivitas finansial dan arus kas.</p>
+            </div>
+        </div>
+
+        <!-- Summary Cards (3 Columns) -->
+        <div class="row g-4 mb-4">
+            <!-- Pemasukan -->
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="small text-muted fw-semibold text-uppercase tracking-wider">Total Pemasukan</span>
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 32px; height: 32px; background-color: rgba(45, 106, 79, 0.1); color: #2D6A4F;">
+                            <span class="material-symbols-outlined" style="font-size: 1.25rem;">trending_up</span>
+                        </div>
+                    </div>
+                    <h3 class="display-6 fw-bold mb-0" style="font-family: 'Outfit', sans-serif; color: #2D6A4F;">Rp
+                        5.200.000</h3>
+                </div>
+            </div>
+
+            <!-- Pengeluaran -->
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="small text-muted fw-semibold text-uppercase tracking-wider">Total
+                            Pengeluaran</span>
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 32px; height: 32px; background-color: rgba(220, 53, 69, 0.1); color: #dc3545;">
+                            <span class="material-symbols-outlined" style="font-size: 1.25rem;">trending_down</span>
+                        </div>
+                    </div>
+                    <h3 class="display-6 fw-bold mb-0 text-danger" style="font-family: 'Outfit', sans-serif;">Rp
+                        2.100.000</h3>
+                </div>
+            </div>
+
+            <!-- Net Profit -->
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="small text-muted fw-semibold text-uppercase tracking-wider">Net Profit</span>
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 32px; height: 32px; background-color: rgba(224, 122, 95, 0.1); color: #E07A5F;">
+                            <span class="material-symbols-outlined" style="font-size: 1.25rem;">account_balance</span>
+                        </div>
+                    </div>
+                    <h3 class="display-6 fw-bold mb-0 text-dark" style="font-family: 'Outfit', sans-serif;">Rp 3.100.000
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions & Filters -->
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+            <a href="tambah-transaksi.html"
+                class="btn btn-primary-custom d-flex align-items-center gap-2 fw-semibold px-3 py-2 text-decoration-none">
+                <span class="material-symbols-outlined fs-5">add</span>
+                Tambah Transaksi Manual</a>
+            <div class="d-flex gap-2">
+                <select class="form-select bg-light border fw-medium text-dark" style="font-size: 0.875rem;">
+                    <option value="">Semua Kategori</option>
+                    <option value="pesanan">Pendapatan Pesanan</option>
+                    <option value="bahan">Bahan Baku</option>
+                    <option value="operasional">Operasional</option>
+                    <option value="lainnya">Lainnya</option>
+                </select>
+                <button class="btn btn-light border bg-white d-flex align-items-center gap-2 fw-medium px-3 text-dark"
+                    style="font-size: 0.875rem; white-space: nowrap;">
+                    <span class="material-symbols-outlined fs-5">filter_list</span>
+                    Filter Lainnya
+                </button>
+            </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="content-card mb-4 p-4">
+            <h3 class="content-title fs-4 mb-4">Grafik Arus Kas</h3>
+
+            <div class="position-relative w-100" style="min-height: 250px; padding-left: 3rem;">
+
+                <!-- Y-Axis Labels -->
+                <div class="position-absolute top-0 bottom-0 start-0 d-flex flex-column justify-content-between text-muted small fw-medium py-1"
+                    style="font-size: 0.75rem; padding-bottom: 1.5rem !important;">
+                    <span>6M</span>
+                    <span>4M</span>
+                    <span>2M</span>
+                    <span>0</span>
+                </div>
+
+                <!-- SVG Chart -->
+                <svg class="w-100 overflow-visible" viewBox="0 0 500 150" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Grid line -->
+                    <line stroke="rgba(0,0,0,0.1)" stroke-width="1" x1="0" x2="500" y1="150" y2="150"></line>
+                    <!-- Income Line (Green) -->
+                    <path d="M10,120 L170,80 L330,40 L490,20" fill="none" stroke="#2D6A4F" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="3"></path>
+                    <!-- Expense Line (Red) -->
+                    <path d="M10,140 L170,100 L330,120 L490,80" fill="none" stroke="#dc3545" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="3"></path>
+
+                    <!-- Points -->
+                    <circle cx="10" cy="120" fill="#ffffff" r="4" stroke="#2D6A4F" stroke-width="2"></circle>
+                    <circle cx="170" cy="80" fill="#ffffff" r="4" stroke="#2D6A4F" stroke-width="2"></circle>
+                    <circle cx="330" cy="40" fill="#ffffff" r="4" stroke="#2D6A4F" stroke-width="2"></circle>
+                    <circle cx="490" cy="20" fill="#ffffff" r="4" stroke="#2D6A4F" stroke-width="2"></circle>
+
+                    <circle cx="10" cy="140" fill="#ffffff" r="4" stroke="#dc3545" stroke-width="2"></circle>
+                    <circle cx="170" cy="100" fill="#ffffff" r="4" stroke="#dc3545" stroke-width="2"></circle>
+                    <circle cx="330" cy="120" fill="#ffffff" r="4" stroke="#dc3545" stroke-width="2"></circle>
+                    <circle cx="490" cy="80" fill="#ffffff" r="4" stroke="#dc3545" stroke-width="2"></circle>
+                </svg>
+
+                <!-- X-Axis Labels -->
+                <div class="d-flex justify-content-between w-100 mt-2 px-1">
+                    <span class="text-muted fw-medium" style="font-size: 0.75rem;">Minggu 1</span>
+                    <span class="text-muted fw-medium" style="font-size: 0.75rem;">Minggu 2</span>
+                    <span class="text-muted fw-medium" style="font-size: 0.75rem;">Minggu 3</span>
+                    <span class="text-muted fw-medium" style="font-size: 0.75rem;">Minggu 4</span>
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="d-flex justify-content-center gap-4 mt-4">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-1" style="width: 12px; height: 12px; background-color: #2D6A4F;"></div>
+                    <span class="small text-muted fw-medium">Pemasukan</span>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-1" style="width: 12px; height: 12px; background-color: #dc3545;"></div>
+                    <span class="small text-muted fw-medium">Pengeluaran</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Transactions Table -->
+        <div class="content-card p-0 overflow-hidden">
+            <div class="p-4 border-bottom bg-light bg-opacity-50 d-flex justify-content-between align-items-center">
+                <h3 class="content-title fs-5 mb-0">Tabel Transaksi Terakhir</h3>
+                <a href="semua-transaksi.html"
+                    class="small fw-semibold text-primary-custom text-decoration-none hover-underline">Lihat Semua</a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" style="min-width: 800px;">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="py-3 px-4 text-muted small fw-semibold">Tanggal</th>
+                            <th class="py-3 px-4 text-muted small fw-semibold">Deskripsi</th>
+                            <th class="py-3 px-4 text-muted small fw-semibold">Kategori</th>
+                            <th class="py-3 px-4 text-muted small fw-semibold text-end">Nominal</th>
+                            <th class="py-3 px-4 text-muted small fw-semibold text-center">Tipe</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-top-0">
+
+                        <!-- Row 1 -->
+                        <tr>
+                            <td class="p-4 text-dark">24 Agu 2026</td>
+                            <td class="p-4 text-dark">Pesanan #ORD-009</td>
+                            <td class="p-4">
+                                <span class="badge bg-light text-dark border px-2 py-1 fw-medium">Pendapatan</span>
+                            </td>
+                            <td class="p-4 text-end fw-semibold text-primary-custom">+ Rp 1.500.000</td>
+                            <td class="p-4 text-center">
+                                <div class="d-inline-flex align-items-center justify-content-center rounded-circle"
+                                    style="width: 24px; height: 24px; background-color: rgba(45, 106, 79, 0.1); color: #2D6A4F;"
+                                    title="Pemasukan">
+                                    <span class="material-symbols-outlined"
+                                        style="font-size: 1rem;">arrow_downward</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 2 -->
+                        <tr>
+                            <td class="p-4 text-dark">23 Agu 2026</td>
+                            <td class="p-4 text-dark">Belanja Bahan Kue (Pasar Induk)</td>
+                            <td class="p-4">
+                                <span class="badge bg-light text-dark border px-2 py-1 fw-medium">Bahan Baku</span>
+                            </td>
+                            <td class="p-4 text-end fw-semibold text-danger">- Rp 450.000</td>
+                            <td class="p-4 text-center">
+                                <div class="d-inline-flex align-items-center justify-content-center rounded-circle"
+                                    style="width: 24px; height: 24px; background-color: rgba(220, 53, 69, 0.1); color: #dc3545;"
+                                    title="Pengeluaran">
+                                    <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_upward</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 3 -->
+                        <tr>
+                            <td class="p-4 text-dark">22 Agu 2026</td>
+                            <td class="p-4 text-dark">Pesanan #ORD-092</td>
+                            <td class="p-4">
+                                <span class="badge bg-light text-dark border px-2 py-1 fw-medium">Pendapatan</span>
+                            </td>
+                            <td class="p-4 text-end fw-semibold text-primary-custom">+ Rp 800.000</td>
+                            <td class="p-4 text-center">
+                                <div class="d-inline-flex align-items-center justify-content-center rounded-circle"
+                                    style="width: 24px; height: 24px; background-color: rgba(45, 106, 79, 0.1); color: #2D6A4F;"
+                                    title="Pemasukan">
+                                    <span class="material-symbols-outlined"
+                                        style="font-size: 1rem;">arrow_downward</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 4 -->
+                        <tr>
+                            <td class="p-4 text-dark">20 Agu 2026</td>
+                            <td class="p-4 text-dark">Tagihan Listrik & Air</td>
+                            <td class="p-4">
+                                <span class="badge bg-light text-dark border px-2 py-1 fw-medium">Operasional</span>
+                            </td>
+                            <td class="p-4 text-end fw-semibold text-danger">- Rp 350.000</td>
+                            <td class="p-4 text-center">
+                                <div class="d-inline-flex align-items-center justify-content-center rounded-circle"
+                                    style="width: 24px; height: 24px; background-color: rgba(220, 53, 69, 0.1); color: #dc3545;"
+                                    title="Pengeluaran">
+                                    <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_upward</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 5 -->
+                        <tr>
+                            <td class="p-4 text-dark">19 Agu 2026</td>
+                            <td class="p-4 text-dark">Kemasan Box</td>
+                            <td class="p-4">
+                                <span class="badge bg-light text-dark border px-2 py-1 fw-medium">Bahan Baku</span>
+                            </td>
+                            <td class="p-4 text-end fw-semibold text-danger">- Rp 200.000</td>
+                            <td class="p-4 text-center">
+                                <div class="d-inline-flex align-items-center justify-content-center rounded-circle"
+                                    style="width: 24px; height: 24px; background-color: rgba(220, 53, 69, 0.1); color: #dc3545;"
+                                    title="Pengeluaran">
+                                    <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_upward</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="../js/admin-keuangan.js"></script>
+</body>
+
+</html>

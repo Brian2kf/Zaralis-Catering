@@ -1,0 +1,209 @@
+/* Custom CSS for Pembelian (Transaction History) Page */
+
+.filter-card {
+    background-color: white;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    margin-bottom: 2rem;
+}
+
+.filter-btn {
+    border-radius: 2rem;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    border: none;
+    background-color: #f8faf6;
+    color: #6c757d;
+}
+
+.filter-btn:hover {
+    background-color: #e9ecef;
+}
+
+.filter-btn.active {
+    background-color: rgba(45, 106, 79, 0.1);
+    color: #2D6A4F;
+    box-shadow: none;
+}
+
+.subfilter-btn {
+    border-radius: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    border: 1px solid rgba(0,0,0,0.1);
+    background-color: transparent;
+    color: #6c757d;
+}
+
+.subfilter-btn:hover {
+    background-color: #f8f9fa;
+}
+
+.subfilter-btn.active {
+    border-color: #2D6A4F;
+    color: #2D6A4F;
+    background-color: rgba(45, 106, 79, 0.05);
+}
+
+.table-card {
+    background-color: white;
+    border-radius: 1rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    overflow: hidden;
+}
+
+.table-custom {
+    margin-bottom: 0;
+}
+
+.table-custom th {
+    background-color: #f8faf6;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    font-size: 0.875rem;
+    color: #6c757d;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1rem 1.5rem;
+}
+
+.table-custom td {
+    padding: 1.25rem 1.5rem;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+    color: #212529;
+}
+
+.table-custom tbody {
+    background-color: white;
+}
+
+.table-custom tbody tr {
+    transition: background-color 0.2s;
+}
+
+.table-custom tbody tr:hover {
+    background-color: #fcfcfc;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    gap: 0.35rem;
+}
+
+.status-badge.process {
+    background-color: rgba(45, 106, 79, 0.1);
+    color: #2D6A4F;
+    border: 1px solid rgba(45, 106, 79, 0.2);
+}
+
+.status-badge.process .dot {
+    width: 6px;
+    height: 6px;
+    background-color: #2D6A4F;
+    border-radius: 50%;
+}
+
+.status-badge.waiting {
+    background-color: rgba(224, 122, 95, 0.1);
+    color: #E07A5F;
+    border: 1px solid rgba(224, 122, 95, 0.2);
+}
+
+.status-badge.waiting .dot {
+    width: 6px;
+    height: 6px;
+    background-color: #E07A5F;
+    border-radius: 50%;
+}
+
+.status-badge.success {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    color: #2D6A4F;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.action-btn:hover {
+    background-color: rgba(45, 106, 79, 0.1);
+    color: #2D6A4F;
+}
+
+.pagination-wrapper {
+    background-color: #f8faf6;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding: 1rem 1.5rem;
+}
+
+.page-btn {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    background-color: white;
+    color: #212529;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.page-btn:hover:not(:disabled) {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+.page-btn.active {
+    background-color: #2D6A4F;
+    border-color: #2D6A4F;
+    color: white;
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #f8faf6;
+}
+
+/* User Avatar */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.user-avatar:hover {
+    transform: scale(1.05);
+}

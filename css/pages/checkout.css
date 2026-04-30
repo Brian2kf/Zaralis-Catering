@@ -1,0 +1,169 @@
+/* Custom CSS for Checkout Page */
+.form-section {
+    background-color: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.form-section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #191c1a;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.summary-card {
+    background-color: #f8faf6;
+    border-radius: 1rem;
+    border: 1px solid rgba(45, 106, 79, 0.1);
+    position: sticky;
+    top: 100px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.summary-item-title {
+    color: #6c757d;
+}
+
+.summary-item-value {
+    font-weight: 600;
+    color: #212529;
+}
+
+.bg-light-input {
+    background-color: #fcfcfc;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.bg-light-input:focus {
+    background-color: white;
+    border-color: #2D6A4F;
+    box-shadow: 0 0 0 0.25rem rgba(45, 106, 79, 0.1);
+}
+
+.order-item-mini {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+
+.order-item-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 0.5rem;
+    object-fit: cover;
+}
+
+/* Shipping Calculator */
+#btnCalculateShipping {
+    transition: all 0.3s ease;
+    border-width: 2px;
+}
+
+#btnCalculateShipping:hover:not(:disabled) {
+    background-color: #2D6A4F;
+    border-color: #2D6A4F;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.25);
+}
+
+#btnCalculateShipping:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Shipping Result Card */
+.shipping-result-card {
+    background: linear-gradient(135deg, #E9F5F0 0%, #f0f9f4 100%);
+    border: 1px solid rgba(45, 106, 79, 0.2);
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+    animation: fadeSlideIn 0.3s ease;
+}
+
+.shipping-result-card .result-distance,
+.shipping-result-card .result-cost {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Shipping Error Card */
+.shipping-error-card {
+    background-color: #FFF5F5;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+    animation: fadeSlideIn 0.3s ease;
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Checkout Disclaimer */
+.checkout-disclaimer {
+    background-color: rgba(224, 122, 95, 0.08);
+    border: 1px solid rgba(224, 122, 95, 0.2);
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+}
+
+.shipping-rate-info {
+    background-color: rgba(45, 106, 79, 0.06);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    margin-top: 0.5rem;
+}
+
+/* Disabled Order Button */
+#btnCreateOrder:disabled,
+#btnCreateOrder.disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+#btnCreateOrder:not(:disabled):not(.disabled) {
+    transition: all 0.3s ease;
+}
+
+#btnCreateOrder:not(:disabled):not(.disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(45, 106, 79, 0.3);
+}
+
+/* Form Select Focus */
+.form-select:focus {
+    border-color: #2D6A4F;
+    box-shadow: 0 0 0 0.25rem rgba(45, 106, 79, 0.1);
+}
+
+/* Form Section Title Icon alignment */
+.form-section-title .material-symbols-outlined {
+    font-size: 1.3rem;
+    vertical-align: middle;
+}

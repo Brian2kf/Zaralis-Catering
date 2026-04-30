@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmasi Pesanan - Zarali's Catering</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/pages/order-confirmation.css">
+</head>
+<body class="d-flex flex-column min-vh-100" style="background-color: #FFF8F0;">
+    <!-- Navbar Placeholder -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="container py-5 flex-grow-1" style="max-width: 900px;">
+        
+        <!-- Success Banner -->
+        <header class="text-center mb-5">
+            <div class="success-icon-wrapper">
+                <span class="material-symbols-outlined fs-1" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+            </div>
+            <h1 class="display-6 fw-bold text-primary-custom mb-2" style="font-family: 'Outfit', sans-serif;">Pesanan Berhasil Dibuat!</h1>
+            <p class="fs-5 text-muted mb-4">Terima kasih telah mempercayakan momen spesial Anda bersama kami.</p>
+            <div class="order-badge">
+                Order No: CTR-20260423-0001
+            </div>
+        </header>
+
+        <!-- Two Column Layout -->
+        <div class="row g-4 mb-5">
+            
+            <!-- Left Column: Detail Pesanan -->
+            <div class="col-md-6">
+                <div class="card-custom p-4 p-xl-5">
+                    <div class="card-header-custom">
+                        <span class="material-symbols-outlined text-primary-custom fs-4">receipt_long</span>
+                        <h2>Detail Pesanan</h2>
+                    </div>
+                    
+                    <div class="d-flex flex-column mt-4">
+                        <div class="receipt-item">
+                            <div>
+                                <p class="receipt-item-title">Lapis Legit Premium</p>
+                                <p class="receipt-item-desc">2 Potong</p>
+                            </div>
+                            <span class="receipt-item-price">Rp 24.000</span>
+                        </div>
+                        
+                        <div class="receipt-item">
+                            <div>
+                                <p class="receipt-item-title">Kelepon Pandan</p>
+                                <p class="receipt-item-desc">5 pcs</p>
+                            </div>
+                            <span class="receipt-item-price">Rp 22.500</span>
+                        </div>
+
+                        <div class="receipt-item">
+                            <div>
+                                <p class="receipt-item-title">Biaya Layanan</p>
+                                <p class="receipt-item-desc">Sistem</p>
+                            </div>
+                            <span class="receipt-item-price">Rp 2.000</span>
+                        </div>
+
+                        <div class="receipt-total">
+                            <span>Total Tagihan</span>
+                            <span>Rp 48.500</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Transfer Info & Upload Form -->
+            <div class="col-md-6 d-flex flex-column gap-4">
+                
+                <!-- Transfer Info -->
+                <div class="transfer-info-card p-4 flex-shrink-0">
+                    <div class="transfer-info-accent"></div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="material-symbols-outlined text-primary-custom fs-5">account_balance</span>
+                        <h2 class="h5 fw-bold mb-0 text-primary-custom" style="font-family: 'Outfit', sans-serif;">Informasi Transfer</h2>
+                    </div>
+                    <p class="text-muted small mb-3">Silakan transfer sesuai total tagihan ke rekening berikut:</p>
+                    
+                    <div class="bank-details-box">
+                        <div>
+                            <p class="small text-muted text-uppercase fw-bold mb-1 tracking-wider">Bank BCA</p>
+                            <p class="fs-4 fw-bold text-primary-custom mb-1 text-nowrap" style="font-family: 'Outfit', sans-serif;" id="accountNumber">892 123 4567</p>
+                            <p class="small text-dark mb-0">a.n. Zarali's Catering</p>
+                        </div>
+                        <button class="btn btn-outline-secondary-custom btn-sm fw-bold rounded-3 d-flex align-items-center gap-2 py-2 px-3 mt-3 mt-sm-0 w-100 w-sm-auto justify-content-center" id="btnCopyAccount">
+                            <span class="material-symbols-outlined fs-6">content_copy</span>
+                            Salin Rekening
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Upload Form Box -->
+                <div class="card-custom p-4">
+                    <div class="card-header-custom mb-4" style="padding-bottom: 0.75rem; margin-bottom: 1rem;">
+                        <span class="material-symbols-outlined text-primary-custom fs-4">upload_file</span>
+                        <h2 style="font-size: 1.25rem;">Upload Bukti</h2>
+                    </div>
+                    
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted mb-1">Order No.</label>
+                            <input type="text" class="form-control bg-light py-2 text-muted fw-medium" value="CTR-20260423-0001" readonly style="cursor: not-allowed; border: 1px solid rgba(0,0,0,0.1);">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold text-muted mb-1">File Bukti Transfer (JPG/PNG)</label>
+                            <div class="upload-zone-mini">
+                                <input type="file" class="upload-input-hidden" accept="image/png, image/jpeg, image/jpg">
+                                <span class="material-symbols-outlined text-muted fs-1 mb-2">cloud_upload</span>
+                                <p class="small fw-medium text-primary-custom mb-1">Pilih file <span class="text-muted fw-normal">atau tarik dan lepas di sini</span></p>
+                                <p class="small text-muted opacity-75 mb-0" style="font-size: 0.75rem;">PNG, JPG up to 5MB</p>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary-custom w-100 py-3 fw-bold rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2" onclick="alert('Bukti pembayaran berhasil diunggah!'); window.location.href='pembelian.html'">
+                            <span class="material-symbols-outlined fs-5">send</span>
+                            UPLOAD BUKTI BAYAR
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Helpful Tip -->
+        <div class="text-center mt-4">
+            <div class="tip-box">
+                <span class="fs-5">ðŸ’¡</span>
+                <span class="small">Halaman tertutup? Anda bisa upload bukti kapan saja via menu <a href="upload-payment.html" class="fw-bold text-primary-custom text-decoration-none">Upload Bukti</a></span>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/upload.js"></script>
+    <script src="js/load-components.js"></script>
+</body>
+</html>
+
+

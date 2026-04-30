@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelepon Pandan - Zarali's Catering</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/custom.css">
+    <style>
+        .product-gallery-main {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 1rem;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .product-gallery-thumb {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .product-gallery-thumb:hover {
+            opacity: 0.8;
+        }
+
+        .product-gallery-thumb.active {
+            border-color: #2D6A4F;
+        }
+
+        .qty-input {
+            width: 60px;
+            text-align: center;
+        }
+
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            background-color: #f8faf6;
+            border: 1px solid rgba(0,0,0,0.1);
+            color: #191c1a;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            background-color: #e7e9e5;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navbar Placeholder -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="container py-5 flex-grow-1">
+        
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none text-muted">Beranda</a></li>
+                <li class="breadcrumb-item"><a href="menu.html" class="text-decoration-none text-muted">Menu</a></li>
+                <li class="breadcrumb-item active text-dark fw-medium" aria-current="page">Kelepon Pandan</li>
+            </ol>
+        </nav>
+
+        <div class="row g-5">
+            <!-- Left: Product Images -->
+            <div class="col-lg-6">
+                <div class="d-flex flex-column gap-3">
+                    <img src="assets/images/klepon.png" alt="Kelepon Pandan Utama" class="product-gallery-main shadow-sm" id="mainImage">
+                    
+                    <!-- Thumbnails -->
+                    <div class="d-flex gap-2 overflow-auto pb-2 no-scrollbar">
+                        <img src="assets/images/klepon.png" alt="Thumb 1" class="product-gallery-thumb active shadow-sm" onclick="document.getElementById('mainImage').src=this.src; document.querySelectorAll('.product-gallery-thumb').forEach(el=>el.classList.remove('active')); this.classList.add('active');">
+                        <!-- Using other images as placeholder for gallery -->
+                        <img src="assets/images/lapis_legit.png" alt="Thumb 2" class="product-gallery-thumb shadow-sm" onclick="document.getElementById('mainImage').src=this.src; document.querySelectorAll('.product-gallery-thumb').forEach(el=>el.classList.remove('active')); this.classList.add('active');">
+                        <img src="assets/images/putu_ayu.png" alt="Thumb 3" class="product-gallery-thumb shadow-sm" onclick="document.getElementById('mainImage').src=this.src; document.querySelectorAll('.product-gallery-thumb').forEach(el=>el.classList.remove('active')); this.classList.add('active');">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Product Details -->
+            <div class="col-lg-6">
+                <div class="d-flex flex-column h-100">
+                    <div class="mb-2">
+                        <span class="badge" style="background-color: rgba(224, 122, 95, 0.1); color: #E07A5F; border: 1px solid rgba(224, 122, 95, 0.2);">Kue Basah Populer</span>
+                    </div>
+                    
+                    <h1 class="display-5 fw-bold text-dark mb-2" style="font-family: 'Outfit', sans-serif;">Kelepon Pandan Spesial</h1>
+                    
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <div class="d-flex text-warning">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1; font-size: 1.2rem;">star</span>
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1; font-size: 1.2rem;">star</span>
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1; font-size: 1.2rem;">star</span>
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1; font-size: 1.2rem;">star</span>
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1; font-size: 1.2rem;">star_half</span>
+                        </div>
+                        <span class="text-muted small">(4.8 / 120 ulasan)</span>
+                    </div>
+
+                    <h2 class="h2 fw-bold mb-4" style="color: #2D6A4F;">Rp 4.500 <span class="text-muted fs-5 fw-normal">/ pcs</span></h2>
+
+                    <p class="text-muted mb-4" style="line-height: 1.6;">
+                        Kue beras ketan hijau kenyal dengan isian gula aren cair premium yang lumer di mulut, dibalur kelapa parut segar. Dibuat fresh setiap hari menggunakan ekstrak daun pandan asli tanpa pewarna buatan, menghadirkan aroma wangi yang khas.
+                    </p>
+
+                    <div class="border-top pt-4 mb-4">
+                        <h5 class="fw-semibold mb-3">Pesan Sekarang</h5>
+                        <div class="d-flex align-items-center gap-4 flex-wrap">
+                            
+                            <!-- Quantity -->
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn qty-btn" onclick="document.getElementById('qty').stepDown()">
+                                    <span class="material-symbols-outlined fs-5">remove</span>
+                                </button>
+                                <input id="qty" type="number" class="form-control qty-input border-1" value="10" min="10" step="1">
+                                <button class="btn qty-btn" onclick="document.getElementById('qty').stepUp()">
+                                    <span class="material-symbols-outlined fs-5">add</span>
+                                </button>
+                            </div>
+                            <span class="text-muted small">Min. pesanan: 10 pcs</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3 mt-auto pt-2">
+                        <button class="btn btn-outline-primary-custom flex-grow-1 fw-bold py-3 d-flex justify-content-center align-items-center gap-2">
+                            <span class="material-symbols-outlined">favorite</span>
+                            Simpan
+                        </button>
+                        <button class="btn btn-primary-custom flex-grow-1 fw-bold py-3 d-flex justify-content-center align-items-center gap-2">
+                            <span class="material-symbols-outlined">shopping_cart</span>
+                            Tambah ke Keranjang
+                        </button>
+                    </div>
+
+                    <!-- Accordion Details -->
+                    <div class="accordion mt-5" id="productAccordion">
+                        <div class="accordion-item border-0 border-bottom">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button bg-transparent px-0 fw-semibold text-dark shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                    Komposisi Bahan
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#productAccordion">
+                                <div class="accordion-body px-0 text-muted small">
+                                    Tepung ketan berkualitas, gula aren premium murni, ekstrak daun pandan suji, kelapa muda parut, sedikit garam laut, dan air. Tanpa pengawet dan pemanis buatan.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item border-0 border-bottom">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-transparent px-0 fw-semibold text-dark shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                    Daya Tahan & Penyimpanan
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                                <div class="accordion-body px-0 text-muted small">
+                                    Sangat disarankan untuk dikonsumsi di hari yang sama (tahan 12-15 jam pada suhu ruang). Jangan dimasukkan ke dalam kulkas agar tekstur ketan tidak menjadi keras.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/load-components.js"></script>
+</body>
+</html>

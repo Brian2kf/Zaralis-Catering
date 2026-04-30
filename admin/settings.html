@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Usaha - Zarali's Catering Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/custom.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+
+    <!-- Mobile Header -->
+    <div class="d-md-none bg-white border-bottom p-3 d-flex justify-content-between align-items-center w-100 position-fixed top-0 z-3">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-link text-dark p-0" id="sidebarToggle">
+                <span class="material-symbols-outlined fs-2">menu</span>
+            </button>
+            <h1 class="h5 fw-bold mb-0" style="font-family: 'Outfit', sans-serif;">Zarali's</h1>
+        </div>
+        <div class="sidebar-logo" style="width: 32px; height: 32px; font-size: 0.8rem;">ZC</div>
+    </div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="admin-sidebar-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="admin-main mt-5 mt-md-0 pb-5">
+        <div class="mb-4">
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <a href="index.html" class="btn btn-sm btn-light border p-1 d-flex align-items-center text-muted">
+                    <span class="material-symbols-outlined fs-6">arrow_back</span>
+                </a>
+                <h2 class="display-6 fw-bold text-dark tracking-tight mb-0" style="font-family: 'Outfit', sans-serif;">Pengaturan Usaha</h2>
+            </div>
+            <p class="text-muted fs-6 ms-5">Atur informasi kontak dan alamat usaha tanpa menyentuh kode.</p>
+        </div>
+
+        <div class="content-card p-4">
+            <form id="businessSettingsForm">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <label for="businessName" class="form-label small fw-semibold text-dark">Nama Usaha</label>
+                        <input type="text" id="businessName" class="form-control bg-light-input py-2" placeholder="Zarali's Catering">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="businessPhone" class="form-label small fw-semibold text-dark">Telepon / WhatsApp</label>
+                        <input type="tel" id="businessPhone" class="form-control bg-light-input py-2" placeholder="08xx xxxx xxxx">
+                    </div>
+                    <div class="col-12">
+                        <label for="businessAddress" class="form-label small fw-semibold text-dark">Alamat Usaha</label>
+                        <textarea id="businessAddress" class="form-control bg-light-input py-2" rows="4" placeholder="Jl. Contoh No. 123, Depok, Jawa Barat"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="fw-semibold text-dark mb-3">Informasi Bank</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="businessBank" class="form-label small fw-semibold text-dark">Nama Bank</label>
+                                <input type="text" id="businessBank" class="form-control bg-light-input py-2" placeholder="BCA">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="businessBankAccount" class="form-label small fw-semibold text-dark">Rekening Bank</label>
+                                <input type="text" id="businessBankAccount" class="form-control bg-light-input py-2" placeholder="8921234567">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="businessAccountHolder" class="form-label small fw-semibold text-dark">Nama Pemilik Rekening</label>
+                                <input type="text" id="businessAccountHolder" class="form-control bg-light-input py-2" placeholder="Ali">
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+
+                <div class="d-flex justify-content-end gap-3 mt-4">
+                    <button type="button" id="btnResetBusinessSettings" class="btn btn-light border fw-semibold px-4">Reset</button>
+                    <button type="submit" class="btn btn-primary-custom fw-semibold px-4">Simpan Pengaturan</button>
+                </div>
+
+                <div id="businessSettingsMessage" class="alert alert-success mt-4 d-none" role="status"></div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

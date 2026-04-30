@@ -1,0 +1,86 @@
+/* Custom CSS for Upload Payment Page */
+
+.upload-zone {
+    border: 2px dashed rgba(191, 201, 193, 0.8);
+    background-color: rgba(248, 250, 246, 0.5);
+    border-radius: 1rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-zone:hover {
+    background-color: #f8faf6;
+    border-color: #2D6A4F;
+}
+
+.upload-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.icon-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: rgba(45, 106, 79, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.upload-zone:hover .icon-circle {
+    background-color: rgba(45, 106, 79, 0.2);
+}
+
+.info-card {
+    background-color: rgba(224, 122, 95, 0.1);
+    border: 1px solid rgba(224, 122, 95, 0.2);
+    border-radius: 1rem;
+}
+
+.bank-details {
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 0.5rem;
+}
+
+.help-card {
+    background-color: #f8faf6;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 1rem;
+}
+
+.form-card {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px rgba(25, 28, 26, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.text-secondary-custom {
+    color: #E07A5F !important;
+}
+
+.bg-light-input {
+    background-color: rgba(248, 250, 246, 0.8);
+}
+
+.form-control {
+    background-color: #f8faf6;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background-color: #f8faf6;
+    border-color: #2D6A4F;
+    box-shadow: 0 0 0 0.25rem rgba(45, 106, 79, 0.1);
+}

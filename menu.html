@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu & Paket - Zarali's Catering</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/pages/menu.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navbar Placeholder -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="container py-5 flex-grow-1">
+        <!-- Header & Search -->
+        <div class="row mb-4 align-items-end">
+            <div class="col-md-8 mb-4 mb-md-0">
+                <h1 class="display-5 fw-bold text-primary-custom mb-2">Koleksi Rasa</h1>
+                <p class="fs-5 text-muted mb-0">Jelajahi pilihan jajan pasar tradisional dan kreasi modern kami. Dibuat dengan bahan alami pilihan untuk menghadirkan kehangatan di setiap gigitan.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="position-relative">
+                    <span class="material-symbols-outlined position-absolute top-50 translate-middle-y ms-3 text-muted">search</span>
+                    <input type="text" class="form-control rounded-pill ps-5 py-2" placeholder="Cari sajian...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Chips -->
+        <div class="d-flex flex-nowrap overflow-auto pb-3 mb-4 gap-2 no-scrollbar">
+            <button class="btn btn-primary-custom rounded-pill px-4 py-2 fw-semibold border-0 text-nowrap chip-btn" data-target="Semua">Semua</button>
+            <button class="btn btn-light border rounded-pill px-4 py-2 text-muted text-nowrap chip-btn fw-medium" data-target="kue-satuan">Kue Satuan</button>
+            <button class="btn btn-light border rounded-pill px-4 py-2 text-muted text-nowrap chip-btn fw-medium" data-target="paket-besar">Paket Besar</button>
+        </div>
+
+        <!-- Disclaimer Kue Satuan -->
+        <div class="alert alert-info d-flex align-items-center mb-4 border-0 shadow-sm" role="alert" style="background-color: #FDF2E9; color: #1B4332;">
+            <span class="material-symbols-outlined me-2" style="color: #E07A5F;">info</span>
+            <div>
+                <strong>Informasi Pemesanan:</strong> Pemesanan menu <strong>Kue Satuan</strong> memerlukan pembuatan paket. Setiap paket harus memiliki minimal <strong>3 item kue satuan</strong>.
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="row g-4" id="product-grid">
+            
+            <!-- PAKET BESAR -->
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="paket-besar">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/paket_tampah.png" alt="Kue Tampah Ukuran Sedang" onerror="this.src='assets/images/paket_tampah.png'">
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">KUE TAMPAH UKURAN SEDANG</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Berbagai macam kue campuran</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 350.000 <span class="text-muted fw-normal small"></span></span>
+                            <button class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center add-to-cart-btn border-0 text-primary-custom bg-light" title="Masukkan ke Keranjang">
+                                <span class="material-symbols-outlined fs-6">add_shopping_cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="paket-besar">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/paket_tampah.png" alt="Kue Nampan Ukuran Besar">
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">KUE NAMPAN UKURAN BESAR</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Kue dengan berbagai macam aneka rasa...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 130.000 <span class="text-muted fw-normal small"></span></span>
+                            <button class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center add-to-cart-btn border-0 text-primary-custom bg-light" title="Masukkan ke Keranjang">
+                                <span class="material-symbols-outlined fs-6">add_shopping_cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="paket-besar">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/paket_tampah.png" alt="Kue Tampah Jajan Pasar">
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">KUE TAMPAH JAJAN PASAR</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Berbagai macam kue olahan singkong dan...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 350.000 <span class="text-muted fw-normal small"></span></span>
+                            <button class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center add-to-cart-btn border-0 text-primary-custom bg-light" title="Masukkan ke Keranjang">
+                                <span class="material-symbols-outlined fs-6">add_shopping_cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KUE SATUAN -->
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/klepon.png" alt="Puding Telur Ceplok">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">PUDING TELUR CEPLOK</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Puding dengan berbentuk telur ceplok dari...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/klepon.png" alt="Klepon">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">KLEPON</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Tepung ketan dengan isian gula merah dan...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/lapis_legit.png" alt="Klappetart">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">KLAPPETART</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Perpaduan antara tepung maizena, kelapa...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 5.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/nagasari.png" alt="Kue Bugis Ketan Hitam">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">KUE BUGIS KETAN HITAM</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Tepung ketan hitam dengan isian unti kelapa...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/lapis_legit.png" alt="Pie Brownies">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">PIE BROWNIES</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Pie dengan isian brownies manis didalam nya</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/lapis_legit.png" alt="Lapis Cokelat">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">LAPIS COKELAT</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Olahan tepung beras, santan dan cokelat bub...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/nagasari.png" alt="Talam Gurih">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">TALAM GURIH</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Tepung beras yg diolah dengan santen dan...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/nagasari.png" alt="Apem Jawa">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">APEM JAWA</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Perpaduan antara tepung beras dan tape...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/lapis_legit.png" alt="Lapis Pepe">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">LAPIS PEPE</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Tepung sagu diolah dengan santan dan...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/pastel.png" alt="Cream Cheese">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">CREAM CHEESE</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Vla berpadu dengan keju parut, selai blueberr...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/nagasari.png" alt="Kue Ku / Thok">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">KUE KU/THOK</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Tepung ketan dengan isian kacang hijau kup...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/nagasari.png" alt="Talam Ubi">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">TALAM UBI</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Olahan ubi perpaduan antara santen dan tep...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/klepon.png" alt="Onde Onde">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">ONDE ONDE</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Onde onde isian kacang hijau kupas dibalut...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/pastel.png" alt="Panada">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">PANADA</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Panada dengan isian cakalang pedas manis</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/nagasari.png" alt="Semar Mendem">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">SEMAR MENDEM</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Adonan ketan putih diisi dengan ayam suir...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/pastel.png" alt="Sus Bunga">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">SUS BUNGA</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Sus berbentuk bunga dengan isi via dan...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/nagasari.png" alt="Singkong Pelangi">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">SINGKONG PELANGI</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Adonan singkong dengan perpaduan warna...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/pastel.png" alt="Sus Eclair">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">SUS ECLAIR</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Sus isi vla dengan krim coklat diatasnya</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/nagasari.png" alt="Kue Lumpur Kentang">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">KUE LUMPUR KENTANG</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Kue Lumpur terbuat dari olahan kentang</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/lapis_legit.png" alt="Bolu Kukus Gula Merah">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">BOLU KUKUS GULA MERAH</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Bolu kukus perpaduan antara gula merah da...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/pastel.png" alt="Pastel">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">PASTEL</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Tersedia 2 jenis, frozen dan matang, dengan...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/nagasari.png" alt="Arem Arem">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">AREM AREM</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Arem arem isi sayuran, kentang, wortel dan...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/pastel.png" alt="Risol Mayonnaise">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">RISOL MAYONNAISE</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Risol dengan isi mayonnaise, keju parut, dagi...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/pastel.png" alt="Sosis Solo">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">SOSIS SOLO</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Sosis solo tersedia 2 jenis, frozen dan matan...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/pastel.png" alt="Risol Ragout">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">RISOL RAGOUT</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Risoles dengan isi ragout ayam dengan sayu...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/pastel.png" alt="Risoles Segitiga Ikan Cakalang">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">RISOLES SEGITIGA IKAN CAKALANG</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Risoles segitiga dengan isi ikan cakalang pe...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/nagasari.png" alt="Lemper Bakar">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">LEMPER BAKAR</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Lemper bakar isi ayam suir manis gurih</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="kue-satuan">
+                <div class="product-card h-100 d-flex flex-column">
+                    <div class="product-img-wrapper position-relative">
+                        <img src="assets/images/pastel.png" alt="Pie Buah">
+                        <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background-color: #E07A5F;">Kue Satuan</span>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h3 class="h5 fw-bold mb-2">PIE BUAH</h3>
+                        <p class="text-muted small mb-3 flex-grow-1">Pie Buah kue manis dengan isi vla dan aneka...</p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="text-secondary-custom fw-bold">Rp 3.000 <span class="text-muted fw-normal small">/ pcs</span></span>
+                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill px-3 py-1 fw-medium add-to-paket-btn">
+                                + Paket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Add to Package Modal -->
+        <div class="modal fade" id="addToPackageModal" tabindex="-1" aria-labelledby="addToPackageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow">
+                    <div class="modal-header bg-light border-0 pb-0">
+                        <h5 class="modal-title fw-bold text-dark" id="addToPackageModalLabel">Masukkan ke Paket</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex align-items-center gap-3 mb-4 p-3 bg-light rounded">
+                            <img src="" id="modalProductImage" alt="Product" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                            <div>
+                                <h6 class="fw-bold mb-1" id="modalProductName">Nama Produk</h6>
+                                <span class="text-secondary-custom fw-bold" id="modalProductPrice">Rp 0</span>
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold mb-3">Pilih Paket Anda:</h6>
+                        <div id="packageListContainer" class="d-flex flex-column gap-2 mb-4 max-h-50 overflow-auto">
+                            <!-- Package List Item will be rendered here via JS -->
+                        </div>
+
+                        <div class="border-top pt-3">
+                            <h6 class="fw-bold mb-2">Atau Buat Paket Baru</h6>
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" id="newPackageName" placeholder="Contoh: Paket Lebaran Mama">
+                                <button class="btn btn-primary-custom" id="createNewPackageBtn">Buat & Masukkan</button>
+                            </div>
+                            <small class="text-muted d-block mt-2">
+                                <em>Aturan: 1 paket minimal berisi 3 kue. Anda harus membuat minimal 10 paket untuk checkout.</em>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/load-components.js"></script>
+</body>
+</html>
+
+
+

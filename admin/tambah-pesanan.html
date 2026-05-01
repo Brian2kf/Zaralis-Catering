@@ -251,6 +251,47 @@
 
     </main>
 
+    <!-- Modal Manajemen Paket Kue Satuan -->
+    <div class="modal fade" id="packageModal" tabindex="-1" aria-labelledby="packageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <div>
+                        <h5 class="modal-title fw-bold" id="packageModalLabel" style="font-family: 'Outfit', sans-serif;">
+                            <span class="material-symbols-outlined align-middle me-1 text-primary-custom">inventory_2</span>
+                            Masukkan ke Paket Kue Satuan
+                        </h5>
+                        <p class="text-muted small mb-0 mt-1">Kue satuan harus dimasukkan ke dalam sebuah paket. Pilih paket yang ada atau buat paket baru.</p>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-3">
+                    <!-- Daftar Paket yang Ada -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-dark mb-2">Pilih Paket yang Sudah Ada</label>
+                        <div id="modalPackageList">
+                            <p class="text-muted small mb-0">Belum ada paket. Silakan buat paket baru di bawah.</p>
+                        </div>
+                    </div>
+                    <!-- Buat Paket Baru -->
+                    <div class="border-top pt-3">
+                        <label class="form-label small fw-bold text-dark mb-2">
+                            <span class="material-symbols-outlined align-middle" style="font-size:15px;">add_circle</span>
+                            Buat Paket Baru
+                        </label>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-sm" id="newPackageName" placeholder="Nama paket baru (misal: Paket A)">
+                            <button class="btn btn-primary-custom btn-sm fw-semibold" type="button" id="btnCreateNewPackage">Buat &amp; Pilih</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/admin.js"></script>

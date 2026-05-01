@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,17 +8,20 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap"
+        rel="stylesheet">
     <!-- Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../css/custom.css">
     <link rel="stylesheet" href="../css/admin.css">
-    
 </head>
+
 <body class="admin-body">
 
     <!-- Mobile Header -->
-    <div class="d-md-none bg-white border-bottom p-3 d-flex justify-content-between align-items-center w-100 position-fixed top-0 z-3">
+    <div
+        class="d-md-none bg-white border-bottom p-3 d-flex justify-content-between align-items-center w-100 position-fixed top-0 z-3">
         <div class="d-flex align-items-center gap-2">
             <button class="btn btn-link text-dark p-0" id="sidebarToggle">
                 <span class="material-symbols-outlined fs-2">menu</span>
@@ -32,168 +36,209 @@
 
     <!-- Main Content -->
     <main class="admin-main mt-5 mt-md-0 pb-5">
-        
+
         <!-- Header Section -->
         <div class="mb-4">
             <div class="d-flex align-items-center gap-2 mb-1">
                 <a href="pesanan.html" class="btn btn-sm btn-light border p-1 d-flex align-items-center text-muted">
                     <span class="material-symbols-outlined fs-6">arrow_back</span>
                 </a>
-                <h2 class="display-6 fw-bold text-dark tracking-tight mb-0" style="font-family: 'Outfit', sans-serif;">Tambah Pesanan Baru</h2>
+                <h2 class="display-6 fw-bold text-dark tracking-tight mb-0" style="font-family: 'Outfit', sans-serif;">
+                    Tambah Pesanan Baru</h2>
             </div>
-            <p class="text-muted fs-6 ms-5">Masukkan detail pelanggan dan pilih menu hidangan.</p>
+            <p class="text-muted fs-6 ms-5">Masukkan detail pelanggan dan pilih menu hidangan secara manual.</p>
         </div>
 
-        <form action="pesanan.html" method="GET">
+        <form id="adminOrderForm">
             <div class="row g-4">
-                
+
                 <!-- Left Column -->
-                <div class="col-lg-5">
-                    
+                <div class="col-lg-6">
+
                     <!-- Detail Pelanggan -->
-                    <div class="form-section-card">
-                        <h3 class="section-title">
-                            <span class="material-symbols-outlined text-primary-custom">person</span>
+                    <div class="form-section-card bg-white p-4 rounded-4 shadow-sm border mb-4">
+                        <h3 class="h5 fw-bold mb-3 border-bottom pb-2">
+                            <span class="material-symbols-outlined text-primary-custom align-middle me-1">person</span>
                             Detail Pelanggan
                         </h3>
                         <div class="row g-3">
                             <div class="col-6">
-                                <label class="form-label" for="first_name">Nama Depan</label>
-                                <input type="text" class="form-control" id="first_name" placeholder="Misal: Budi">
+                                <label class="form-label small fw-bold" for="firstName">Nama Depan *</label>
+                                <input type="text" class="form-control" id="firstName" required>
                             </div>
                             <div class="col-6">
-                                <label class="form-label" for="last_name">Nama Belakang</label>
-                                <input type="text" class="form-control" id="last_name" placeholder="Misal: Santoso">
+                                <label class="form-label small fw-bold" for="lastName">Nama Belakang *</label>
+                                <input type="text" class="form-control" id="lastName" required>
                             </div>
                             <div class="col-12">
-                                <label class="form-label" for="email">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="contoh@email.com">
+                                <label class="form-label small fw-bold" for="email">Email *</label>
+                                <input type="email" class="form-control" id="email" required>
                             </div>
                             <div class="col-12">
-                                <label class="form-label" for="phone">No. HP / WhatsApp</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="0812xxxxxxx">
+                                <label class="form-label small fw-bold" for="phone">No. HP / WhatsApp *</label>
+                                <input type="tel" class="form-control" id="phone" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Jadwal Pengiriman -->
+                    <div class="form-section-card bg-white p-4 rounded-4 shadow-sm border mb-4">
+                        <h3 class="h5 fw-bold mb-3 border-bottom pb-2">
+                            <span
+                                class="material-symbols-outlined text-primary-custom align-middle me-1">calendar_month</span>
+                            Jadwal Pengiriman
+                        </h3>
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label class="form-label small fw-bold" for="deliveryDate">Tanggal *</label>
+                                <input type="date" class="form-control" id="deliveryDate" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-bold" for="deliveryTime">Jam *</label>
+                                <input type="time" class="form-control" id="deliveryTime" required>
                             </div>
                         </div>
                     </div>
 
                     <!-- Detail Alamat -->
-                    <div class="form-section-card">
-                        <h3 class="section-title">
-                            <span class="material-symbols-outlined text-primary-custom">home</span>
-                            Detail Alamat
+                    <div class="form-section-card bg-white p-4 rounded-4 shadow-sm border mb-4">
+                        <h3 class="h5 fw-bold mb-3 border-bottom pb-2">
+                            <span
+                                class="material-symbols-outlined text-primary-custom align-middle me-1">location_on</span>
+                            Alamat Pengiriman
                         </h3>
                         <div class="row g-3">
                             <div class="col-12">
-                                <label class="form-label" for="address">Alamat Lengkap</label>
-                                <textarea class="form-control" id="address" rows="2" placeholder="Detail alamat, jalan, nomor rumah..."></textarea>
+                                <label class="form-label small fw-bold" for="streetName">Nama Jalan *</label>
+                                <input type="text" class="form-control" id="streetName" required>
                             </div>
                             <div class="col-6">
-                                <label class="form-label" for="city">Kota</label>
-                                <input type="text" class="form-control" id="city" placeholder="Kota">
+                                <label class="form-label small fw-bold" for="houseNumber">Nomor Rumah *</label>
+                                <input type="text" class="form-control" id="houseNumber" required>
+                            </div>
+                            <div class="col-3">
+                                <label class="form-label small fw-bold" for="rt">RT *</label>
+                                <input type="text" class="form-control" id="rt" required>
+                            </div>
+                            <div class="col-3">
+                                <label class="form-label small fw-bold" for="rw">RW *</label>
+                                <input type="text" class="form-control" id="rw" required>
                             </div>
                             <div class="col-6">
-                                <label class="form-label" for="province">Provinsi</label>
-                                <input type="text" class="form-control" id="province" placeholder="Provinsi">
+                                <label class="form-label small fw-bold" for="kelurahan">Kelurahan *</label>
+                                <input type="text" class="form-control" id="kelurahan" required>
                             </div>
-                            <div class="col-12">
-                                <label class="form-label" for="postal">Kode Pos</label>
-                                <input type="text" class="form-control" id="postal" placeholder="Kode Pos">
+                            <div class="col-6">
+                                <label class="form-label small fw-bold" for="kecamatan">Kecamatan *</label>
+                                <select class="form-select" id="kecamatan" required>
+                                    <option value="" selected disabled>Pilih...</option>
+                                    <option value="Beji">Beji</option>
+                                    <option value="Bojongsari">Bojongsari</option>
+                                    <option value="Cilodong">Cilodong</option>
+                                    <option value="Cimanggis">Cimanggis</option>
+                                    <option value="Cinere">Cinere</option>
+                                    <option value="Cipayung">Cipayung</option>
+                                    <option value="Limo">Limo</option>
+                                    <option value="Pancoran Mas">Pancoran Mas</option>
+                                    <option value="Sawangan">Sawangan</option>
+                                    <option value="Sukmajaya">Sukmajaya</option>
+                                    <option value="Tapos">Tapos</option>
+                                </select>
                             </div>
-                            <div class="col-12 mt-3">
-                                <label class="form-label" for="delivery_date">Tanggal Pengiriman</label>
-                                <input type="date" class="form-control" id="delivery_date">
+                            <div class="col-6">
+                                <label class="form-label small fw-bold" for="postalCode">Kode Pos *</label>
+                                <input type="text" class="form-control" id="postalCode" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-bold" for="landmark">Patokan</label>
+                                <input type="text" class="form-control" id="landmark">
+                            </div>
+
+                            <div class="col-12 mt-4 pt-3 border-top">
+                                <button type="button"
+                                    class="btn btn-outline-primary-custom w-100 py-2 fw-semibold d-flex justify-content-center align-items-center gap-2"
+                                    id="btnCalculateShipping">
+                                    <span class="material-symbols-outlined">local_shipping</span> Hitung Biaya
+                                    Pengiriman
+                                </button>
+                                <div id="shippingLoading" class="d-none mt-2 text-center small text-muted">
+                                    <span class="spinner-border spinner-border-sm me-1"></span> Menghitung rute OSRM...
+                                </div>
+                                <div id="shippingResult" class="d-none mt-2 alert alert-success p-2 small mb-0"></div>
+                                <div id="shippingError" class="d-none mt-2 alert alert-danger p-2 small mb-0"></div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Catatan Internal -->
-                    <div class="form-section-card mb-lg-0">
-                        <h3 class="section-title">
-                            <span class="material-symbols-outlined text-muted">sticky_note_2</span>
-                            Catatan Internal
+                    <div class="form-section-card bg-white p-4 rounded-4 shadow-sm border mb-lg-0">
+                        <h3 class="h5 fw-bold mb-3 border-bottom pb-2">
+                            <span class="material-symbols-outlined text-muted align-middle me-1">sticky_note_2</span>
+                            Catatan Internal / Pesanan
                         </h3>
-                        <textarea class="form-control" rows="2" placeholder="Catatan khusus untuk dapur (opsional)"></textarea>
+                        <textarea class="form-control" id="orderNotes" rows="2"
+                            placeholder="Catatan khusus..."></textarea>
                     </div>
 
                 </div>
 
                 <!-- Right Column -->
-                <div class="col-lg-7">
-                    <div class="order-summary-card">
-                        
-                        <!-- Header -->
-                        <div class="p-4 border-bottom bg-light bg-opacity-50">
-                            <h3 class="section-title mb-0" style="color: #9a442d;">
-                                <span class="material-symbols-outlined">restaurant</span>
-                                Pilih Menu & Ringkasan
+                <div class="col-lg-6">
+                    <div class="order-summary-card bg-white rounded-4 shadow-sm border h-100 d-flex flex-column">
+
+                        <div class="p-4 border-bottom bg-light bg-opacity-50 rounded-top-4">
+                            <h3 class="h5 fw-bold mb-0 text-dark">
+                                <span
+                                    class="material-symbols-outlined align-middle me-1 text-primary-custom">restaurant</span>
+                                Pilih Menu & Keranjang
                             </h3>
                         </div>
 
                         <!-- Add Item Control -->
                         <div class="p-3 border-bottom bg-light d-flex gap-2 align-items-end">
                             <div class="flex-grow-1">
-                                <label class="form-label" for="menu_select">Pilih Hidangan</label>
-                                <select class="form-select" id="menu_select">
-                                    <option value="" selected disabled>Pilih menu dari daftar...</option>
-                                    <option value="1" data-price="45000">Tumpeng Mini Nusantara</option>
-                                    <option value="2" data-price="35000">Nasi Kotak Ayam Bakar Taliwang</option>
-                                    <option value="3" data-price="250000">Jajan Pasar Tampah (Besar)</option>
-                                    <option value="4" data-price="15000">Es Dawet Ayu (Per Porsi)</option>
+                                <label class="form-label small fw-bold" for="menuSelect">Pilih Hidangan</label>
+                                <select class="form-select" id="menuSelect">
+                                    <option value="" selected disabled>Memuat menu...</option>
                                 </select>
                             </div>
                             <div style="width: 80px;">
-                                <label class="form-label" for="qty">Jumlah</label>
+                                <label class="form-label small fw-bold" for="qty">Jml</label>
                                 <input type="number" class="form-control text-center" id="qty" value="1" min="1">
                             </div>
-                            <button type="button" class="btn btn-outline-secondary-custom fw-semibold" style="height: 38px; font-size: 0.875rem;">
+                            <button type="button" id="btnAddItem" class="btn btn-outline-primary-custom fw-semibold"
+                                style="height: 38px;">
                                 Tambah
                             </button>
                         </div>
 
                         <!-- Selected Items List -->
-                        <div class="p-4 flex-grow-1 bg-white overflow-auto">
-                            
-                            <!-- Item 1 -->
-                            <div class="order-item">
-                                <div>
-                                    <div class="fw-medium text-dark">Tumpeng Mini Nusantara</div>
-                                    <div class="text-muted small">Rp 45.000 x 20</div>
-                                </div>
-                                <div class="d-flex align-items-center gap-3">
-                                    <span class="fw-semibold text-dark">Rp 900.000</span>
-                                    <button type="button" class="btn btn-sm btn-link text-muted p-0 border-0 hover-danger">
-                                        <span class="material-symbols-outlined fs-5">delete</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Item 2 -->
-                            <div class="order-item">
-                                <div>
-                                    <div class="fw-medium text-dark">Jajan Pasar Tampah (Besar)</div>
-                                    <div class="text-muted small">Rp 250.000 x 2</div>
-                                </div>
-                                <div class="d-flex align-items-center gap-3">
-                                    <span class="fw-semibold text-dark">Rp 500.000</span>
-                                    <button type="button" class="btn btn-sm btn-link text-muted p-0 border-0 hover-danger">
-                                        <span class="material-symbols-outlined fs-5">delete</span>
-                                    </button>
-                                </div>
-                            </div>
-
+                        <div class="p-4 flex-grow-1 bg-white overflow-auto" id="orderItemsContainer"
+                            style="min-height: 200px;">
+                            <div class="text-center text-muted small py-4">Belum ada menu yang dipilih.</div>
                         </div>
 
                         <!-- Total & Actions -->
-                        <div class="p-4 border-top bg-light bg-opacity-50">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <span class="fs-5 fw-semibold text-muted">Total Tagihan</span>
-                                <span class="fs-3 fw-bold text-primary-custom" style="font-family: 'Outfit', sans-serif;">Rp 1.400.000</span>
+                        <div class="p-4 border-top bg-light bg-opacity-50 rounded-bottom-4">
+                            <div class="d-flex justify-content-between mb-2 small">
+                                <span class="text-muted">Subtotal Item</span>
+                                <span class="fw-bold" id="textSubtotal">Rp 0</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3 small">
+                                <span class="text-muted">Ongkos Kirim</span>
+                                <span class="fw-bold text-success" id="textShipping">Rp 0</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-4 border-top pt-2">
+                                <span class="fs-5 fw-bold text-dark">Total Tagihan</span>
+                                <span class="fs-3 fw-bold text-primary-custom" id="textTotal"
+                                    style="font-family: 'Outfit', sans-serif;">Rp 0</span>
                             </div>
                             <div class="d-flex justify-content-end gap-2">
-                                <a href="pesanan.html" class="btn btn-light border text-dark fw-medium px-4">Batal</a>
-                                <button type="submit" class="btn btn-primary-custom fw-semibold px-4 d-flex align-items-center gap-2">
-                                    <span class="material-symbols-outlined fs-6">save</span>
-                                    Simpan Pesanan
+                                <button type="submit" id="btnSaveOrder"
+                                    class="btn btn-primary-custom w-100 fw-bold py-3 d-flex justify-content-center align-items-center gap-2"
+                                    disabled>
+                                    <span class="material-symbols-outlined fs-5">save</span>
+                                    Buat Pesanan
                                 </button>
                             </div>
                         </div>
@@ -209,9 +254,9 @@
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/admin.js"></script>
-    <script src="../js/admin-pesanan.js"></script>
+
+    <!-- Menggunakan file JS terpisah agar tidak bentrok dengan pesanan.html -->
+    <script src="../js/admin/admin-tambah-pesanan.js"></script>
 </body>
+
 </html>
-
-
-

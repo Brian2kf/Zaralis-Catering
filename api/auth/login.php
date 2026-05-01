@@ -23,10 +23,10 @@ session_init();
 // -------------------------------------------------------
 // Ambil & decode body JSON dari fetch()
 // -------------------------------------------------------
-$body  = json_decode(file_get_contents('php://input'), true);
+$body = json_decode(file_get_contents('php://input'), true);
 $email = trim($body['email'] ?? '');
-$pass  = $body['password'] ?? '';
-$csrf  = $body['csrf_token'] ?? '';
+$pass = $body['password'] ?? '';
+$csrf = $body['csrf_token'] ?? '';
 
 // -------------------------------------------------------
 // Validasi CSRF
@@ -59,7 +59,7 @@ if (!empty($errors)) {
 // Cek user di database
 // -------------------------------------------------------
 $userModel = new User();
-$user      = $userModel->findByEmail($email);
+$user = $userModel->findByEmail($email);
 
 // Gunakan pesan generik agar tidak bocorkan info apakah email terdaftar
 if (!$user || !$userModel->verifyPassword($pass, $user['password_hash'])) {
@@ -75,16 +75,16 @@ session_login($user);
 
 // Tentukan redirect berdasarkan role
 $redirect = ($user['role'] === 'admin')
-    ? APP_URL . '/admin/index.php'
-    : APP_URL . '/index.php';
+    ? APP_URL . '/admin/index.html'
+    : APP_URL . '/index.html';
 
 echo json_encode([
-    'success'  => true,
-    'message'  => 'Login berhasil! Mengalihkan...',
+    'success' => true,
+    'message' => 'Login berhasil! Mengalihkan...',
     'redirect' => $redirect,
-    'user'     => [
-        'name'  => $user['first_name'] . ' ' . $user['last_name'],
+    'user' => [
+        'name' => $user['first_name'] . ' ' . $user['last_name'],
         'email' => $user['email'],
-        'role'  => $user['role'],
+        'role' => $user['role'],
     ],
 ]);

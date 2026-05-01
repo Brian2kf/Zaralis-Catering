@@ -1,7 +1,4 @@
-// js/checkout.js — Checkout Page Logic dengan API
-const ZARALI_LAT = -6.3683159;
-const ZARALI_LON = 106.8461364;
-const SHIPPING_RATE = 7000;
+// js/checkout.js — Checkout Page Logic dengan Backend Proxy API
 
 class CheckoutController {
     constructor(cartManager) {
@@ -186,31 +183,6 @@ class CheckoutController {
         return { street, house, kel, kec };
     }
 
-    buildGeoQueries(fields) {
-        const { street, house, kel, kec } = fields;
-        const suffix = `Kota Depok, Jawa Barat`;
-        return [
-            `${street}, ${kel}, ${kec}, ${suffix}`,
-            `${kel}, ${kec}, ${suffix}`,
-            `${kec}, ${suffix}`,
-        ];
-    }
-
-    async geocodeAddress(queries) {
-        for (let i = 0; i < queries.length; i++) {
-            const q = queries[i];
-            const geoUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&countrycodes=id&viewbox=106.7,-6.3,106.9,-6.5&bounded=0`;
-            const geoRes = await fetch(geoUrl, {
-                headers: { 'Accept': 'application/json' }
-            });
-            const geoData = await geoRes.json();
-            if (geoData && geoData.length > 0) {
-                return geoData[0];
-            }
-        }
-        return null;
-    }
-
     async calculateShipping() {
         const fields = this.getAddressFields();
         if (!fields) {
@@ -230,35 +202,40 @@ class CheckoutController {
         errorDiv.classList.add('d-none');
 
         try {
-            const queries = this.buildGeoQueries(fields);
-            const geoResult = await this.geocodeAddress(queries);
+            // Kirim data alamat ke backend proxy — server yang menghubungi Nominatim & OSRM
+            const response = await fetch('api/shipping/calculate.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    street: fields.street,
+                    house: fields.house,
+                    kel: fields.kel,
+                    kec: fields.kec
+                })
+            });
 
-            if (!geoResult) {
-                throw new Error('Alamat tidak ditemukan. Pastikan nama jalan, kelurahan, dan kecamatan sudah benar.');
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(result.message || 'Gagal menghitung biaya pengiriman.');
             }
 
-            const custLat = parseFloat(geoResult.lat);
-            const custLon = parseFloat(geoResult.lon);
-
-            const routeUrl = `https://router.project-osrm.org/route/v1/driving/${ZARALI_LON},${ZARALI_LAT};${custLon},${custLat}?overview=false`;
-            const routeRes = await fetch(routeUrl);
-            const routeData = await routeRes.json();
-
-            if (!routeData.routes || routeData.routes.length === 0) {
-                throw new Error('Tidak dapat menghitung rute. Coba periksa kembali alamat Anda.');
-            }
-
-            const distanceKm = routeData.routes[0].distance / 1000;
-            const roundedKm = Math.ceil(distanceKm * 10) / 10;
-            const shippingCost = Math.round(roundedKm * SHIPPING_RATE);
+            const { lat, lon, rounded_km, shipping_cost, used_fallback } = result;
 
             this.shippingCalculated = true;
-            this.cart.shippingCost = shippingCost;
+            this.cart.shippingCost = shipping_cost;
 
-            // Simpan koordinat dan jarak untuk API
-            this.custLat = custLat;
-            this.custLon = custLon;
-            this.distanceKm = roundedKm;
+            // Simpan koordinat dan jarak untuk payload order
+            this.custLat = lat;
+            this.custLon = lon;
+            this.distanceKm = rounded_km;
+
+            const fallbackNote = used_fallback
+                ? `<div class="d-flex align-items-center gap-1 mt-2">
+                       <span class="material-symbols-outlined" style="font-size: 14px; color: #E07A5F;">info</span>
+                       <span class="text-muted" style="font-size: 11px;">Estimasi berdasarkan jarak garis lurus (layanan rute sedang tidak tersedia)</span>
+                   </div>`
+                : '';
 
             resultDiv.innerHTML = `
                 <div class="shipping-result-card">
@@ -267,20 +244,21 @@ class CheckoutController {
                         <strong class="text-primary-custom small">Biaya pengiriman berhasil dihitung!</strong>
                     </div>
                     <div class="result-distance mb-1">
-                        <span class="text-muted small">Jarak tempuh</span>
-                        <span class="fw-bold small">${roundedKm.toFixed(1)} km</span>
+                        <span class="text-muted small">Jarak tempuh ${used_fallback ? '(estimasi)' : ''}</span>
+                        <span class="fw-bold small">${rounded_km.toFixed(1)} km</span>
                     </div>
                     <div class="result-cost">
                         <span class="text-muted small">Biaya pengiriman</span>
-                        <span class="fw-bold" style="color: #2D6A4F;">${this.cart.formatRp(shippingCost)}</span>
+                        <span class="fw-bold" style="color: #2D6A4F;">${this.cart.formatRp(shipping_cost)}</span>
                     </div>
+                    ${fallbackNote}
                 </div>
             `;
             resultDiv.classList.remove('d-none');
 
             const shippingText = document.getElementById('checkoutShippingCostText');
             if (shippingText) {
-                shippingText.innerText = this.cart.formatRp(shippingCost);
+                shippingText.innerText = this.cart.formatRp(shipping_cost);
                 shippingText.style.color = '#2D6A4F';
                 shippingText.style.fontStyle = 'normal';
                 shippingText.style.fontWeight = '600';
@@ -289,7 +267,11 @@ class CheckoutController {
             this.updateOrderButton();
 
         } catch (err) {
-            this.showShippingError(err.message || 'Terjadi kesalahan saat menghitung biaya pengiriman.');
+            console.error('Shipping calculation error:', err);
+            const userMessage = err.message && !err.message.includes('fetch')
+                ? err.message
+                : 'Layanan penghitungan ongkir sedang tidak tersedia. Silakan coba lagi dalam beberapa saat.';
+            this.showShippingError(userMessage);
         } finally {
             loading.classList.add('d-none');
             btn.disabled = false;

@@ -39,29 +39,44 @@ try {
     $origin_lon = $settings['origin_longitude'];
     $rate_per_km = $settings['shipping_rate_per_km'];
 
-    // 2. Validasi Jarak OSRM di Sisi Server
+    // 2. Validasi Jarak di Sisi Server (OSRM + Haversine fallback)
     $dest_lat = $data->dest_latitude;
     $dest_lon = $data->dest_longitude;
     $frontend_distance = $data->shipping_distance_km;
 
-    $osrm_url = "http://router.project-osrm.org/route/v1/driving/{$origin_lon},{$origin_lat};{$dest_lon},{$dest_lat}?overview=false";
+    $osrm_url = "https://router.project-osrm.org/route/v1/driving/{$origin_lon},{$origin_lat};{$dest_lon},{$dest_lat}?overview=false";
 
-    // Melakukan request ke OSRM
+    // Melakukan request ke OSRM dengan timeout dan User-Agent
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $osrm_url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt_array($ch, [
+        CURLOPT_URL            => $osrm_url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 10,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTPHEADER     => ['User-Agent: ZaralisCatering/1.0'],
+    ]);
     $osrm_response = curl_exec($ch);
+    $osrm_http     = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $osrm_error    = curl_error($ch);
     curl_close($ch);
 
-    $osrm_data = json_decode($osrm_response, true);
-    if (!isset($osrm_data['routes'][0]['distance'])) {
-        throw new Exception("Gagal memvalidasi rute pengiriman.");
+    $server_distance_km = null;
+
+    if (!$osrm_error && $osrm_http === 200) {
+        $osrm_data = json_decode($osrm_response, true);
+        if (isset($osrm_data['routes'][0]['distance'])) {
+            $server_distance_km = $osrm_data['routes'][0]['distance'] / 1000;
+        }
     }
 
-    $server_distance_km = $osrm_data['routes'][0]['distance'] / 1000;
+    // Fallback: Haversine × road factor jika OSRM tidak tersedia
+    if ($server_distance_km === null) {
+        error_log("OSRM unavailable (HTTP {$osrm_http}, err: {$osrm_error}). Using Haversine fallback for validation.");
+        $server_distance_km = haversineDistance($origin_lat, $origin_lon, $dest_lat, $dest_lon) * 1.8;
+    }
 
-    // Toleransi perbedaan jarak (maks. 1 km)
-    if (abs($server_distance_km - $frontend_distance) > 1.0) {
+    // Toleransi perbedaan jarak (maks. 2 km) — mengakomodasi variasi minor
+    if (abs($server_distance_km - $frontend_distance) > 2.0) {
         throw new Exception("Jarak pengiriman tidak valid. Harap periksa kembali alamat Anda.");
     }
 
@@ -190,5 +205,19 @@ try {
     $db->rollBack();
     http_response_code(500);
     echo json_encode(["message" => "Terjadi kesalahan: " . $e->getMessage()]);
+}
+
+// ============================================================
+// Helper: Haversine Distance (km)
+// ============================================================
+function haversineDistance($lat1, $lon1, $lat2, $lon2)
+{
+    $R = 6371; // Radius bumi dalam km
+    $dLat = deg2rad($lat2 - $lat1);
+    $dLon = deg2rad($lon2 - $lon1);
+    $a = sin($dLat / 2) ** 2
+       + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2) ** 2;
+    $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+    return $R * $c;
 }
 ?>

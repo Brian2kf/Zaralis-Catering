@@ -63,8 +63,7 @@
                         <span class="badge bg-white text-dark border">Aktif</span>
                     </div>
                     <p class="mb-0 text-dark fw-medium small">Total Item Menu</p>
-                    <h3 class="display-6 fw-bold mb-0 text-dark fs-3" style="font-family: 'Outfit', sans-serif;">31
-                        Produk</h3>
+                    <h3 id="statTotalItem" class="display-6 fw-bold mb-0 text-dark fs-3" style="font-family: 'Outfit', sans-serif;">-</h3>
                 </div>
             </div>
 
@@ -77,8 +76,8 @@
                         <span class="badge bg-white text-dark border">Populer</span>
                     </div>
                     <p class="mb-0 text-dark fw-medium small">Menu Terlaris</p>
-                    <h3 class="display-6 fw-bold mb-0 text-dark fs-3"
-                        style="font-family: 'Outfit', sans-serif; line-height: 1.2;">Klepon</h3>
+                    <h3 id="statBestSeller" class="display-6 fw-bold mb-0 text-dark fs-3"
+                        style="font-family: 'Outfit', sans-serif; line-height: 1.2;">-</h3>
                 </div>
             </div>
 
@@ -90,8 +89,8 @@
                         <span class="badge bg-light text-dark border">Info</span>
                     </div>
                     <p class="mb-0 text-muted fw-medium small">Pembaharuan Terakhir</p>
-                    <h3 class="display-6 fw-bold mb-0 text-dark fs-3"
-                        style="font-family: 'Outfit', sans-serif; line-height: 1.2;">Hari Ini, 09:45</h3>
+                    <h3 id="statLastUpdate" class="display-6 fw-bold mb-0 text-dark fs-3"
+                        style="font-family: 'Outfit', sans-serif; line-height: 1.2;">-</h3>
                 </div>
             </div>
         </div>
@@ -112,171 +111,8 @@
                                 Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="border-top-0">
-
-                        <!-- Item 1 -->
-                        <tr class="border-bottom">
-                            <td class="p-4">
-                                <div class="d-flex align-items-center gap-3">
-                                    <img src="../assets/images/klepon.png" alt="Klepon" class="menu-img-thumb">
-                                    <div>
-                                        <div class="fw-semibold text-dark">Klepon</div>
-                                        <div class="text-muted small">Gula merah cair premium</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="p-4">
-                                <span class="badge rounded-pill badge-soft-primary px-3 py-1 fw-medium">Kue
-                                    Satuan</span>
-                            </td>
-                            <td class="p-4 fw-medium text-dark">Rp 3.000</td>
-                            <td class="p-4 text-end">
-                                <div class="d-flex justify-content-end gap-2">
-                                    <a href="edit-menu.html"
-                                        class="btn btn-sm btn-light border-0 text-muted p-1 hover-primary text-decoration-none"
-                                        title="Edit Item">
-                                        <span class="material-symbols-outlined">edit</span>
-                                    </a>
-                                    <button
-                                        class="btn btn-sm btn-light border-0 text-muted p-1 hover-danger delete-menu-btn"
-                                        title="Hapus Item">
-                                        <span class="material-symbols-outlined">delete</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Item 2 -->
-                        <tr class="border-bottom">
-                            <td class="p-4">
-                                <div class="d-flex align-items-center gap-3">
-                                    <img src="../assets/images/lapis_legit.png" alt="Kue Tampah Ukuran Sedang"
-                                        class="menu-img-thumb">
-                                    <div>
-                                        <div class="fw-semibold text-dark">Kue Tampah Ukuran Sedang</div>
-                                        <div class="text-muted small">Berbagai macam kue campuran</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="p-4">
-                                <span class="badge rounded-pill badge-soft-secondary px-3 py-1 fw-medium">Paket
-                                    Besar</span>
-                            </td>
-                            <td class="p-4 fw-medium text-dark">Rp 350.000</td>
-                            <td class="p-4 text-end">
-                                <div class="d-flex justify-content-end gap-2">
-                                    <a href="edit-menu.html"
-                                        class="btn btn-sm btn-light border-0 text-muted p-1 hover-primary text-decoration-none"
-                                        title="Edit Item">
-                                        <span class="material-symbols-outlined">edit</span>
-                                    </a>
-                                    <button
-                                        class="btn btn-sm btn-light border-0 text-muted p-1 hover-danger delete-menu-btn"
-                                        title="Hapus Item">
-                                        <span class="material-symbols-outlined">delete</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Item 3 -->
-                        <tr class="border-bottom">
-                            <td class="p-4">
-                                <div class="d-flex align-items-center gap-3">
-                                    <img src="../assets/images/putu_ayu.png" alt="Apem Jawa" class="menu-img-thumb">
-                                    <div>
-                                        <div class="fw-semibold text-dark">Apem Jawa</div>
-                                        <div class="text-muted small">Taburan kelapa gurih</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="p-4">
-                                <span class="badge rounded-pill badge-soft-primary px-3 py-1 fw-medium">Kue
-                                    Satuan</span>
-                            </td>
-                            <td class="p-4 fw-medium text-dark">Rp 3.000</td>
-                            <td class="p-4 text-end">
-                                <div class="d-flex justify-content-end gap-2">
-                                    <a href="edit-menu.html"
-                                        class="btn btn-sm btn-light border-0 text-muted p-1 hover-primary text-decoration-none"
-                                        title="Edit Item">
-                                        <span class="material-symbols-outlined">edit</span>
-                                    </a>
-                                    <button
-                                        class="btn btn-sm btn-light border-0 text-muted p-1 hover-danger delete-menu-btn"
-                                        title="Hapus Item">
-                                        <span class="material-symbols-outlined">delete</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Item 4 -->
-                        <tr class="border-bottom">
-                            <td class="p-4">
-                                <div class="d-flex align-items-center gap-3">
-                                    <img src="../assets/images/tumpeng_mini.png" alt="Lapis Pepe"
-                                        class="menu-img-thumb">
-                                    <div>
-                                        <div class="fw-semibold text-dark">Lapis Pepe</div>
-                                        <div class="text-muted small">Tepung sagu dan santan</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="p-4">
-                                <span class="badge rounded-pill badge-soft-tertiary px-3 py-1 fw-medium">Kue
-                                    Satuan</span>
-                            </td>
-                            <td class="p-4 fw-medium text-dark">Rp 3.000</td>
-                            <td class="p-4 text-end">
-                                <div class="d-flex justify-content-end gap-2">
-                                    <a href="edit-menu.html"
-                                        class="btn btn-sm btn-light border-0 text-muted p-1 hover-primary text-decoration-none"
-                                        title="Edit Item">
-                                        <span class="material-symbols-outlined">edit</span>
-                                    </a>
-                                    <button
-                                        class="btn btn-sm btn-light border-0 text-muted p-1 hover-danger delete-menu-btn"
-                                        title="Hapus Item">
-                                        <span class="material-symbols-outlined">delete</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Item 5 -->
-                        <tr>
-                            <td class="p-4">
-                                <div class="d-flex align-items-center gap-3">
-                                    <img src="../assets/images/paket_tampah.png" alt="Kue Tampah Jajan Pasar"
-                                        class="menu-img-thumb">
-                                    <div>
-                                        <div class="fw-semibold text-dark">Kue Tampah Jajan Pasar</div>
-                                        <div class="text-muted small">Macam-macam kue singkong</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="p-4">
-                                <span class="badge rounded-pill badge-soft-secondary px-3 py-1 fw-medium">Paket
-                                    Besar</span>
-                            </td>
-                            <td class="p-4 fw-medium text-dark">Rp 350.000</td>
-                            <td class="p-4 text-end">
-                                <div class="d-flex justify-content-end gap-2">
-                                    <a href="edit-menu.html"
-                                        class="btn btn-sm btn-light border-0 text-muted p-1 hover-primary text-decoration-none"
-                                        title="Edit Item">
-                                        <span class="material-symbols-outlined">edit</span>
-                                    </a>
-                                    <button
-                                        class="btn btn-sm btn-light border-0 text-muted p-1 hover-danger delete-menu-btn"
-                                        title="Hapus Item">
-                                        <span class="material-symbols-outlined">delete</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
+                    <tbody id="menuTableBody" class="border-top-0">
+                        <!-- Content will be dynamically inserted here via JS -->
                     </tbody>
                 </table>
             </div>
@@ -284,27 +120,9 @@
             <!-- Pagination -->
             <div class="p-4 border-top d-flex justify-content-between align-items-center bg-light bg-opacity-50"
                 style="border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;">
-                <span class="small text-muted fw-medium">Menampilkan 5 dari 42 produk</span>
-                <div class="d-flex gap-1">
-                    <button
-                        class="btn btn-sm btn-light border text-muted d-flex align-items-center justify-content-center"
-                        style="width: 32px; height: 32px;" disabled>
-                        <span class="material-symbols-outlined" style="font-size: 18px;">chevron_left</span>
-                    </button>
-                    <button
-                        class="btn btn-sm btn-primary-custom text-white fw-bold d-flex align-items-center justify-content-center"
-                        style="width: 32px; height: 32px;">1</button>
-                    <button
-                        class="btn btn-sm btn-light border bg-white text-dark fw-bold d-flex align-items-center justify-content-center"
-                        style="width: 32px; height: 32px;">2</button>
-                    <button
-                        class="btn btn-sm btn-light border bg-white text-dark fw-bold d-flex align-items-center justify-content-center"
-                        style="width: 32px; height: 32px;">3</button>
-                    <button
-                        class="btn btn-sm btn-light border bg-white text-dark d-flex align-items-center justify-content-center"
-                        style="width: 32px; height: 32px;">
-                        <span class="material-symbols-outlined" style="font-size: 18px;">chevron_right</span>
-                    </button>
+                <span id="paginationText" class="small text-muted fw-medium">Memuat...</span>
+                <div id="paginationContainer" class="d-flex gap-1">
+                    <!-- Pagination will be inserted here -->
                 </div>
             </div>
         </div>
@@ -314,7 +132,7 @@
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/admin.js"></script>
-    <script src="../js/admin-menu.js"></script>
+    <script src="../js/admin/admin-menu.js"></script>
 </body>
 
 </html>

@@ -64,19 +64,20 @@
                         <div class="row g-3">
                             <div class="col-6">
                                 <label class="form-label small fw-bold" for="firstName">Nama Depan *</label>
-                                <input type="text" class="form-control" id="firstName" required>
+                                <input type="text" class="form-control" id="firstName" placeholder="Budi" required>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small fw-bold" for="lastName">Nama Belakang *</label>
-                                <input type="text" class="form-control" id="lastName" required>
+                                <input type="text" class="form-control" id="lastName" placeholder="Santoso" required>
                             </div>
                             <div class="col-12">
                                 <label class="form-label small fw-bold" for="email">Email *</label>
-                                <input type="email" class="form-control" id="email" required>
+                                <input type="email" class="form-control" id="email" placeholder="budi.santoso@email.com"
+                                    required>
                             </div>
                             <div class="col-12">
                                 <label class="form-label small fw-bold" for="phone">No. HP / WhatsApp *</label>
-                                <input type="tel" class="form-control" id="phone" required>
+                                <input type="tel" class="form-control" id="phone" placeholder="081234567890" required>
                             </div>
                         </div>
                     </div>
@@ -92,6 +93,12 @@
                             <div class="col-6">
                                 <label class="form-label small fw-bold" for="deliveryDate">Tanggal *</label>
                                 <input type="date" class="form-control" id="deliveryDate" required>
+                                <small class="text-muted mt-1 d-block">
+                                    <span class="material-symbols-outlined align-middle"
+                                        style="font-size: 14px;">info</span>
+                                    Minimal H+3 dari hari ini
+                                </small>
+                                <div class="invalid-feedback">Tanggal pengiriman minimal H+3 dari hari ini.</div>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small fw-bold" for="deliveryTime">Jam *</label>
@@ -110,23 +117,26 @@
                         <div class="row g-3">
                             <div class="col-12">
                                 <label class="form-label small fw-bold" for="streetName">Nama Jalan *</label>
-                                <input type="text" class="form-control" id="streetName" required>
+                                <input type="text" class="form-control" id="streetName" placeholder="Jl. Margonda Raya"
+                                    required>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small fw-bold" for="houseNumber">Nomor Rumah *</label>
-                                <input type="text" class="form-control" id="houseNumber" required>
+                                <input type="text" class="form-control" id="houseNumber" placeholder="No. 45 / Blok C"
+                                    required>
                             </div>
                             <div class="col-3">
-                                <label class="form-label small fw-bold" for="rt">RT *</label>
-                                <input type="text" class="form-control" id="rt" required>
+                                <label class="form-label small fw-bold" for="rt">RT</label>
+                                <input type="text" class="form-control" id="rt" placeholder="001">
                             </div>
                             <div class="col-3">
-                                <label class="form-label small fw-bold" for="rw">RW *</label>
-                                <input type="text" class="form-control" id="rw" required>
+                                <label class="form-label small fw-bold" for="rw">RW</label>
+                                <input type="text" class="form-control" id="rw" placeholder="005">
                             </div>
                             <div class="col-6">
                                 <label class="form-label small fw-bold" for="kelurahan">Kelurahan *</label>
-                                <input type="text" class="form-control" id="kelurahan" required>
+                                <input type="text" class="form-control" id="kelurahan" placeholder="Kemiri Muka"
+                                    required>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small fw-bold" for="kecamatan">Kecamatan *</label>
@@ -146,12 +156,13 @@
                                 </select>
                             </div>
                             <div class="col-6">
-                                <label class="form-label small fw-bold" for="postalCode">Kode Pos *</label>
-                                <input type="text" class="form-control" id="postalCode" required>
+                                <label class="form-label small fw-bold" for="postalCode">Kode Pos</label>
+                                <input type="text" class="form-control" id="postalCode" placeholder="16423">
                             </div>
                             <div class="col-6">
                                 <label class="form-label small fw-bold" for="landmark">Patokan</label>
-                                <input type="text" class="form-control" id="landmark">
+                                <input type="text" class="form-control" id="landmark"
+                                    placeholder="Dekat Indomaret / Pagar Hitam">
                             </div>
 
                             <div class="col-12 mt-4 pt-3 border-top">
@@ -257,11 +268,14 @@
             <div class="modal-content rounded-4 border-0 shadow">
                 <div class="modal-header border-bottom-0 pb-0">
                     <div>
-                        <h5 class="modal-title fw-bold" id="packageModalLabel" style="font-family: 'Outfit', sans-serif;">
-                            <span class="material-symbols-outlined align-middle me-1 text-primary-custom">inventory_2</span>
+                        <h5 class="modal-title fw-bold" id="packageModalLabel"
+                            style="font-family: 'Outfit', sans-serif;">
+                            <span
+                                class="material-symbols-outlined align-middle me-1 text-primary-custom">inventory_2</span>
                             Masukkan ke Paket Kue Satuan
                         </h5>
-                        <p class="text-muted small mb-0 mt-1">Kue satuan harus dimasukkan ke dalam sebuah paket. Pilih paket yang ada atau buat paket baru.</p>
+                        <p class="text-muted small mb-0 mt-1">Kue satuan harus dimasukkan ke dalam sebuah paket. Pilih
+                            paket yang ada atau buat paket baru.</p>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -276,12 +290,15 @@
                     <!-- Buat Paket Baru -->
                     <div class="border-top pt-3">
                         <label class="form-label small fw-bold text-dark mb-2">
-                            <span class="material-symbols-outlined align-middle" style="font-size:15px;">add_circle</span>
+                            <span class="material-symbols-outlined align-middle"
+                                style="font-size:15px;">add_circle</span>
                             Buat Paket Baru
                         </label>
                         <div class="input-group">
-                            <input type="text" class="form-control form-control-sm" id="newPackageName" placeholder="Nama paket baru (misal: Paket A)">
-                            <button class="btn btn-primary-custom btn-sm fw-semibold" type="button" id="btnCreateNewPackage">Buat &amp; Pilih</button>
+                            <input type="text" class="form-control form-control-sm" id="newPackageName"
+                                placeholder="Nama paket baru (misal: Paket A)">
+                            <button class="btn btn-primary-custom btn-sm fw-semibold" type="button"
+                                id="btnCreateNewPackage">Buat &amp; Pilih</button>
                         </div>
                     </div>
                 </div>

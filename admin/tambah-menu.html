@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Menu Baru - Zarali's Catering Admin</title>
+    <title>Tambah Menu - Zarali's Catering Admin</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -15,7 +15,6 @@
         rel="stylesheet">
     <link rel="stylesheet" href="../css/custom.css">
     <link rel="stylesheet" href="../css/admin.css">
-
 </head>
 
 <body class="admin-body">
@@ -38,7 +37,8 @@
     <!-- Main Content -->
     <main class="admin-main mt-5 mt-md-0 pb-5">
 
-        <div class="container-fluid max-w-4xl mx-auto px-0">
+        <div class="container-fluid max-w-4xl mx-auto px-0" id="addFormWrapper">
+
             <!-- Header Section -->
             <div class="mb-4">
                 <div class="d-flex align-items-center gap-2 mb-1">
@@ -46,117 +46,135 @@
                         <span class="material-symbols-outlined fs-6">arrow_back</span>
                     </a>
                     <h2 class="fs-3 fw-bold text-dark tracking-tight mb-0"
-                        style="font-family: 'Outfit', sans-serif; color: #2D6A4F !important;">Tambah Menu Baru</h2>
+                        style="font-family: 'Outfit', sans-serif; color: #2D6A4F !important;" id="addFormTitle">
+                        Tambah Produk Baru
+                    </h2>
                 </div>
+                <p class="text-muted ms-5 mb-0" style="font-size: 0.9rem;">
+                    Tambahkan produk baru ke dalam daftar menu katering Anda.
+                </p>
             </div>
 
-            <!-- Form Card -->
-            <div class="content-card h-auto p-0 d-flex flex-column mb-4">
-                <div class="p-4 p-md-5">
-                    <form>
-                        <div class="row g-4 g-lg-5">
+            <!-- ===================== -->
+            <!-- STATE: FORM CONTENT   -->
+            <!-- ===================== -->
+            <div id="addFormContent">
 
-                            <!-- Left Column: Image Upload Gallery -->
-                            <div class="col-lg-5">
-                                <div class="d-flex justify-content-between align-items-end mb-2">
-                                    <label class="form-label mb-0">Galeri Foto Produk</label>
-                                    <span class="text-muted small">Maks 4 foto</span>
-                                </div>
+                <!-- Form Card -->
+                <div class="content-card h-auto p-0 d-flex flex-column mb-4">
+                    <div class="p-4 p-md-5">
+                        <form id="addMenuForm" novalidate>
+                            <div class="row g-4 g-lg-5">
 
-                                <div class="row g-2 mb-3" id="gallery-preview-container">
-                                    <!-- Tempat preview gambar akan ditambahkan oleh JS -->
-                                </div>
-
-                                <!-- Add new image box -->
-                                <div class="image-upload-area" style="min-height: 120px; padding: 1rem; height: auto;">
-                                    <span class="material-symbols-outlined text-primary-custom mb-1"
-                                        style="font-size: 2rem;">add_photo_alternate</span>
-                                    <p class="fw-semibold text-dark mb-0" style="font-size: 0.8rem;">Pilih Foto</p>
-                                    <p class="text-muted small mb-0" style="font-size: 0.7rem;">PNG, JPG up to 5MB</p>
-                                </div>
-                            </div>
-
-                            <!-- Right Column: Form Fields -->
-                            <div class="col-lg-7">
-                                <div class="row g-4">
-
-                                    <!-- Nama Menu -->
-                                    <div class="col-12">
-                                        <label class="form-label" for="menuName">Nama Menu</label>
-                                        <input type="text" class="form-control" id="menuName"
-                                            placeholder="Contoh: Klepon Pandan Spesial">
+                                <!-- Left Column: Image Upload Gallery -->
+                                <div class="col-lg-5">
+                                    <div class="d-flex justify-content-between align-items-end mb-2">
+                                        <label class="form-label mb-0">Galeri Foto Produk</label>
+                                        <span class="text-muted small">Maks 4 foto</span>
                                     </div>
 
-                                    <!-- Kategori & Harga -->
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="category">Kategori</label>
-                                        <select class="form-select" id="category">
-                                            <option value="" selected disabled>Pilih Kategori</option>
-                                            <option value="kue_basah">Kue Satuan</option>
-                                            <option value="kue_tradisional">Paket Besar</option>
-                                        </select>
+                                    <!-- Container gambar dari DB + gambar baru yang diupload -->
+                                    <div class="row g-2 mb-3" id="galleryPreviewContainer">
+                                        <!-- Diisi oleh JavaScript -->
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="price">Harga</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-light border-end-0 text-muted"
-                                                style="border-color: rgba(116, 40, 20, 0.2);">Rp</span>
-                                            <input type="number" class="form-control border-start-0 ps-0" id="price"
-                                                placeholder="0">
+
+                                    <!-- Area tambah foto baru -->
+                                    <div class="image-upload-area"
+                                        style="min-height: 120px; padding: 1rem; height: auto;">
+                                        <span class="material-symbols-outlined text-primary-custom mb-1"
+                                            style="font-size: 2rem;">add_photo_alternate</span>
+                                        <p class="fw-semibold text-dark mb-0" style="font-size: 0.8rem;">Tambah Foto
+                                            Lain</p>
+                                        <p class="text-muted mb-0" style="font-size: 0.7rem;">PNG, JPG up to 5MB</p>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column: Form Fields -->
+                                <div class="col-lg-7">
+                                    <div class="row g-4">
+
+                                        <!-- Nama Menu -->
+                                        <div class="col-12">
+                                            <label class="form-label" for="menuName">Nama Menu</label>
+                                            <input type="text" class="form-control" id="menuName"
+                                                placeholder="Nama produk">
                                         </div>
-                                    </div>
 
-                                    <!-- Deskripsi -->
-                                    <div class="col-12">
-                                        <label class="form-label" for="description">Deskripsi Menu</label>
-                                        <textarea class="form-control" id="description" rows="4"
-                                            placeholder="Jelaskan detail rasa, bahan utama, atau keunggulan menu ini..."></textarea>
-                                    </div>
-
-                                    <!-- Status Toggle -->
-                                    <div class="col-12">
-                                        <div class="status-card d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h4 class="form-label mb-1">Status Menu Aktif</h4>
-                                                <p class="text-muted small mb-0">Menu akan langsung terlihat oleh
-                                                    pelanggan jika diaktifkan.</p>
-                                            </div>
-                                            <div class="form-check form-switch m-0">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="statusSwitch" checked>
+                                        <!-- Kategori & Harga -->
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="category">Kategori</label>
+                                            <select class="form-select" id="category">
+                                                <option value="" disabled>Pilih Kategori</option>
+                                                <option value="kue_satuan">Kue Satuan</option>
+                                                <option value="paket_besar">Paket Besar</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="price">Harga</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-light border-end-0 text-muted"
+                                                    style="border-color: rgba(116, 40, 20, 0.2);">Rp</span>
+                                                <input type="number" class="form-control border-start-0 ps-0" id="price"
+                                                    placeholder="0" min="0">
                                             </div>
                                         </div>
+
+                                        <!-- Deskripsi -->
+                                        <div class="col-12">
+                                            <label class="form-label" for="description">Deskripsi Menu</label>
+                                            <textarea class="form-control" id="description" rows="5"
+                                                placeholder="Jelaskan detail rasa, bahan utama, atau keunggulan menu ini..."></textarea>
+                                        </div>
+
+                                        <!-- Status Toggle -->
+                                        <div class="col-12">
+                                            <div class="status-card d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <h4 class="form-label mb-1">Status Menu Aktif</h4>
+                                                    <p class="text-muted small mb-0">Menu akan langsung terlihat
+                                                        oleh pelanggan jika diaktifkan.</p>
+                                                </div>
+                                                <div class="form-check form-switch m-0">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        id="statusSwitch">
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
-
                                 </div>
+
                             </div>
+                        </form>
+                    </div>
 
-                        </div>
-                    </form>
+                    <!-- Action Buttons -->
+                    <div class="p-4 border-top bg-light bg-opacity-50 d-flex justify-content-end gap-3 align-items-center"
+                        style="border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;">
+                        <a href="menu.html" class="btn btn-light border fw-semibold px-4 text-dark me-auto">
+                            Batal
+                        </a>
+                        <button type="button"
+                            class="btn btn-primary-custom fw-semibold px-4 d-flex align-items-center gap-2"
+                            id="btnSimpanTambah">
+                            <span class="material-symbols-outlined fs-6">save</span>
+                            Simpan Produk
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="p-4 border-top bg-light bg-opacity-50 d-flex justify-content-end gap-3 align-items-center"
-                    style="border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;">
-                    <a href="menu.html" class="btn btn-light border fw-semibold px-4 text-dark">
-                        Batal
-                    </a>
-                    <button type="button"
-                        class="btn btn-primary-custom fw-semibold px-4 d-flex align-items-center gap-2"
-                        id="btnSimpanTambah">
-                        <span class="material-symbols-outlined fs-6">save</span>
-                        Simpan Produk
-                    </button>
-                </div>
             </div>
+            <!-- end #addFormContent -->
+
         </div>
+        <!-- end #addFormWrapper -->
 
     </main>
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/admin.js"></script>
-    <script src="../js/admin-menu.js"></script>
+    <script src="../js/admin/admin-menu.js"></script>
 </body>
 
 </html>

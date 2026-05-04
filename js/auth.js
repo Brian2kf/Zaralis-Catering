@@ -1,4 +1,4 @@
-// js/auth.js - Logika interaksi untuk halaman Login dan Register
+﻿// js/auth.js - Logika interaksi untuk halaman Login dan Register
 
 // Global auth utilities
 window.getCurrentUser = function() {
@@ -13,7 +13,7 @@ window.getCurrentUser = function() {
 window.logout = function(e) {
     if (e) e.preventDefault();
     localStorage.removeItem('zaralis_user');
-    window.location.href = 'index.html';
+    window.location.href = 'index.php';
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     // Jika email mengandung kata 'admin', arahkan ke dashboard admin
                     if (emailInput && emailInput.value.toLowerCase().includes('admin')) {
-                        window.location.href = 'admin/index.html';
+                        window.location.href = 'admin/index.php';
                     } 
                     // Jika email biasa, arahkan ke beranda (pura-puranya login sebagai pelanggan)
                     else {
@@ -57,15 +57,16 @@ document.addEventListener("DOMContentLoaded", () => {
                             phone: "081234567890"
                         };
                         localStorage.setItem('zaralis_user', JSON.stringify(dummyUser));
-                        window.location.href = 'index.html';
+                        window.location.href = 'index.php';
                     }
                 } else {
                     // *** SIMULASI REGISTER ***
                     alert('Registrasi berhasil! Silakan login dengan akun yang baru saja Anda buat.');
                     // Setelah daftar, arahkan pengguna ke halaman login
-                    window.location.href = 'login.html';
+                    window.location.href = 'login.php';
                 }
             }, 1500);
         });
     }
 });
+

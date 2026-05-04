@@ -1,4 +1,4 @@
-// js/cart.js - Keranjang Belanja logic & localStorage v2
+﻿// js/cart.js - Keranjang Belanja logic & localStorage v2
 
 const CART_STORAGE_KEY = 'zarali_cart_v2';
 
@@ -520,7 +520,7 @@ class CartManager {
                 btnCheckout.classList.remove('disabled');
                 btnCheckout.classList.remove('btn-secondary');
                 btnCheckout.classList.add('btn-primary-custom');
-                btnCheckout.onclick = () => window.location.href = 'checkout.html';
+                btnCheckout.onclick = () => window.location.href = 'checkout.php';
             } else {
                 btnCheckout.classList.add('disabled');
                 btnCheckout.onclick = (e) => e.preventDefault();

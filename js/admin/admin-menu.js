@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const ASSETS_BASE = "../assets/";
 
     // ==========================================
-    // 1. HALAMAN: DAFTAR MENU (menu.html)
+    // 1. HALAMAN: DAFTAR MENU (menu.php)
     // ==========================================
     const menuTableBody = document.getElementById('menuTableBody');
     if (menuTableBody) {
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td class="p-4 fw-medium text-dark">${formatRupiah(product.price)}</td>
                     <td class="p-4 text-end">
                         <div class="d-flex justify-content-end gap-2">
-                            <a href="edit-menu.html?id=${product.id}" class="btn btn-sm btn-light border-0 text-muted p-1 hover-primary text-decoration-none" title="Edit Item">
+                            <a href="edit-menu.php?id=${product.id}" class="btn btn-sm btn-light border-0 text-muted p-1 hover-primary text-decoration-none" title="Edit Item">
                                 <span class="material-symbols-outlined">edit</span>
                             </a>
                             <button class="btn btn-sm btn-light border-0 text-muted p-1 hover-danger delete-menu-btn" title="Hapus Item" data-id="${product.id}">
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 2. HALAMAN: EDIT MENU (edit-menu.html)
+    // 2. HALAMAN: EDIT MENU (edit-menu.php)
     // ==========================================
     const editFormWrapper = document.getElementById('editFormWrapper');
     if (editFormWrapper) {
@@ -466,7 +466,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     if (result.success) {
                         alert('Perubahan pada produk berhasil disimpan!');
-                        window.location.href = 'menu.html';
+                        window.location.href = 'menu.php';
                     } else {
                         alert('Gagal menyimpan: ' + (result.message || 'Error server.'));
                         btnSimpanEdit.innerHTML = originalHTML;
@@ -503,7 +503,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     if (result.success) {
                         alert('Produk berhasil dihapus dari sistem.');
-                        window.location.href = 'menu.html';
+                        window.location.href = 'menu.php';
                     } else {
                         alert('Gagal menghapus: ' + (result.message || 'Error server.'));
                         btnHapusEdit.innerHTML = originalHTML;
@@ -523,7 +523,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 3. HALAMAN: TAMBAH MENU (tambah-menu.html)
+    // 3. HALAMAN: TAMBAH MENU (tambah-menu.php)
     // ==========================================
     const addFormWrapper = document.getElementById('addFormWrapper');
     if (addFormWrapper) {
@@ -660,7 +660,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     if (result.success) {
                         alert('Produk baru berhasil ditambahkan ke daftar menu!');
-                        window.location.href = 'menu.html';
+                        window.location.href = 'menu.php';
                     } else {
                         alert('Gagal menyimpan: ' + (result.message || 'Error server.'));
                         btnSimpanTambah.innerHTML = originalHTML;

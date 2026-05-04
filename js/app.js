@@ -13,7 +13,7 @@ window.getCurrentUser = function() {
 window.logout = function(e) {
     if (e) e.preventDefault();
     localStorage.removeItem('zaralis_user');
-    window.location.href = 'index.html';
+    window.location.href = 'index.php';
 };
 
 document.addEventListener("DOMContentLoaded", () => {

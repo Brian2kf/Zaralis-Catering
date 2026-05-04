@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+﻿<?php
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../helpers/session.php';
+session_init();
+require_admin();
+?><!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -40,7 +45,7 @@
         <!-- Header Section -->
         <div class="mb-4">
             <div class="d-flex align-items-center gap-2 mb-1">
-                <a href="pesanan.html" class="btn btn-sm btn-light border p-1 d-flex align-items-center text-muted">
+                <a href="pesanan.php" class="btn btn-sm btn-light border p-1 d-flex align-items-center text-muted">
                     <span class="material-symbols-outlined fs-6">arrow_back</span>
                 </a>
                 <h2 class="display-6 fw-bold text-dark tracking-tight mb-0" style="font-family: 'Outfit', sans-serif;">
@@ -318,3 +323,4 @@
 </body>
 
 </html>
+

@@ -1,4 +1,15 @@
-<!DOCTYPE html>
+<?php
+require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/helpers/session.php';
+require_once __DIR__ . '/helpers/admin_middleware.php';
+session_init();
+
+// Proteksi halaman pelanggan
+require_login();
+
+// Admin tidak boleh akses halaman publik pelanggan (Poin 2A)
+redirect_admin_from_public();
+?><!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -62,57 +73,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Row 1 -->
-                        <tr>
-                            <td class="fw-bold text-primary-custom">CTR-20260423-0001</td>
-                            <td class="text-muted">23 Apr 2026, 10:00</td>
-                            <td>Paket Nasi Kuning Keraton...</td>
-                            <td class="fw-bold text-secondary-custom" style="color: #E07A5F;">Rp 1.500.000</td>
-                            <td>
-                                <span class="status-badge process">
-                                    <span class="dot"></span> Diproses
-                                </span>
-                            </td>
-                            <td class="text-end">
-                                <a href="track-order.html" class="action-btn" title="Lihat Detail">
-                                    <span class="material-symbols-outlined">chevron_right</span>
-                                </a>
-                            </td>
-                        </tr>
-                        <!-- Row 2 -->
-                        <tr>
-                            <td class="fw-bold text-primary-custom">CTR-20260420-0042</td>
-                            <td class="text-muted">20 Apr 2026, 14:30</td>
-                            <td>Tumpeng Mini Jajan Pasar...</td>
-                            <td class="fw-bold text-secondary-custom" style="color: #E07A5F;">Rp 850.000</td>
-                            <td>
-                                <span class="status-badge waiting">
-                                    <span class="dot"></span> Menunggu Konfirmasi
-                                </span>
-                            </td>
-                            <td class="text-end">
-                                <a href="track-order.html" class="action-btn" title="Lihat Detail">
-                                    <span class="material-symbols-outlined">chevron_right</span>
-                                </a>
-                            </td>
-                        </tr>
-                        <!-- Row 3 -->
-                        <tr style="opacity: 0.7;">
-                            <td class="fw-bold text-primary-custom">CTR-20260415-0112</td>
-                            <td class="text-muted">15 Apr 2026, 09:15</td>
-                            <td>Prasmanan Modern Heritage...</td>
-                            <td class="fw-bold text-secondary-custom" style="color: #E07A5F;">Rp 5.200.000</td>
-                            <td>
-                                <span class="status-badge success">
-                                    <span class="material-symbols-outlined" style="font-size: 14px;">check_circle</span> Berhasil
-                                </span>
-                            </td>
-                            <td class="text-end">
-                                <a href="#" class="action-btn" title="Lihat Detail">
-                                    <span class="material-symbols-outlined">chevron_right</span>
-                                </a>
-                            </td>
-                        </tr>
+                        <!-- Data transaksi akan dimuat secara dinamis via js/pembelian.js -->
                     </tbody>
                 </table>
             </div>
@@ -143,7 +104,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/pembelian.js"></script>
     <script src="js/load-components.js"></script>
 </body>
 </html>
+
 

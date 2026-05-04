@@ -51,13 +51,16 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        const currentLocation = location.pathname.split('/').slice(-1)[0] || 'index.html';
+        const currentLocation = location.pathname.split('/').slice(-1)[0] || 'index.php';
         const menuItems = document.querySelectorAll('.nav-item-admin');
 
         menuItems.forEach(item => {
             item.classList.remove('active');
             const itemHref = item.getAttribute('href');
-            if (itemHref === currentLocation || (currentLocation === '' && itemHref === 'index.html')) {
+            // Normalisasi: bandingkan dengan atau tanpa ekstensi .php/.php
+            const currentBase = currentLocation.replace(/\.(php|html)$/, '');
+            const hrefBase = (itemHref || '').replace(/\.(php|html)$/, '');
+            if (itemHref === currentLocation || hrefBase === currentBase || (currentLocation === '' && hrefBase === 'index')) {
                 item.classList.add('active');
             }
         });
@@ -67,9 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const initBusinessSettings = () => {
         const currentLocation = window.location.pathname.split('/').pop();
-        if (currentLocation !== 'settings.html') return;
+        if (currentLocation !== 'settings.php') return;
 
-        const storageKey = 'zaralis_business_settings';
         const form = document.getElementById('businessSettingsForm');
         const businessName = document.getElementById('businessName');
         const businessPhone = document.getElementById('businessPhone');
@@ -80,44 +82,77 @@ document.addEventListener("DOMContentLoaded", () => {
         const messageBox = document.getElementById('businessSettingsMessage');
         const btnReset = document.getElementById('btnResetBusinessSettings');
 
-        const loadSettings = () => {
-            const settings = JSON.parse(localStorage.getItem(storageKey) || '{}');
-            if (businessName) businessName.value = settings.name || '';
-            if (businessPhone) businessPhone.value = settings.phone || '';
-            if (businessAddress) businessAddress.value = settings.address || '';
-            if (businessBank) businessBank.value = settings.bank || '';
-            if (businessBankAccount) businessBankAccount.value = settings.bankAccount || '';
-            if (businessAccountHolder) businessAccountHolder.value = settings.accountHolder || '';
+        const loadSettings = async () => {
+            try {
+                const response = await fetch('../api/admin/settings/index.php');
+                const result = await response.json();
+                if (result.success && result.data) {
+                    if (businessName) businessName.value = result.data.business_name || '';
+                    if (businessPhone) businessPhone.value = result.data.business_phone || '';
+                    if (businessAddress) businessAddress.value = result.data.business_address || '';
+                    if (businessBank) businessBank.value = result.data.bank_name || '';
+                    if (businessBankAccount) businessBankAccount.value = result.data.bank_account || '';
+                    if (businessAccountHolder) businessAccountHolder.value = result.data.bank_holder || '';
+                }
+            } catch (error) {
+                console.error('Error loading settings:', error);
+            }
         };
 
-        const showMessage = (text) => {
+        const showMessage = (text, isError = false) => {
             if (!messageBox) return;
             messageBox.textContent = text;
+            messageBox.className = `alert mt-4 ${isError ? 'alert-danger' : 'alert-success'}`;
             messageBox.classList.remove('d-none');
             setTimeout(() => messageBox.classList.add('d-none'), 3500);
         };
 
         if (form) {
-            form.addEventListener('submit', (event) => {
+            form.addEventListener('submit', async (event) => {
                 event.preventDefault();
-                const settings = {
-                    name: businessName?.value.trim() || '',
-                    phone: businessPhone?.value.trim() || '',
-                    address: businessAddress?.value.trim() || '',
-                    bank: businessBank?.value.trim() || '',
-                    bankAccount: businessBankAccount?.value.trim() || '',
-                    accountHolder: businessAccountHolder?.value.trim() || ''
+                const btnSubmit = form.querySelector('button[type="submit"]');
+                const originalBtnText = btnSubmit.innerHTML;
+                btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Menyimpan...';
+                btnSubmit.disabled = true;
+
+                const payload = {
+                    business_name: businessName?.value.trim() || '',
+                    business_phone: businessPhone?.value.trim() || '',
+                    business_address: businessAddress?.value.trim() || '',
+                    bank_name: businessBank?.value.trim() || '',
+                    bank_account: businessBankAccount?.value.trim() || '',
+                    bank_holder: businessAccountHolder?.value.trim() || ''
                 };
-                localStorage.setItem(storageKey, JSON.stringify(settings));
-                showMessage('Pengaturan usaha berhasil disimpan.');
+
+                try {
+                    const response = await fetch('../api/admin/settings/update.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        showMessage(result.message || 'Pengaturan usaha berhasil disimpan.');
+                    } else {
+                        showMessage(result.message || 'Gagal menyimpan pengaturan.', true);
+                    }
+                } catch (error) {
+                    console.error('Error saving settings:', error);
+                    showMessage('Terjadi kesalahan saat menyimpan pengaturan.', true);
+                } finally {
+                    btnSubmit.innerHTML = originalBtnText;
+                    btnSubmit.disabled = false;
+                }
             });
         }
 
         if (btnReset) {
             btnReset.addEventListener('click', () => {
-                localStorage.removeItem(storageKey);
                 loadSettings();
-                showMessage('Pengaturan usaha telah direset.');
+                showMessage('Form dikembalikan ke pengaturan terakhir yang tersimpan.');
             });
         }
 

@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (response.ok) {
                     alert(result.message);
-                    window.location.href = 'index.html';
+                    window.location.href = 'index.php';
                 } else {
                     alert("Gagal: " + result.message);
                     submitBtn.innerHTML = originalText;

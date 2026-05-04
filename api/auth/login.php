@@ -74,9 +74,9 @@ if (!$user || !$userModel->verifyPassword($pass, $user['password_hash'])) {
 session_login($user);
 
 // Tentukan redirect berdasarkan role
-$redirect = ($user['role'] === 'admin')
-    ? APP_URL . '/admin/index.html'
-    : APP_URL . '/index.html';
+$redirect = (strtolower($user['role']) === 'admin')
+    ? APP_URL . '/admin/index.php'
+    : APP_URL . '/index.php';
 
 echo json_encode([
     'success' => true,

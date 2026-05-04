@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/helpers/session.php';
+require_once __DIR__ . '/helpers/admin_middleware.php';
+session_init();
+
+// Proteksi halaman pelanggan
+require_login();
+
+// Admin tidak boleh akses halaman publik pelanggan (Poin 2A)
+redirect_admin_from_public();
+
+$db = Database::getInstance();
+$stmt = $db->prepare("SELECT first_name, last_name, email, phone FROM users WHERE id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$fullName = htmlspecialchars($user['first_name'] . ' ' . $user['last_name']);
+$firstName = htmlspecialchars($user['first_name']);
+$lastName = htmlspecialchars($user['last_name']);
+$email = htmlspecialchars($user['email']);
+$phone = htmlspecialchars($user['phone']);
+
+?><!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -22,12 +46,12 @@
         
         <!-- Profile Header -->
         <div class="profile-header-card d-flex align-items-center gap-4">
-            <img src="https://ui-avatars.com/api/?name=User&background=fff&color=2D6A4F" alt="User Avatar" class="profile-avatar-large shadow-sm" id="profileHeaderAvatar">
+            <img src="https://ui-avatars.com/api/?name=<?= urlencode($fullName) ?>&background=fff&color=2D6A4F" alt="User Avatar" class="profile-avatar-large shadow-sm" id="profileHeaderAvatar">
             <div class="position-relative z-1">
-                <h1 class="display-6 fw-bold mb-1" style="font-family: 'Outfit', sans-serif;" id="profileHeaderName">Nama Pengguna</h1>
+                <h1 class="display-6 fw-bold mb-1" style="font-family: 'Outfit', sans-serif;" id="profileHeaderName"><?= $fullName ?></h1>
                 <p class="mb-0 opacity-75 d-flex align-items-center gap-1">
                     <span class="material-symbols-outlined fs-6">mail</span>
-                    <span id="profileHeaderEmail">email@contoh.com</span>
+                    <span id="profileHeaderEmail"><?= $email ?></span>
                 </p>
             </div>
         </div>
@@ -59,22 +83,22 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="firstName" class="form-label small fw-bold text-dark">Nama Depan *</label>
-                                <input type="text" class="form-control bg-light-input py-2" id="firstName" placeholder="Nama Depan" required>
+                                <input type="text" class="form-control bg-light-input py-2" id="firstName" placeholder="Nama Depan" value="<?= $firstName ?>" required>
                                 <div class="invalid-feedback">Nama depan wajib diisi.</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="lastName" class="form-label small fw-bold text-dark">Nama Belakang *</label>
-                                <input type="text" class="form-control bg-light-input py-2" id="lastName" placeholder="Nama Belakang" required>
+                                <input type="text" class="form-control bg-light-input py-2" id="lastName" placeholder="Nama Belakang" value="<?= $lastName ?>" required>
                                 <div class="invalid-feedback">Nama belakang wajib diisi.</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="email" class="form-label small fw-bold text-dark">Email *</label>
-                                <input type="email" class="form-control bg-light-input py-2" id="email" placeholder="email@contoh.com" required disabled>
+                                <input type="email" class="form-control bg-light-input py-2" id="email" placeholder="email@contoh.com" value="<?= $email ?>" required disabled>
                                 <small class="text-muted d-block mt-1">Email digunakan sebagai identitas utama akun dan tidak dapat diubah.</small>
                             </div>
                             <div class="col-md-6">
                                 <label for="phone" class="form-label small fw-bold text-dark">No. WhatsApp / Telepon *</label>
-                                <input type="tel" class="form-control bg-light-input py-2" id="phone" placeholder="08xx..." required>
+                                <input type="tel" class="form-control bg-light-input py-2" id="phone" placeholder="08xx..." value="<?= $phone ?>" required>
                                 <div class="invalid-feedback">Nomor telepon wajib diisi.</div>
                             </div>
                             <div class="col-12 mt-4 text-end">
@@ -206,3 +230,4 @@
     <script src="js/profile.js"></script>
 </body>
 </html>
+

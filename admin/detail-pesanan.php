@@ -1,10 +1,15 @@
-<!DOCTYPE html>
+﻿<?php
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../helpers/session.php';
+session_init();
+require_admin();
+?><!DOCTYPE html>
 <html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Pesanan #CTR-20261024-001 - Zarali's Catering</title>
+    <title>Detail Pesanan - Zarali's Catering Admin</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -41,25 +46,27 @@
         <div
             class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 border-bottom pb-3">
             <div class="d-flex align-items-center gap-3">
-                <a href="pesanan.html" class="btn btn-sm btn-light border p-1 d-flex align-items-center text-muted"
+                <a href="pesanan.php" class="btn btn-sm btn-light border p-1 d-flex align-items-center text-muted"
                     title="Kembali">
                     <span class="material-symbols-outlined fs-6">arrow_back</span>
                 </a>
                 <div>
                     <div class="d-flex align-items-center gap-2 mb-1">
                         <h2 class="display-6 fw-bold text-dark tracking-tight mb-0"
-                            style="font-family: 'Outfit', sans-serif;">#CTR-20261024-001</h2>
-                        <span class="badge rounded-pill badge-soft-warning px-3 py-1 mt-1">Menunggu Verifikasi</span>
+                            style="font-family: 'Outfit', sans-serif;" id="orderNumber">#CTR-00000000-000</h2>
+                        <div id="orderStatusBadge">
+                            <span class="badge rounded-pill badge-soft-warning px-3 py-1 mt-1">Memuat...</span>
+                        </div>
                     </div>
-                    <p class="text-muted mb-0 fs-6">Dipesan pada: 24 Okt 2026, 14:30 WIB</p>
+                    <p class="text-muted mb-0 fs-6" id="orderDate">Dipesan pada: -</p>
                 </div>
             </div>
 
             <div class="d-flex gap-2 mt-3 mt-md-0">
-                <button class="btn btn-outline-danger fw-semibold px-3 d-flex align-items-center gap-2 bg-white">
+                <button class="btn btn-outline-danger fw-semibold px-3 d-flex align-items-center gap-2 bg-white d-none" id="btnReject">
                     <span class="material-symbols-outlined fs-6">cancel</span> Tolak
                 </button>
-                <button class="btn btn-primary-custom d-flex align-items-center gap-2 fw-semibold px-4">
+                <button class="btn btn-primary-custom d-flex align-items-center gap-2 fw-semibold px-4 d-none" id="btnVerify">
                     <span class="material-symbols-outlined fs-5">check_circle</span> Verifikasi Pembayaran
                 </button>
             </div>
@@ -91,23 +98,9 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="border-top-0">
+                            <tbody class="border-top-0" id="orderItemsTable">
                                 <tr>
-                                    <td class="p-4">
-                                        <div class="d-flex align-items-center gap-3">
-                                            <div
-                                                style="width: 48px; height: 48px; background-color: #f8faf6; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center;">
-                                                <span class="material-symbols-outlined text-muted">lunch_dining</span>
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0 fw-bold text-dark">Paket 1</h6>
-                                                <small class="text-muted">Lemper Bakar, Lapis Pepe, Pastel</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-4 text-center text-muted">Rp 9.000</td>
-                                    <td class="p-4 text-center fw-medium">10</td>
-                                    <td class="p-4 text-end fw-semibold text-dark">Rp 90.000</td>
+                                    <td colspan="4" class="p-4 text-center text-muted">Memuat item pesanan...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -119,16 +112,16 @@
                             <div style="width: 300px;">
                                 <div class="d-flex justify-content-between mb-2">
                                     <span class="text-muted">Subtotal</span>
-                                    <span class="fw-medium text-dark">Rp 90.000</span>
+                                    <span class="fw-medium text-dark" id="subtotalText">Rp 0</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span class="text-muted">Biaya Pengiriman</span>
-                                    <span class="fw-medium text-dark">Rp 7.000</span>
+                                    <span class="fw-medium text-dark" id="shippingCostText">Rp 0</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="fs-6 fw-bold text-dark">Total Akhir</span>
                                     <span class="fs-4 fw-bold text-primary-custom"
-                                        style="font-family: 'Outfit', sans-serif;">Rp 97.000</span>
+                                        style="font-family: 'Outfit', sans-serif;" id="totalAmountText">Rp 0</span>
                                 </div>
                             </div>
                         </div>
@@ -150,17 +143,17 @@
                     <div class="d-flex flex-column gap-3">
                         <div>
                             <span class="small text-muted d-block mb-1">Nama Pemesan</span>
-                            <span class="fw-semibold text-dark">Budi Santoso</span>
+                            <span class="fw-semibold text-dark" id="customerName">-</span>
                         </div>
                         <hr class="my-0 opacity-25">
                         <div>
                             <span class="small text-muted d-block mb-1">Email</span>
-                            <span class="fw-medium text-dark">budi.santoso@example.com</span>
+                            <span class="fw-medium text-dark" id="customerEmail">-</span>
                         </div>
                         <hr class="my-0 opacity-25">
                         <div>
                             <span class="small text-muted d-block mb-1">No. HP / WhatsApp</span>
-                            <span class="fw-medium text-dark">0812-3456-7890</span>
+                            <span class="fw-medium text-dark" id="customerPhone">-</span>
                         </div>
                     </div>
                 </div>
@@ -178,17 +171,15 @@
                     <div class="d-flex flex-column gap-3">
                         <div>
                             <span class="small text-muted d-block mb-1">Jadwal Kirim</span>
-                            <span class="fw-semibold text-dark">26 Okt 2026, Pagi (08:00 WIB)</span>
+                            <span class="fw-semibold text-dark" id="deliverySchedule">-</span>
                         </div>
                         <div>
                             <span class="small text-muted d-block mb-1">Alamat Tujuan</span>
-                            <span class="fw-medium text-dark d-block">Jl. Merdeka No. 45, Komplek Perumahan Indah, Blok
-                                C2, Jakarta Selatan</span>
+                            <span class="fw-medium text-dark d-block" id="deliveryAddress">-</span>
                         </div>
                         <div class="p-3 bg-light rounded-3 mt-2 border border-light">
                             <span class="small text-muted d-block mb-1 fw-bold">Catatan Pelanggan:</span>
-                            <p class="small text-dark mb-0 fst-italic">"Tolong dipacking yang rapi karena untuk acara
-                                selamatan kantor. Sambal mohon dipisah."</p>
+                            <p class="small text-dark mb-0 fst-italic" id="customerNotes">"-"</p>
                         </div>
                     </div>
                 </div>
@@ -203,20 +194,16 @@
                     <div class="d-flex flex-column gap-3">
                         <div>
                             <span class="small text-muted d-block mb-1">Metode Pembayaran</span>
-                            <span class="fw-semibold text-dark">Transfer Bank (BCA)</span>
+                            <span class="fw-semibold text-dark" id="paymentMethod">Transfer Bank</span>
                         </div>
                         <div>
                             <span class="small text-muted d-block mb-2">Bukti Transfer</span>
-                            <!-- Placeholder Bukti Transfer -->
-                            <div class="border rounded-3 p-4 text-center bg-light transition-colors"
-                                style="cursor: pointer;" title="Klik untuk melihat bukti pembayaran secara penuh"
-                                onmouseover="this.classList.add('border-primary-custom')"
-                                onmouseout="this.classList.remove('border-primary-custom')">
-                                <span class="material-symbols-outlined text-muted fs-1 mb-2">image</span>
-                                <p class="small text-primary-custom fw-medium mb-0 text-decoration-underline">
-                                    bukti_tf_budi_santoso.jpg</p>
-                                <span class="d-block mt-1 text-muted" style="font-size: 0.7rem;">Diupload pada: 24 Okt
-                                    2026, 14:45</span>
+                            <!-- Bukti Transfer Container -->
+                            <div id="paymentProofContainer">
+                                <div class="border rounded-3 p-4 text-center bg-light">
+                                    <span class="material-symbols-outlined text-muted fs-1 mb-2">image_not_supported</span>
+                                    <p class="small text-muted fw-medium mb-0">Belum ada bukti upload</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -230,6 +217,9 @@
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/admin.js"></script>
+    <script src="../js/admin/admin-detail-pesanan.js"></script>
 </body>
 
 </html>
+
+

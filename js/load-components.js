@@ -35,7 +35,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             highlightActiveLink();
 
             if (isLoggedIn) {
+                // Sync data user ke localStorage untuk diakses getCurrentUser()
+                localStorage.setItem('zaralis_user', JSON.stringify(authStatus));
+                
                 populateAuthNavbar(authStatus);
+                // Load notifications logic
+                const script = document.createElement('script');
+                script.src = basePath + 'js/notifications.js';
+                document.body.appendChild(script);
             }
         } catch (e) {
             console.error('Gagal load navbar:', e);
@@ -60,6 +67,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // -------------------------------------------------------
     window.logout = async function (e) {
         if (e) e.preventDefault();
+        localStorage.removeItem('zaralis_user');
         try {
             await fetch(apiBase + 'logout.php', { method: 'POST' });
         } catch (_) {}
@@ -71,11 +79,30 @@ document.addEventListener('DOMContentLoaded', async function () {
 // Isi data user di navbar-auth
 // -------------------------------------------------------
 function populateAuthNavbar(authStatus) {
-    const nameEl   = document.querySelector('.dropdown-item-name');
+    const nameEl = document.querySelector('.dropdown-item-name');
     const avatarEl = document.querySelector('.user-avatar');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
 
-    if (nameEl)   nameEl.textContent = authStatus.name  || '';
-    if (avatarEl) avatarEl.src       = authStatus.avatar_url || '';
+    if (nameEl) nameEl.textContent = authStatus.name || '';
+    if (avatarEl) avatarEl.src = authStatus.avatar_url || '';
+
+    // Jika admin, tambahkan link ke Admin Panel di dropdown
+    if (authStatus.role === 'admin' && dropdownMenu) {
+        const isSubdir = window.location.pathname.includes('/admin/');
+        const adminUrl = isSubdir ? 'index.php' : 'admin/index.php';
+
+        // Cek apakah link admin sudah ada agar tidak duplikat
+        if (!dropdownMenu.querySelector('.admin-link')) {
+            const adminLi = document.createElement('li');
+            adminLi.innerHTML = `<a class="dropdown-item fw-bold text-primary-custom admin-link" href="${adminUrl}">
+                <span class="material-symbols-outlined fs-6 align-middle">dashboard</span> Admin Panel
+            </a>`;
+            const divider = dropdownMenu.querySelector('.dropdown-divider');
+            if (divider) {
+                dropdownMenu.insertBefore(adminLi, divider.nextSibling);
+            }
+        }
+    }
 }
 
 // -------------------------------------------------------
@@ -83,10 +110,14 @@ function populateAuthNavbar(authStatus) {
 // -------------------------------------------------------
 function highlightActiveLink() {
     const currentPage = window.location.pathname.split('/').pop() || 'index.php';
+    const currentBase = currentPage.replace(/\.(php|html)$/, '');
+
     document.querySelectorAll('#navbar-placeholder .nav-link-custom').forEach(link => {
         link.classList.remove('active');
         const href = (link.getAttribute('href') || '').split('/').pop();
-        if (href === currentPage || (currentPage === '' && href === 'index.php')) {
+        const hrefBase = href.replace(/\.(php|html)$/, '');
+
+        if (href === currentPage || hrefBase === currentBase || (currentBase === 'index' && hrefBase === '')) {
             link.classList.add('active');
         }
     });

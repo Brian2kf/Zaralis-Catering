@@ -19,7 +19,18 @@ class CheckoutController {
     }
 
     // --- Autofill Profile Data ---
-    initAutofill() {
+    async initAutofill() {
+        try {
+            const statusRes = await fetch('api/auth/status.php');
+            const status = await statusRes.json();
+            if (!status.logged_in) {
+                localStorage.removeItem('zaralis_user');
+                return;
+            }
+        } catch (e) {
+            console.error("Gagal verifikasi login", e);
+        }
+
         if (typeof window.getCurrentUser !== 'function') return;
         const user = window.getCurrentUser();
         if (!user) return;
@@ -29,16 +40,20 @@ class CheckoutController {
         const email = document.getElementById('email');
         const phone = document.getElementById('phone');
 
-        if (fName && !fName.value) fName.value = user.firstName || '';
-        if (lName && !lName.value) lName.value = user.lastName || '';
+        if (fName && !fName.value) fName.value = user.first_name || user.firstName || '';
+        if (lName && !lName.value) lName.value = user.last_name || user.lastName || '';
         if (email && !email.value) email.value = user.email || '';
         if (phone && !phone.value) phone.value = user.phone || '';
 
+        // Fetch saved addresses from API
         let addresses = [];
         try {
-            const addrsStr = localStorage.getItem('zaralis_addresses');
-            if (addrsStr) addresses = JSON.parse(addrsStr);
-        } catch (e) { }
+            const res = await fetch('api/auth/addresses/list.php');
+            const result = await res.json();
+            if (result.success) addresses = result.addresses;
+        } catch (e) {
+            console.warn("Gagal load alamat dari API:", e);
+        }
 
         const addressSelectContainer = document.getElementById('savedAddressesContainer');
         const addressSelect = document.getElementById('savedAddressSelect');
@@ -46,34 +61,46 @@ class CheckoutController {
 
         if (addresses.length > 0) {
             if (addressSelectContainer) addressSelectContainer.classList.remove('d-none');
-
-            addresses.forEach(addr => {
-                const isMain = addr.isMain ? ' (Utama)' : '';
-                const option = document.createElement('option');
-                option.value = addr.id;
-                option.textContent = `${addr.streetName} — Kec. ${addr.kecamatan}${isMain}`;
-                if (addr.isMain) option.selected = true;
-                addressSelect.appendChild(option);
-            });
-
             if (addressSelect) {
+                addressSelect.innerHTML = '<option value="">-- Isi alamat manual baru --</option>';
+                addresses.forEach(addr => {
+                    const isMainLabel = addr.is_main == 1 ? ' (Utama)' : '';
+                    const option = document.createElement('option');
+                    option.value = addr.id;
+                    option.textContent = `${addr.street_name} — Kec. ${addr.kecamatan}${isMainLabel}`;
+                    if (addr.is_main == 1) option.selected = true;
+                    addressSelect.appendChild(option);
+                });
+
                 addressSelect.addEventListener('change', (e) => {
                     const selectedId = e.target.value;
                     if (!selectedId) {
                         this.clearAddressForm();
                         return;
                     }
-                    const addr = addresses.find(a => a.id === selectedId);
-                    if (addr) this.fillAddressForm(addr);
+                    const addr = addresses.find(a => a.id == selectedId);
+                    if (addr) this.fillAddressFromDB(addr);
                 });
+
+                // Auto fill with primary address
+                const mainAddr = addresses.find(a => a.is_main == 1) || addresses[0];
+                if (mainAddr) this.fillAddressFromDB(mainAddr);
             }
-
-            const mainAddr = addresses.find(a => a.isMain) || addresses[0];
-            if (mainAddr) this.fillAddressForm(mainAddr);
-
         } else {
             if (saveAddressContainer) saveAddressContainer.classList.remove('d-none');
         }
+    }
+
+    fillAddressFromDB(addr) {
+        if (document.getElementById('streetName')) document.getElementById('streetName').value = addr.street_name || '';
+        if (document.getElementById('houseNumber')) document.getElementById('houseNumber').value = addr.house_number || '';
+        if (document.getElementById('rt')) document.getElementById('rt').value = addr.rt || '';
+        if (document.getElementById('rw')) document.getElementById('rw').value = addr.rw || '';
+        if (document.getElementById('kelurahan')) document.getElementById('kelurahan').value = addr.kelurahan || '';
+        if (document.getElementById('kecamatan')) document.getElementById('kecamatan').value = addr.kecamatan || '';
+        if (document.getElementById('postalCode')) document.getElementById('postalCode').value = addr.postal_code || '';
+        if (document.getElementById('landmark')) document.getElementById('landmark').value = addr.landmark || '';
+        this.resetShipping();
     }
 
     fillAddressForm(addr) {
@@ -413,32 +440,49 @@ class CheckoutController {
         }
     }
 
-    processSaveNewAddress() {
+    async processSaveNewAddress() {
         const saveCb = document.getElementById('saveAddressToProfile');
         if (saveCb && saveCb.checked) {
-            let addresses = [];
-            try {
-                const addrsStr = localStorage.getItem('zaralis_addresses');
-                if (addrsStr) addresses = JSON.parse(addrsStr);
-            } catch (e) { }
-
-            if (addresses.length >= 3) return;
-
-            const newAddress = {
-                id: 'addr_' + Date.now().toString(36),
-                streetName: document.getElementById('streetName').value,
-                houseNumber: document.getElementById('houseNumber').value,
-                rt: document.getElementById('rt').value,
-                rw: document.getElementById('rw').value,
-                kelurahan: document.getElementById('kelurahan').value,
+            const payload = {
+                street_name: document.getElementById('streetName').value.trim(),
+                house_number: document.getElementById('houseNumber').value.trim(),
+                rt: document.getElementById('rt').value.trim(),
+                rw: document.getElementById('rw').value.trim(),
+                kelurahan: document.getElementById('kelurahan').value.trim(),
                 kecamatan: document.getElementById('kecamatan').value,
-                postalCode: document.getElementById('postalCode').value,
-                landmark: document.getElementById('landmark').value,
-                isMain: addresses.length === 0
+                postal_code: document.getElementById('postalCode').value.trim(),
+                landmark: document.getElementById('landmark') ? document.getElementById('landmark').value.trim() : ''
             };
 
-            addresses.push(newAddress);
-            localStorage.setItem('zaralis_addresses', JSON.stringify(addresses));
+            const user = window.getCurrentUser ? window.getCurrentUser() : null;
+            if (user) {
+                // Save to Database
+                try {
+                    await fetch('api/auth/addresses/add.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (e) {
+                    console.error("Gagal simpan alamat ke DB:", e);
+                }
+            } else {
+                // Save to LocalStorage for guests (legacy)
+                let addresses = [];
+                try {
+                    const addrsStr = localStorage.getItem('zaralis_addresses');
+                    if (addrsStr) addresses = JSON.parse(addrsStr);
+                } catch (e) { }
+
+                if (addresses.length < 3) {
+                    addresses.push({
+                        ...payload,
+                        id: 'addr_' + Date.now().toString(36),
+                        isMain: addresses.length === 0
+                    });
+                    localStorage.setItem('zaralis_addresses', JSON.stringify(addresses));
+                }
+            }
         }
     }
 

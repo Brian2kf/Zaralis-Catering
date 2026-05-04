@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+﻿<?php
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../helpers/session.php';
+session_init();
+require_admin();
+?><!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -42,7 +47,7 @@
             <!-- Header Section -->
             <div class="mb-4">
                 <div class="d-flex align-items-center gap-2 mb-1">
-                    <a href="menu.html" class="btn btn-sm btn-light border p-1 d-flex align-items-center text-muted">
+                    <a href="menu.php" class="btn btn-sm btn-light border p-1 d-flex align-items-center text-muted">
                         <span class="material-symbols-outlined fs-6">arrow_back</span>
                     </a>
                     <h2 class="fs-3 fw-bold text-dark tracking-tight mb-0"
@@ -151,7 +156,7 @@
                     <!-- Action Buttons -->
                     <div class="p-4 border-top bg-light bg-opacity-50 d-flex justify-content-end gap-3 align-items-center"
                         style="border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;">
-                        <a href="menu.html" class="btn btn-light border fw-semibold px-4 text-dark me-auto">
+                        <a href="menu.php" class="btn btn-light border fw-semibold px-4 text-dark me-auto">
                             Batal
                         </a>
                         <button type="button"
@@ -178,3 +183,4 @@
 </body>
 
 </html>
+

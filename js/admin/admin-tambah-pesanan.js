@@ -1,25 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
     // ─── Referensi Elemen ───────────────────────────────────────────────
-    const menuSelect       = document.getElementById('menuSelect');
-    const qtyInput         = document.getElementById('qty');
-    const btnAddItem       = document.getElementById('btnAddItem');
-    const itemsContainer   = document.getElementById('orderItemsContainer');
-    const textSubtotal     = document.getElementById('textSubtotal');
-    const textShipping     = document.getElementById('textShipping');
-    const textTotal        = document.getElementById('textTotal');
-    const btnSaveOrder     = document.getElementById('btnSaveOrder');
+    const menuSelect = document.getElementById('menuSelect');
+    const qtyInput = document.getElementById('qty');
+    const btnAddItem = document.getElementById('btnAddItem');
+    const itemsContainer = document.getElementById('orderItemsContainer');
+    const textSubtotal = document.getElementById('textSubtotal');
+    const textShipping = document.getElementById('textShipping');
+    const textTotal = document.getElementById('textTotal');
+    const btnSaveOrder = document.getElementById('btnSaveOrder');
     const btnCalculateShipping = document.getElementById('btnCalculateShipping');
 
     // ─── State ──────────────────────────────────────────────────────────
     let availableProducts = [];
     // packages: array of { id, name, items: [{id, name, price, category, qty}] }
-    let packages          = [];
+    let packages = [];
     // regularItems: array paket_besar { id, name, price, category, qty }
-    let regularItems      = [];
-    let shippingData      = { cost: 0, distance: 0, lat: null, lon: null, calculated: false };
+    let regularItems = [];
+    let shippingData = { cost: 0, distance: 0, lat: null, lon: null, calculated: false };
 
     // Produk kue_satuan yang sedang menunggu dipilihkan paket
-    let pendingKueSatuan  = null;
+    let pendingKueSatuan = null;
 
     // ─── Format Rupiah ──────────────────────────────────────────────────
     const formatRp = (n) =>
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ─── 1. Load Menu dari API ──────────────────────────────────────────
     async function loadMenus() {
         try {
-            const res  = await fetch('../api/products/index.php');
+            const res = await fetch('../api/products/index.php');
             const data = await res.json();
 
             menuSelect.innerHTML = '<option value="" selected disabled>Pilih menu dari daftar...</option>';
@@ -57,10 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // ─── 2. Tambah Item ke Keranjang ────────────────────────────────────
     btnAddItem.addEventListener('click', () => {
         const productId = menuSelect.value;
-        const qty       = parseInt(qtyInput.value) || 1;
+        const qty = parseInt(qtyInput.value) || 1;
 
         if (!productId) return alert('Silakan pilih hidangan terlebih dahulu.');
-        if (qty < 1)    return alert('Jumlah minimal 1.');
+        if (qty < 1) return alert('Jumlah minimal 1.');
 
         const product = availableProducts.find(p => p.id == productId);
         if (!product) return;
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 regularItems.push({ ...product, qty });
             }
             menuSelect.value = '';
-            qtyInput.value   = 1;
+            qtyInput.value = 1;
             renderCart();
         }
     });
@@ -130,8 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // Buat paket baru dari modal
         if (e.target.id === 'btnCreateNewPackage') {
             const nameInput = document.getElementById('newPackageName');
-            const name      = nameInput.value.trim() || 'Paket Baru';
-            const newId     = 'pkg-' + Date.now();
+            const name = nameInput.value.trim() || 'Paket Baru';
+            const newId = 'pkg-' + Date.now();
             packages.push({ id: newId, name, items: [] });
             nameInput.value = '';
             addKueSatuanToPackage(newId);
@@ -151,9 +151,9 @@ document.addEventListener("DOMContentLoaded", () => {
             pkg.items.push({ ...pendingKueSatuan });
         }
 
-        pendingKueSatuan   = null;
-        menuSelect.value   = '';
-        qtyInput.value     = 1;
+        pendingKueSatuan = null;
+        menuSelect.value = '';
+        qtyInput.value = 1;
         renderCart();
     }
 
@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateSummary(subtotal) {
         textSubtotal.innerText = formatRp(subtotal);
         textShipping.innerText = formatRp(shippingData.cost);
-        textTotal.innerText    = formatRp(subtotal + shippingData.cost);
+        textTotal.innerText = formatRp(subtotal + shippingData.cost);
 
         const hasItems = packages.length > 0 || regularItems.length > 0;
         btnSaveOrder.disabled = !(hasItems && shippingData.calculated);
@@ -255,18 +255,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // ─── 5. Hitung Ongkos Kirim ─────────────────────────────────────────
     btnCalculateShipping.addEventListener('click', async () => {
         const street = document.getElementById('streetName').value.trim();
-        const house  = document.getElementById('houseNumber').value.trim();
-        const kel    = document.getElementById('kelurahan').value.trim();
-        const kec    = document.getElementById('kecamatan').value;
+        const house = document.getElementById('houseNumber').value.trim();
+        const kel = document.getElementById('kelurahan').value.trim();
+        const kec = document.getElementById('kecamatan').value;
 
         // Validasi sama dengan checkout.js — house wajib diisi
         if (!street || !house || !kel || !kec) {
             return alert('Mohon isi Nama Jalan, Nomor Rumah, Kelurahan, dan Kecamatan untuk menghitung ongkir.');
         }
 
-        const loading   = document.getElementById('shippingLoading');
+        const loading = document.getElementById('shippingLoading');
         const resultDiv = document.getElementById('shippingResult');
-        const errorDiv  = document.getElementById('shippingError');
+        const errorDiv = document.getElementById('shippingError');
 
         btnCalculateShipping.disabled = true;
         btnCalculateShipping.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Menghitung...';
@@ -277,9 +277,9 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             // Kirim field yang SAMA persis dengan checkout.js agar hasilnya konsisten
             const response = await fetch('../api/shipping/calculate.php', {
-                method:  'POST',
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body:    JSON.stringify({ street, house, kel, kec })
+                body: JSON.stringify({ street, house, kel, kec })
             });
 
             const data = await response.json();
@@ -289,10 +289,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             shippingData = {
-                cost:       data.shipping_cost,
-                distance:   data.rounded_km,
-                lat:        data.lat,
-                lon:        data.lon,
+                cost: data.shipping_cost,
+                distance: data.rounded_km,
+                lat: data.lat,
+                lon: data.lon,
                 calculated: true
             };
 
@@ -312,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Refresh keranjang untuk tampilkan ongkir terbaru
             const subtotal = packages.reduce((s, pkg) => s + pkg.items.reduce((ps, i) => ps + i.price * i.qty, 0), 0)
-                           + regularItems.reduce((s, i) => s + i.price * i.qty, 0);
+                + regularItems.reduce((s, i) => s + i.price * i.qty, 0);
             updateSummary(subtotal);
 
         } catch (err) {
@@ -328,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
             errorDiv.classList.remove('d-none');
             const subtotal = packages.reduce((s, pkg) => s + pkg.items.reduce((ps, i) => ps + i.price * i.qty, 0), 0)
-                           + regularItems.reduce((s, i) => s + i.price * i.qty, 0);
+                + regularItems.reduce((s, i) => s + i.price * i.qty, 0);
             updateSummary(subtotal);
         } finally {
             loading.classList.add('d-none');
@@ -343,7 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
             shippingData = { cost: 0, distance: 0, lat: null, lon: null, calculated: false };
             document.getElementById('shippingResult').classList.add('d-none');
             const subtotal = packages.reduce((s, pkg) => s + pkg.items.reduce((ps, i) => ps + i.price * i.qty, 0), 0)
-                           + regularItems.reduce((s, i) => s + i.price * i.qty, 0);
+                + regularItems.reduce((s, i) => s + i.price * i.qty, 0);
             updateSummary(subtotal);
         });
     });
@@ -353,52 +353,52 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         const hasItems = packages.length > 0 || regularItems.length > 0;
-        if (!hasItems)               return alert('Keranjang masih kosong!');
+        if (!hasItems) return alert('Keranjang masih kosong!');
         if (!shippingData.calculated) return alert('Harap hitung biaya pengiriman terlebih dahulu.');
 
         btnSaveOrder.disabled = true;
         btnSaveOrder.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...';
 
         const subtotal = packages.reduce((s, pkg) => s + pkg.items.reduce((ps, i) => ps + i.price * i.qty, 0), 0)
-                       + regularItems.reduce((s, i) => s + i.price * i.qty, 0);
+            + regularItems.reduce((s, i) => s + i.price * i.qty, 0);
 
         const payload = {
-            customer_name:        `${document.getElementById('firstName').value.trim()} ${document.getElementById('lastName').value.trim()}`,
-            customer_email:       document.getElementById('email').value.trim(),
-            customer_phone:       document.getElementById('phone').value.trim(),
-            subtotal:             subtotal,
+            customer_name: `${document.getElementById('firstName').value.trim()} ${document.getElementById('lastName').value.trim()}`,
+            customer_email: document.getElementById('email').value.trim(),
+            customer_phone: document.getElementById('phone').value.trim(),
+            subtotal: subtotal,
             shipping_distance_km: shippingData.distance,
-            delivery_street:      document.getElementById('streetName').value.trim(),
-            delivery_house_number:document.getElementById('houseNumber').value.trim(),
-            delivery_rt:          document.getElementById('rt').value.trim(),
-            delivery_rw:          document.getElementById('rw').value.trim(),
-            delivery_kelurahan:   document.getElementById('kelurahan').value.trim(),
-            delivery_kecamatan:   document.getElementById('kecamatan').value,
+            delivery_street: document.getElementById('streetName').value.trim(),
+            delivery_house_number: document.getElementById('houseNumber').value.trim(),
+            delivery_rt: document.getElementById('rt').value.trim(),
+            delivery_rw: document.getElementById('rw').value.trim(),
+            delivery_kelurahan: document.getElementById('kelurahan').value.trim(),
+            delivery_kecamatan: document.getElementById('kecamatan').value,
             delivery_postal_code: document.getElementById('postalCode').value.trim(),
-            delivery_landmark:    document.getElementById('landmark').value.trim(),
-            dest_latitude:        shippingData.lat,
-            dest_longitude:       shippingData.lon,
-            delivery_date:        document.getElementById('deliveryDate').value,
-            delivery_time:        document.getElementById('deliveryTime').value,
-            order_notes:          document.getElementById('orderNotes').value.trim(),
+            delivery_landmark: document.getElementById('landmark').value.trim(),
+            dest_latitude: shippingData.lat,
+            dest_longitude: shippingData.lon,
+            delivery_date: document.getElementById('deliveryDate').value,
+            delivery_time: document.getElementById('deliveryTime').value,
+            order_notes: document.getElementById('orderNotes').value.trim(),
             cart: {
-                kue_satuan:  packages,       // Array paket kue satuan
+                kue_satuan: packages,       // Array paket kue satuan
                 paket_besar: regularItems    // Array item paket besar
             }
         };
 
         try {
             const response = await fetch('../api/orders/create.php', {
-                method:  'POST',
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body:    JSON.stringify(payload)
+                body: JSON.stringify(payload)
             });
 
             const result = await response.json();
 
             if (response.ok) {
                 alert(`Sukses! Pesanan baru berhasil dibuat.\nNomor Pesanan: ${result.order_number}`);
-                window.location.href = 'pesanan.html';
+                window.location.href = 'pesanan.php';
             } else {
                 throw new Error(result.message);
             }

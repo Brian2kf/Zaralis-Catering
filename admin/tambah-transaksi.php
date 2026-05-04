@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+﻿<?php
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../helpers/session.php';
+session_init();
+require_admin();
+?><!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -42,7 +47,7 @@
             <!-- Header Section -->
             <div class="mb-4">
                 <div class="d-flex align-items-center gap-2 mb-1">
-                    <a href="keuangan.html"
+                    <a href="keuangan.php"
                         class="btn btn-sm btn-light border p-1 d-flex align-items-center text-muted">
                         <span class="material-symbols-outlined fs-6">arrow_back</span>
                     </a>
@@ -77,7 +82,7 @@
                                         <div class="d-flex gap-3">
                                             <div class="flex-grow-1">
                                                 <input type="radio" class="btn-check btn-check-custom"
-                                                    name="transactionType" id="typeIncome" checked>
+                                                    name="type" id="typeIncome" value="income" checked>
                                                 <label
                                                     class="btn btn-outline-success type-selector-btn w-100 d-flex align-items-center justify-content-center gap-2 py-2"
                                                     for="typeIncome">
@@ -87,7 +92,7 @@
                                             </div>
                                             <div class="flex-grow-1">
                                                 <input type="radio" class="btn-check btn-check-custom"
-                                                    name="transactionType" id="typeExpense">
+                                                    name="type" id="typeExpense" value="expense">
                                                 <label
                                                     class="btn btn-outline-danger type-selector-btn w-100 d-flex align-items-center justify-content-center gap-2 py-2"
                                                     for="typeExpense">
@@ -159,7 +164,7 @@
                 <!-- Action Buttons -->
                 <div class="p-4 border-top bg-light bg-opacity-50 d-flex justify-content-end gap-3 align-items-center"
                     style="border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;">
-                    <a href="keuangan.html" class="btn btn-light border fw-semibold px-4 text-dark">
+                    <a href="keuangan.php" class="btn btn-light border fw-semibold px-4 text-dark">
                         Batal
                     </a>
                     <button type="button"
@@ -181,3 +186,4 @@
 </body>
 
 </html>
+

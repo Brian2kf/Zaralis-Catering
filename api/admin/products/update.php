@@ -101,7 +101,7 @@ try {
         if (!empty($imagesToDelete)) {
             // Hapus file fisik
             foreach ($imagesToDelete as $img) {
-                $fullPath = __DIR__ . '/../../../../' . $img['file_path'];
+                $fullPath = __DIR__ . '/../../../' . $img['file_path'];
                 if (file_exists($fullPath)) {
                     unlink($fullPath);
                 }
@@ -123,7 +123,7 @@ try {
     // ── Proses file gambar baru ────────────────────────────────
     $allowedMimes = ['image/jpeg', 'image/jpg', 'image/png'];
     $maxSize = 5 * 1024 * 1024; // 5 MB
-    $uploadDir = __DIR__ . '/../../../../assets/images/';
+    $uploadDir = __DIR__ . '/../../../assets/images/';
 
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0755, true);
@@ -227,7 +227,7 @@ try {
     // Hapus file yang sudah terupload jika DB gagal
     if (isset($uploadedFiles)) {
         foreach ($uploadedFiles as $file) {
-            $fullPath = __DIR__ . '/../../../../' . $file['path'];
+            $fullPath = __DIR__ . '/../../../' . $file['path'];
             if (file_exists($fullPath))
                 unlink($fullPath);
         }

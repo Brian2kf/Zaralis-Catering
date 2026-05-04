@@ -68,7 +68,7 @@ function is_logged_in(): bool
 // -------------------------------------------------------
 function is_admin(): bool
 {
-    return is_logged_in() && ($_SESSION['user_role'] ?? '') === 'admin';
+    return is_logged_in() && strtolower($_SESSION['user_role'] ?? '') === 'admin';
 }
 
 // -------------------------------------------------------

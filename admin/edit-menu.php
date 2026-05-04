@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+﻿<?php
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../helpers/session.php';
+session_init();
+require_admin();
+?><!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -42,7 +47,7 @@
             <!-- Header Section -->
             <div class="mb-4">
                 <div class="d-flex align-items-center gap-2 mb-1">
-                    <a href="menu.html" class="btn btn-sm btn-light border p-1 d-flex align-items-center text-muted">
+                    <a href="menu.php" class="btn btn-sm btn-light border p-1 d-flex align-items-center text-muted">
                         <span class="material-symbols-outlined fs-6">arrow_back</span>
                     </a>
                     <h2 class="fs-3 fw-bold text-dark tracking-tight mb-0"
@@ -73,7 +78,7 @@
                 <h5 class="fw-bold text-dark mb-2">Gagal Memuat Data</h5>
                 <p class="text-muted mb-4" id="editErrorMessage">Terjadi kesalahan.</p>
                 <div class="d-flex justify-content-center gap-3">
-                    <a href="menu.html" class="btn btn-light border fw-semibold px-4">
+                    <a href="menu.php" class="btn btn-light border fw-semibold px-4">
                         Kembali ke Daftar Menu
                     </a>
                     <button class="btn btn-primary-custom fw-semibold px-4" onclick="location.reload()">
@@ -184,7 +189,7 @@
                             <span class="material-symbols-outlined fs-6">delete</span>
                             Hapus Produk
                         </button>
-                        <a href="menu.html" class="btn btn-light border fw-semibold px-4 text-dark">
+                        <a href="menu.php" class="btn btn-light border fw-semibold px-4 text-dark">
                             Batal
                         </a>
                         <button type="button"
@@ -211,3 +216,4 @@
 </body>
 
 </html>
+

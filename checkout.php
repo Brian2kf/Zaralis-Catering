@@ -1,4 +1,15 @@
-<!DOCTYPE html>
+<?php
+require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/helpers/session.php';
+require_once __DIR__ . '/helpers/admin_middleware.php';
+session_init();
+
+// Proteksi halaman pelanggan
+// require_login(); // Pelanggan tidak wajib login untuk checkout (Poin 1)
+
+// Admin tidak boleh akses halaman publik pelanggan (Poin 2A)
+redirect_admin_from_public();
+?><!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -133,12 +144,12 @@
                                 <div class="invalid-feedback">Nomor rumah wajib diisi.</div>
                             </div>
                             <div class="col-3">
-                                <label for="rt" class="form-label small fw-bold text-dark">RT</label>
-                                <input type="text" class="form-control bg-light-input py-2" id="rt" placeholder="001">
+                                <label for="rt" class="form-label small fw-bold text-dark">RT *</label>
+                                <input type="text" class="form-control bg-light-input py-2" id="rt" placeholder="001" required>
                             </div>
                             <div class="col-3">
-                                <label for="rw" class="form-label small fw-bold text-dark">RW</label>
-                                <input type="text" class="form-control bg-light-input py-2" id="rw" placeholder="005">
+                                <label for="rw" class="form-label small fw-bold text-dark">RW *</label>
+                                <input type="text" class="form-control bg-light-input py-2" id="rw" placeholder="005" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="kelurahan" class="form-label small fw-bold text-dark">Kelurahan *</label>
@@ -165,9 +176,9 @@
                                 <div class="invalid-feedback">Pilih kecamatan.</div>
                             </div>
                             <div class="col-md-6">
-                                <label for="postalCode" class="form-label small fw-bold text-dark">Kode Pos</label>
+                                <label for="postalCode" class="form-label small fw-bold text-dark">Kode Pos *</label>
                                 <input type="text" class="form-control bg-light-input py-2" id="postalCode"
-                                    placeholder="contoh: 16423">
+                                    placeholder="contoh: 16424" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="landmark" class="form-label small fw-bold text-dark">Patokan Lokasi <span

@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td class="align-middle">${formatDate(order.created_at)}</td>
                 <td class="align-middle fw-bold text-dark">${formatRp(order.total_amount)}</td>
                 <td class="align-middle">
-                    <a href="detail-pesanan.html?id=${order.order_number}" class="text-decoration-none text-success fw-medium d-flex align-items-center gap-1">
+                    <a href="detail-pesanan.php?id=${order.order_number}" class="text-decoration-none text-success fw-medium d-flex align-items-center gap-1">
                         <span class="material-symbols-outlined fs-6">verified</span> Cek Bukti
                     </a>
                 </td>
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="material-symbols-outlined fs-6">more_vert</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-                        <li><a class="dropdown-item d-flex align-items-center gap-2" href="detail-pesanan.html?id=${order.order_number}"><span class="material-symbols-outlined fs-6 text-muted">visibility</span> Lihat Detail</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center gap-2" href="detail-pesanan.php?id=${order.order_number}"><span class="material-symbols-outlined fs-6 text-muted">visibility</span> Lihat Detail</a></li>
                         <li><a class="dropdown-item d-flex align-items-center gap-2 btn-print" href="#" data-id="${order.order_number}"><span class="material-symbols-outlined fs-6 text-muted">print</span> Cetak Invoice</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item d-flex align-items-center gap-2 text-danger btn-cancel" href="#" data-id="${order.order_number}"><span class="material-symbols-outlined fs-6">cancel</span> Batalkan Pesanan</a></li>
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="material-symbols-outlined fs-6">more_vert</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-                        <li><a class="dropdown-item d-flex align-items-center gap-2" href="detail-pesanan.html?id=${order.order_number}"><span class="material-symbols-outlined fs-6 text-muted">visibility</span> Lihat Detail</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center gap-2" href="detail-pesanan.php?id=${order.order_number}"><span class="material-symbols-outlined fs-6 text-muted">visibility</span> Lihat Detail</a></li>
                         <li><a class="dropdown-item d-flex align-items-center gap-2 btn-print" href="#" data-id="${order.order_number}"><span class="material-symbols-outlined fs-6 text-muted">print</span> Cetak Invoice</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item d-flex align-items-center gap-2 text-danger btn-cancel" href="#" data-id="${order.order_number}"><span class="material-symbols-outlined fs-6">cancel</span> Batalkan Pesanan</a></li>
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         } else {
             return `
-                <a href="detail-pesanan.html?id=${order.order_number}" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
+                <a href="detail-pesanan.php?id=${order.order_number}" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
                     <span class="material-symbols-outlined fs-6">visibility</span> Detail
                 </a>
             `;

@@ -19,7 +19,7 @@ define('SESSION_LIFETIME', 60 * 60 * 2); // 2 jam (detik)
 define('SESSION_NAME', 'zaralis_sess');
 
 // --- Upload ---
-define('UPLOAD_DIR', __DIR__ . '/../../uploads/');
+define('UPLOAD_DIR', __DIR__ . '/../uploads/');
 define('UPLOAD_MAX_SIZE', 5 * 1024 * 1024); // 5 MB
 define('UPLOAD_ALLOWED', ['image/jpeg', 'image/png', 'image/jpg']);
 

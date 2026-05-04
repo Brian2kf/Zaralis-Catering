@@ -1,4 +1,12 @@
-<!DOCTYPE html>
+﻿<?php
+require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/helpers/session.php';
+require_once __DIR__ . '/helpers/admin_middleware.php';
+session_init();
+
+// Redirect admin dari halaman publik (Poin 1 & 2B)
+redirect_admin_from_public();
+?><!DOCTYPE html>
 <html lang="id">
 
 <head>

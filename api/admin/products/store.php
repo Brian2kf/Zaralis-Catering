@@ -53,7 +53,7 @@ if (!empty($errors)) {
 // ── Proses file gambar ─────────────────────────────────────
 $allowedMimes = ['image/jpeg', 'image/jpg', 'image/png'];
 $maxSize = 5 * 1024 * 1024; // 5 MB
-$uploadDir = __DIR__ . '/../../../../assets/images/';
+$uploadDir = __DIR__ . '/../../../assets/images/';
 
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);

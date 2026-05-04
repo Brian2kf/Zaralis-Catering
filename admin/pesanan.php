@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+﻿<?php
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../helpers/session.php';
+session_init();
+require_admin();
+?><!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -45,7 +50,7 @@
                 <p class="text-muted mb-0 fs-6">Kelola pesanan pelanggan, verifikasi pembayaran, dan perbarui status
                     pengiriman.</p>
             </div>
-            <a href="tambah-pesanan.html"
+            <a href="tambah-pesanan.php"
                 class="btn btn-primary-custom d-flex align-items-center gap-2 mt-3 mt-md-0 fw-semibold px-4 text-decoration-none">
                 <span class="material-symbols-outlined fs-5">add</span>
                 Tambah Pesanan</a>
@@ -176,3 +181,4 @@
 </body>
 
 </html>
+

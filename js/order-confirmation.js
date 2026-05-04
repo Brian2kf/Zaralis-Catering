@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!orderNumber) {
         alert("Nomor pesanan tidak ditemukan.");
-        window.location.href = 'index.html';
+        window.location.href = 'index.php';
         return;
     }
 
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (response.ok) {
                     alert(result.message);
-                    window.location.href = 'index.html'; // Bisa arahkan ke pembelian.html jika user login
+                    window.location.href = 'index.php'; // Bisa arahkan ke pembelian.html jika user login
                 } else {
                     alert("Gagal: " + result.message);
                     btnUpload.innerHTML = originalText;

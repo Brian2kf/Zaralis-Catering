@@ -485,6 +485,28 @@ body.admin-body {
     background-color: white !important;
 }
 
+/* Dot utility */
+.dot {
+    height: 8px;
+    width: 8px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Table Row Hover */
+.hover-row {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.hover-row:hover {
+    background-color: rgba(45, 106, 79, 0.02) !important;
+}
+
+.transition-all {
+    transition: all 0.2s ease-in-out;
+}
+
 /* Hide Bootstrap dropdown caret */
 .dropdown-toggle::after {
     display: none !important;

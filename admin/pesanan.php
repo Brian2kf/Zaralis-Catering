@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../helpers/session.php';
 session_init();
@@ -137,10 +137,9 @@ require_admin();
                     <thead class="bg-light">
                         <tr>
                             <th class="py-3 px-4 text-muted small fw-semibold">ID Pesanan</th>
-                            <th class="py-3 px-4 text-muted small fw-semibold">Pelanggan</th>
+                            <th class="py-3 px-4 text-muted small fw-semibold">Nama Pelanggan</th>
                             <th class="py-3 px-4 text-muted small fw-semibold">Tanggal</th>
                             <th class="py-3 px-4 text-muted small fw-semibold">Total</th>
-                            <th class="py-3 px-4 text-muted small fw-semibold">Pembayaran</th>
                             <th class="py-3 px-4 text-muted small fw-semibold">Status</th>
                             <th class="py-3 px-4 text-muted small fw-semibold text-end">Aksi</th>
                         </tr>
@@ -154,20 +153,8 @@ require_admin();
             <div class="p-4 border-top d-flex justify-content-between align-items-center bg-light bg-opacity-50"
                 style="border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;">
                 <span class="small text-muted fw-medium" id="paginationInfo">Menampilkan data pesanan</span>
-                <div class="d-flex gap-1">
-                    <button
-                        class="btn btn-sm btn-light border text-muted d-flex align-items-center justify-content-center"
-                        style="width: 32px; height: 32px;" disabled>
-                        <span class="material-symbols-outlined" style="font-size: 18px;">chevron_left</span>
-                    </button>
-                    <button
-                        class="btn btn-sm btn-primary-custom text-white fw-bold d-flex align-items-center justify-content-center"
-                        style="width: 32px; height: 32px;">1</button>
-                    <button
-                        class="btn btn-sm btn-light border bg-white text-dark d-flex align-items-center justify-content-center"
-                        style="width: 32px; height: 32px;" disabled>
-                        <span class="material-symbols-outlined" style="font-size: 18px;">chevron_right</span>
-                    </button>
+                <div class="d-flex gap-1" id="paginationButtons">
+                    <!-- Pagination buttons will be rendered by JavaScript -->
                 </div>
             </div>
         </div>
@@ -181,4 +168,3 @@ require_admin();
 </body>
 
 </html>
-

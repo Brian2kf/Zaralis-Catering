@@ -11,10 +11,14 @@ $db = Database::getInstance();
 
 // Query untuk mengambil produk aktif dan 1 gambar utamanya
 $query = "
-    SELECT p.id, p.name, p.description, p.price, p.category,
+    SELECT p.id, p.name, p.description, p.price, p.category, p.created_at,
            (SELECT file_path FROM product_images pi 
             WHERE pi.product_id = p.id 
-            ORDER BY is_primary DESC, sort_order ASC LIMIT 1) as image
+            ORDER BY is_primary DESC, sort_order ASC LIMIT 1) as image,
+           (
+               COALESCE((SELECT SUM(quantity) FROM order_items WHERE product_id = p.id), 0) +
+               COALESCE((SELECT SUM(quantity) FROM order_package_items WHERE product_id = p.id), 0)
+           ) as sold_count
     FROM products p
     WHERE p.is_active = 1
     ORDER BY p.category, p.name
@@ -37,7 +41,9 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         "description" => $row['description'],
         "price" => $row['price'],
         "category" => $row['category'],
-        "image" => $row['image']
+        "image" => $row['image'],
+        "created_at" => $row['created_at'],
+        "sold_count" => (int)$row['sold_count']
     ];
 
     if ($row['category'] == 'kue_satuan') {

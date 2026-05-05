@@ -91,14 +91,17 @@ try {
 
     // 6. BUAT NOTIFIKASI PELANGGAN
     $target_user_id = $order['user_id'];
+    
+    // Jika user_id di orders kosong (guest), coba cari berdasarkan email (siapa tahu sudah daftar)
     if (empty($target_user_id)) {
-        // Coba cari user_id dari tabel users berdasarkan email pesanan
-        $stmtUser = $db->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");
-        $stmtUser->execute([$order['customer_email']]);
+        $clean_email = trim($order['customer_email']);
+        $stmtUser = $db->prepare("SELECT id FROM users WHERE TRIM(email) = ? LIMIT 1");
+        $stmtUser->execute([$clean_email]);
         $target_user_id = $stmtUser->fetchColumn();
     }
 
-    if (!empty($target_user_id)) {
+    // Hanya buat notifikasi jika target_user_id ditemukan dan valid
+    if ($target_user_id && $target_user_id > 0) {
         $statusNames = [
             'pending_payment' => 'Belum Bayar',
             'pending_verification' => 'Menunggu Verifikasi',

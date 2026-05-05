@@ -1,3 +1,5 @@
+let currentOrderData = null;
+
 document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
     const orderNumber = urlParams.get('order');
@@ -100,6 +102,19 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // --- Logika Cetak Invoice ---
+    const btnPrint = document.getElementById('btnPrintInvoice');
+    if (btnPrint) {
+        btnPrint.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentOrderData) {
+                printInvoice(currentOrderData);
+            } else {
+                alert("Data pesanan belum dimuat.");
+            }
+        });
+    }
 });
 
 async function fetchOrderDetails(orderNumber) {
@@ -107,8 +122,8 @@ async function fetchOrderDetails(orderNumber) {
         const response = await fetch(`api/orders/show.php?order=${orderNumber}`);
         const data = await response.json();
 
-        if (response.ok) {
-            renderOrderDetails(data);
+        if (response.ok && data.status === 'success') {
+            renderOrderDetails(data.data);
         } else {
             alert(data.message || "Pesanan tidak ditemukan.");
         }
@@ -121,7 +136,13 @@ function formatRp(number) {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
 }
 
+function formatDate(dateString) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return new Date(dateString).toLocaleDateString('id-ID', options);
+}
+
 function renderOrderDetails(order) {
+    currentOrderData = order; // Simpan data untuk cetak invoice
     const orderNumberBadge = document.getElementById('orderNumberBadge');
     if (orderNumberBadge) orderNumberBadge.innerText = `Order No: ${order.order_number}`;
 
@@ -170,4 +191,121 @@ function renderOrderDetails(order) {
 
     const totalAmountText = document.getElementById('totalAmountText');
     if (totalAmountText) totalAmountText.innerText = formatRp(order.total_amount);
+}
+
+function printInvoice(order) {
+    let invoiceWindow = window.open('', '_blank');
+    let itemsHtml = '';
+
+    if (order.packages) {
+        order.packages.forEach(pkg => {
+            itemsHtml += `<tr><td>${pkg.package_name}</td><td>${pkg.quantity}</td><td>${formatRp(pkg.package_price)}</td><td>${formatRp(pkg.package_price * pkg.quantity)}</td></tr>`;
+        });
+    }
+
+    if (order.regular_items) {
+        order.regular_items.forEach(item => {
+            itemsHtml += `<tr><td>${item.product_name_snapshot}</td><td>${item.quantity}</td><td>${formatRp(item.product_price_snapshot)}</td><td>${formatRp(item.subtotal)}</td></tr>`;
+        });
+    }
+
+    const htmlContent = `
+        <html>
+        <head>
+            <title>Invoice - ${order.order_number}</title>
+            <style>
+                body { font-family: 'Inter', sans-serif; margin: 40px; color: #333; line-height: 1.6; }
+                .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #2d6a4f; padding-bottom: 15px; }
+                .header h1 { color: #2d6a4f; margin: 0; font-family: 'Outfit', sans-serif; font-size: 2.5em; }
+                .header p { margin: 5px 0 0; color: #666; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+                .info-section { display: flex; justify-content: space-between; margin-bottom: 40px; }
+                .info-box { width: 48%; }
+                .info-box strong { color: #2d6a4f; display: block; margin-bottom: 8px; font-size: 1.1em; }
+                table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+                th, td { border: 1px solid #eee; padding: 15px; text-align: left; }
+                th { background-color: #f8faf6; color: #2d6a4f; font-weight: 700; text-transform: uppercase; font-size: 0.85em; }
+                .totals { width: 40%; margin-left: auto; }
+                .totals table { border: none; }
+                .totals td { border: none; padding: 10px 0; }
+                .totals td:last-child { text-align: right; font-weight: 700; }
+                .total-row { color: #e07a5f; font-size: 1.4em; border-top: 2px solid #e07a5f !important; }
+                .footer { margin-top: 60px; text-align: center; font-size: 0.9em; color: #888; border-top: 1px solid #eee; padding-top: 25px;}
+                @media print {
+                    @page { margin: 0; }
+                    body { margin: 1.5cm; }
+                }
+            </style>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+        </head>
+        <body>
+            <div class="header">
+                <h1>Zarali's Catering</h1>
+                <p>Invoice Pembelian</p>
+            </div>
+            <div class="info-section">
+                <div class="info-box">
+                    <strong>Informasi Pelanggan:</strong>
+                    ${order.customer_name}<br>
+                    ${order.customer_phone}<br>
+                    ${order.customer_email}
+                </div>
+                <div class="info-box" style="text-align: right;">
+                    <strong>Detail Pesanan:</strong>
+                    No. Pesanan: #${order.order_number}<br>
+                    Tanggal: ${formatDate(order.created_at)}<br>
+                    Status: <span style="color: #2d6a4f; font-weight: 700;">${order.status.toUpperCase()}</span>
+                </div>
+            </div>
+            <div style="margin-bottom: 30px;">
+                <strong>Alamat Pengiriman:</strong><br>
+                ${order.delivery_address}
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item / Paket</th>
+                        <th style="width: 100px;">Qty</th>
+                        <th>Harga</th>
+                        <th style="width: 150px;">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${itemsHtml}
+                </tbody>
+            </table>
+            <div class="totals">
+                <table>
+                    <tr>
+                        <td>Subtotal</td>
+                        <td>${formatRp(order.subtotal)}</td>
+                    </tr>
+                    <tr>
+                        <td>Biaya Pengiriman</td>
+                        <td>${formatRp(order.shipping_cost)}</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td><strong>Total Tagihan</strong></td>
+                        <td><strong>${formatRp(order.total_amount)}</strong></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="footer">
+                <p>Terima kasih telah mempercayakan momen spesial Anda kepada Zarali's Catering.</p>
+                <p style="font-size: 0.8em; margin-top: 10px;">Zarali's Catering &copy; 2024. All rights reserved.</p>
+            </div>
+            <script>
+                window.onload = function() {
+                    setTimeout(() => {
+                        window.print();
+                        // Optional: close window after print
+                        // window.onafterprint = () => window.close();
+                    }, 500);
+                }
+            </script>
+        </body>
+        </html>
+    `;
+
+    invoiceWindow.document.write(htmlContent);
+    invoiceWindow.document.close();
 }

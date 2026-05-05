@@ -96,8 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 elements.paymentProofContainer.innerHTML = `
                     <div class="border rounded-3 p-4 text-center bg-light transition-colors"
                         style="cursor: pointer;" title="Klik untuk melihat bukti pembayaran secara penuh"
-                        onclick="window.open('../uploads/payments/${order.payment_proof}', '_blank')">
-                        <img src="../uploads/payments/${order.payment_proof}" class="img-fluid rounded mb-2" style="max-height: 150px;">
+                        onclick="window.open('../${order.payment_proof}', '_blank')">
+                        <img src="../${order.payment_proof}" class="img-fluid rounded mb-2" style="max-height: 150px;">
                         <p class="small text-primary-custom fw-medium mb-0 text-decoration-underline">Lihat Bukti Full</p>
                     </div>
                 `;

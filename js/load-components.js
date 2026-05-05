@@ -42,6 +42,11 @@ document.addEventListener('DOMContentLoaded', async function () {
                 // Load notifications logic
                 const script = document.createElement('script');
                 script.src = basePath + 'js/notifications.js';
+                script.onload = () => {
+                    if (typeof initNotifications === 'function') {
+                        initNotifications();
+                    }
+                };
                 document.body.appendChild(script);
             }
         } catch (e) {
@@ -57,8 +62,34 @@ document.addEventListener('DOMContentLoaded', async function () {
         try {
             const html = await fetch(basePath + 'components/footer.html').then(r => r.text());
             footerPlaceholder.innerHTML = html;
+            initFooterData(basePath);
         } catch (e) {
             console.error('Gagal load footer:', e);
+        }
+    }
+
+    // -------------------------------------------------------
+    // 3.5 Load Live Chat Widget (hanya untuk area non-admin)
+    // -------------------------------------------------------
+    if (!isSubdir) {
+        try {
+            const chatHtml = await fetch(basePath + 'components/chat-widget.html').then(r => r.text());
+            const chatContainer = document.createElement('div');
+            chatContainer.innerHTML = chatHtml;
+            document.body.appendChild(chatContainer);
+            
+            // Add chat.css
+            const chatCss = document.createElement('link');
+            chatCss.rel = 'stylesheet';
+            chatCss.href = basePath + 'css/chat.css';
+            document.head.appendChild(chatCss);
+            
+            // Add chat.js
+            const chatJs = document.createElement('script');
+            chatJs.src = basePath + 'js/chat.js';
+            document.body.appendChild(chatJs);
+        } catch (e) {
+            console.error('Gagal load live chat widget:', e);
         }
     }
 
@@ -121,4 +152,27 @@ function highlightActiveLink() {
             link.classList.add('active');
         }
     });
+}
+
+// -------------------------------------------------------
+// Ambil data bisnis untuk Footer
+// -------------------------------------------------------
+async function initFooterData(basePath) {
+    try {
+        const res = await fetch(basePath + 'api/settings/show.php');
+        const result = await res.json();
+        
+        if (result.success && result.data) {
+            const data = result.data;
+            const nameEl = document.getElementById('footerBusinessName');
+            const addrEl = document.getElementById('footerBusinessAddress');
+            const phoneEl = document.getElementById('footerBusinessPhone');
+            
+            if (nameEl) nameEl.textContent = data.business_name || "Zarali's Catering";
+            if (addrEl) addrEl.textContent = data.business_address || "-";
+            if (phoneEl) phoneEl.textContent = data.business_phone || "-";
+        }
+    } catch (e) {
+        console.error('Gagal memuat data footer:', e);
+    }
 }

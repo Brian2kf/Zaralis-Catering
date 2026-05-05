@@ -144,12 +144,12 @@ redirect_admin_from_public();
                                 <div class="invalid-feedback">Nomor rumah wajib diisi.</div>
                             </div>
                             <div class="col-3">
-                                <label for="rt" class="form-label small fw-bold text-dark">RT *</label>
-                                <input type="text" class="form-control bg-light-input py-2" id="rt" placeholder="001" required>
+                                <label for="rt" class="form-label small fw-bold text-dark">RT</label>
+                                <input type="text" class="form-control bg-light-input py-2" id="rt" placeholder="">
                             </div>
                             <div class="col-3">
-                                <label for="rw" class="form-label small fw-bold text-dark">RW *</label>
-                                <input type="text" class="form-control bg-light-input py-2" id="rw" placeholder="005" required>
+                                <label for="rw" class="form-label small fw-bold text-dark">RW</label>
+                                <input type="text" class="form-control bg-light-input py-2" id="rw" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label for="kelurahan" class="form-label small fw-bold text-dark">Kelurahan *</label>
@@ -176,9 +176,9 @@ redirect_admin_from_public();
                                 <div class="invalid-feedback">Pilih kecamatan.</div>
                             </div>
                             <div class="col-md-6">
-                                <label for="postalCode" class="form-label small fw-bold text-dark">Kode Pos *</label>
+                                <label for="postalCode" class="form-label small fw-bold text-dark">Kode Pos</label>
                                 <input type="text" class="form-control bg-light-input py-2" id="postalCode"
-                                    placeholder="contoh: 16424" required>
+                                    placeholder="contoh: 16424">
                             </div>
                             <div class="col-md-6">
                                 <label for="landmark" class="form-label small fw-bold text-dark">Patokan Lokasi <span
@@ -288,7 +288,7 @@ redirect_admin_from_public();
                         <div class="shipping-rate-info small" style="color: #6b5345;">
                             <span class="material-symbols-outlined align-middle" style="font-size: 14px;">info</span>
                             Biaya pengiriman dihitung otomatis berdasarkan jarak tempuh dari lokasi kami ke alamat Anda
-                            dengan tarif <strong style="color: #2D6A4F;">Rp 7.000 / km</strong>.
+                            dengan tarif <strong style="color: #2D6A4F;">Rp 4.000 / km</strong>.
                         </div>
                     </div>
 

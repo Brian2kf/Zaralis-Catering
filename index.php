@@ -186,8 +186,6 @@ redirect_admin_from_public();
                     <div class="h-100 d-flex flex-column">
                         <div class="product-img-wrapper position-relative">
                             <img src="assets/images/PUDING TELUR CEPLOK.jpg" alt="PUDING TELUR CEPLOK">
-                            <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1"
-                                style="background-color: #1E3A8A;">Baru</span>
                         </div>
                         <div class="p-3 d-flex flex-column flex-grow-1 border border-top-0 rounded-bottom">
                             <h3 class="h5 fw-bold mb-2">PUDING TELUR CEPLOK</h3>

@@ -8,11 +8,12 @@ require_once '../../helpers/session.php';
 
 session_init();
 
-if (!is_logged_in()) {
-    http_response_code(401);
-    echo json_encode(["status" => "error", "message" => "Unauthorized"]);
-    exit();
-}
+// Hapus pengecekan login ketat di sini agar guest bisa melihat konfirmasi pesanan
+// if (!is_logged_in()) {
+//     http_response_code(401);
+//     echo json_encode(["status" => "error", "message" => "Unauthorized"]);
+//     exit();
+// }
 
 if (!isset($_GET['order'])) {
     http_response_code(400);
@@ -21,27 +22,31 @@ if (!isset($_GET['order'])) {
 }
 
 $order_number = $_GET['order'];
-$user_id = $_SESSION['user_id'];
-
 try {
     $db = Database::getInstance();
     
-    // Pastikan order milik user yang login (berdasarkan user_id atau email)
-    // Ambil email user yang login
-    $stmtUser = $db->prepare("SELECT email FROM users WHERE id = ?");
-    $stmtUser->execute([$user_id]);
-    $userEmail = $stmtUser->fetchColumn();
-
-    $query = "SELECT * FROM orders WHERE order_number = ? AND (user_id = ? OR customer_email = ?)";
+    $query = "SELECT * FROM orders WHERE order_number = ? LIMIT 1";
     $stmt = $db->prepare($query);
-    $stmt->execute([$order_number, $user_id, $userEmail]);
+    $stmt->execute([$order_number]);
     $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$order) {
         http_response_code(404);
-        echo json_encode(["status" => "error", "message" => "Pesanan tidak ditemukan atau bukan milik Anda."]);
+        echo json_encode(["status" => "error", "message" => "Pesanan tidak ditemukan."]);
         exit();
     }
+
+    // --- Validasi Kepemilikan ---
+    // Jika pesanan memiliki user_id (milik user terdaftar), maka wajib login dan ID harus cocok
+    // Admin diperbolehkan melihat semua pesanan
+    if ($order['user_id'] !== null) {
+        if (!is_logged_in() || ($_SESSION['user_id'] != $order['user_id'] && !is_admin())) {
+            http_response_code(401);
+            echo json_encode(["status" => "error", "message" => "Unauthorized: Pesanan ini milik akun terdaftar. Silakan login untuk melihat detailnya."]);
+            exit();
+        }
+    }
+    // Jika user_id NULL, berarti guest checkout. Kita izinkan akses publik untuk halaman konfirmasi.
 
     $order_id = $order['id'];
 

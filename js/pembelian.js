@@ -4,10 +4,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let allOrders = [];
     let currentFilter = 'Semua';
     let currentSubFilter = 'Semua';
+    let currentPage = 1;
+    const itemsPerPage = 5;
 
     // Elements
     const primaryBtns = document.querySelectorAll('.filter-btn');
-    const secondaryContainer = document.querySelector('.d-flex.flex-wrap.gap-2.ps-2'); // Sub-filter container
+    const secondaryContainer = document.querySelector('.flex-wrap.gap-2.ps-2'); // Sub-filter container
     const secondaryBtns = secondaryContainer ? secondaryContainer.querySelectorAll('.subfilter-btn') : [];
 
     const formatRp = (angka) => {
@@ -55,22 +57,28 @@ document.addEventListener("DOMContentLoaded", () => {
         let filtered = allOrders;
 
         if (currentFilter === 'Berlangsung') {
-            filtered = filtered.filter(o => ['pending_payment', 'pending_verification', 'processing', 'shipped'].includes(o.status));
+            // Jika sub-filter Selesai, kita masukkan status 'completed' ke dalam filter Berlangsung
+            const targetStatuses = ['pending_payment', 'pending_verification', 'processing', 'shipped'];
+            if (currentSubFilter === 'Selesai') targetStatuses.push('completed');
             
-            if (currentSubFilter === 'Menunggu Konfirmasi') {
+            filtered = filtered.filter(o => targetStatuses.includes(o.status));
+            
+            if (currentSubFilter === 'Menunggu Verifikasi') {
                 filtered = filtered.filter(o => ['pending_payment', 'pending_verification'].includes(o.status));
             } else if (currentSubFilter === 'Diproses') {
                 filtered = filtered.filter(o => o.status === 'processing');
             } else if (currentSubFilter === 'Dikirim') {
                 filtered = filtered.filter(o => o.status === 'shipped');
+            } else if (currentSubFilter === 'Selesai') {
+                filtered = filtered.filter(o => o.status === 'completed');
             }
-            // Tiba di Tujuan di-map ke shipped karena kita tdk punya status tiba
         } else if (currentFilter === 'Berhasil') {
             filtered = filtered.filter(o => o.status === 'completed');
         } else if (currentFilter === 'Tidak Berhasil') {
             filtered = filtered.filter(o => o.status === 'cancelled');
         }
 
+        currentPage = 1; // Reset ke halaman pertama setiap filter berubah
         renderOrders(filtered);
     }
 
@@ -82,8 +90,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (paginationWrapper) paginationWrapper.classList.remove('d-none');
+        
+        // Pagination Logic
+        const totalItems = orders.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+        const paginatedOrders = orders.slice(startIndex, endIndex);
+
         tableBody.innerHTML = '';
-        orders.forEach(order => {
+        paginatedOrders.forEach(order => {
             const tr = document.createElement('tr');
             const mainItem = order.item_reg || order.item_pkg || '-';
             
@@ -102,10 +118,85 @@ document.addEventListener("DOMContentLoaded", () => {
             tableBody.appendChild(tr);
         });
 
-        if (paginationWrapper) {
-            const countSpan = paginationWrapper.querySelector('span');
-            if (countSpan) countSpan.textContent = `Menampilkan 1-${orders.length} dari ${orders.length} transaksi`;
+        renderPagination(totalPages, startIndex + 1, endIndex, totalItems);
+    }
+
+    function renderPagination(totalPages, startRange, endRange, totalItems) {
+        if (!paginationWrapper) return;
+
+        const countSpan = paginationWrapper.querySelector('span');
+        if (countSpan) countSpan.textContent = `Menampilkan ${startRange}-${endRange} dari ${totalItems} transaksi`;
+
+        const btnContainer = paginationWrapper.querySelector('.d-flex.gap-1');
+        if (!btnContainer) return;
+
+        btnContainer.innerHTML = '';
+
+        // Prev Button
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'page-btn';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 18px;">chevron_left</span>';
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                applyFilters(); // Re-apply current filters to use current data set
+            }
+        });
+        btnContainer.appendChild(prevBtn);
+
+        // Page Numbers
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+            pageBtn.textContent = i;
+            pageBtn.addEventListener('click', () => {
+                currentPage = i;
+                // Re-render without full filter re-run to maintain data set
+                // But easier to just call applyFilters or a specific render function
+                renderOrdersForCurrentPage();
+            });
+            btnContainer.appendChild(pageBtn);
         }
+
+        // Next Button
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'page-btn';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 18px;">chevron_right</span>';
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderOrdersForCurrentPage();
+            }
+        });
+        btnContainer.appendChild(nextBtn);
+    }
+
+    function renderOrdersForCurrentPage() {
+        // Reuse applyFilters logic but don't reset currentPage
+        let filtered = allOrders;
+        if (currentFilter === 'Berlangsung') {
+            const targetStatuses = ['pending_payment', 'pending_verification', 'processing', 'shipped'];
+            if (currentSubFilter === 'Selesai') targetStatuses.push('completed');
+            
+            filtered = filtered.filter(o => targetStatuses.includes(o.status));
+            
+            if (currentSubFilter === 'Menunggu Verifikasi') {
+                filtered = filtered.filter(o => ['pending_payment', 'pending_verification'].includes(o.status));
+            } else if (currentSubFilter === 'Diproses') {
+                filtered = filtered.filter(o => o.status === 'processing');
+            } else if (currentSubFilter === 'Dikirim') {
+                filtered = filtered.filter(o => o.status === 'shipped');
+            } else if (currentSubFilter === 'Selesai') {
+                filtered = filtered.filter(o => o.status === 'completed');
+            }
+        } else if (currentFilter === 'Berhasil') {
+            filtered = filtered.filter(o => o.status === 'completed');
+        } else if (currentFilter === 'Tidak Berhasil') {
+            filtered = filtered.filter(o => o.status === 'cancelled');
+        }
+        renderOrders(filtered);
     }
 
     // Bind Filter Events
@@ -116,9 +207,9 @@ document.addEventListener("DOMContentLoaded", () => {
             // Hapus class active dari semua tombol
             allFilterBtns.forEach(b => {
                 b.classList.remove('active');
-                // Hapus ikon dari primary buttons
+                // Hapus ikon dari primary buttons jika ada
                 const icon = b.querySelector('.material-symbols-outlined');
-                if (icon) icon.remove();
+                if (icon && b.classList.contains('filter-btn')) icon.remove();
             });
 
             // Aktifkan tombol yang diklik
@@ -133,7 +224,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (currentFilter === 'Berlangsung') {
                     btn.innerHTML = 'Berlangsung <span class="material-symbols-outlined fs-6">expand_more</span>';
-                    if (secondaryContainer) secondaryContainer.style.display = 'flex';
+                    if (secondaryContainer) {
+                        secondaryContainer.style.display = 'flex';
+                        // Default sub-filter active is "Semua" or first? User said hide subfilters.
+                        // We should probably deactivate all subfilters when switching primary.
+                        secondaryBtns.forEach(sb => sb.classList.remove('active'));
+                    }
                 } else {
                     if (secondaryContainer) secondaryContainer.style.display = 'none';
                 }
@@ -145,23 +241,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Tetap tampilkan secondary container
                 if (secondaryContainer) secondaryContainer.style.display = 'flex';
 
-                // Opsional: tambahkan ikon expand_more kembali ke parent 'Berlangsung' meski tidak active
-                const parentBtn = Array.from(primaryBtns).find(b => b.textContent.includes('Berlangsung'));
-                if (parentBtn && !parentBtn.querySelector('.material-symbols-outlined')) {
-                    parentBtn.innerHTML = 'Berlangsung <span class="material-symbols-outlined fs-6">expand_more</span>';
-                }
+                // Pastikan parent 'Berlangsung' terlihat aktif secara visual jika diinginkan
+                primaryBtns.forEach(pb => {
+                    if (pb.textContent.includes('Berlangsung')) {
+                        pb.classList.add('active');
+                        if (!pb.querySelector('.material-symbols-outlined')) {
+                            pb.innerHTML = 'Berlangsung <span class="material-symbols-outlined fs-6">expand_more</span>';
+                        }
+                    } else {
+                        pb.classList.remove('active');
+                    }
+                });
             }
 
             applyFilters();
         });
-    });
-
-    // Inisialisasi UI: Tampilkan Semua dulu
-    primaryBtns.forEach(b => {
-        const text = b.textContent.replace('expand_more', '').trim();
-        if(text === 'Semua') {
-            b.click(); // Trigger Semua
-        }
     });
 
     loadOrders();

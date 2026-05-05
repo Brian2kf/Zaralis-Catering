@@ -33,11 +33,13 @@
             </div>
         </div>
 
-        <!-- Chips -->
-        <div class="d-flex flex-nowrap overflow-auto pb-3 mb-4 gap-2 no-scrollbar">
-            <button class="btn btn-primary-custom rounded-pill px-4 py-2 fw-semibold border-0 text-nowrap chip-btn" data-target="Semua">Semua</button>
-            <button class="btn btn-light border rounded-pill px-4 py-2 text-muted text-nowrap chip-btn fw-medium" data-target="kue-satuan">Kue Satuan</button>
-            <button class="btn btn-light border rounded-pill px-4 py-2 text-muted text-nowrap chip-btn fw-medium" data-target="paket-besar">Paket Besar</button>
+        <!-- Sort Chips -->
+        <div class="d-flex flex-nowrap overflow-auto pb-3 mb-4 gap-2 no-scrollbar align-items-center">
+            <span class="text-muted fw-medium me-2 text-nowrap d-none d-md-inline"><span class="material-symbols-outlined align-middle me-1" style="font-size: 18px;">sort</span>Urutkan:</span>
+            <button class="btn btn-primary-custom rounded-pill px-4 py-2 fw-semibold border-0 text-nowrap sort-btn" data-sort="newest">Terbaru</button>
+            <button class="btn btn-light border rounded-pill px-4 py-2 text-muted text-nowrap sort-btn fw-medium" data-sort="price_high">Harga Tertinggi</button>
+            <button class="btn btn-light border rounded-pill px-4 py-2 text-muted text-nowrap sort-btn fw-medium" data-sort="price_low">Harga Terendah</button>
+            <button class="btn btn-light border rounded-pill px-4 py-2 text-muted text-nowrap sort-btn fw-medium" data-sort="popular">Populer</button>
         </div>
 
         <!-- Disclaimer Kue Satuan -->
@@ -50,34 +52,11 @@
 
         <!-- Product Grid -->
         <div id="product-grid">
-            <!-- Paket Besar Section -->
-            <div class="mb-5 product-section" id="section-paket-besar">
-                <h2 class="h4 fw-bold mb-4 text-primary-custom d-flex align-items-center">
-                    <span class="material-symbols-outlined me-2">package</span>
-                    Paket Besar
-                </h2>
-                <div class="row g-4" id="paket-besar-container">
-                    <!-- Dinamis: Diisi oleh JS -->
-                    <div class="col-12 text-center py-5">
-                        <div class="spinner-border text-primary-custom" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Kue Satuan Section -->
-            <div class="mb-5 product-section" id="section-kue-satuan">
-                <h2 class="h4 fw-bold mb-4 text-primary-custom d-flex align-items-center">
-                    <span class="material-symbols-outlined me-2">bakery_dining</span>
-                    Kue Satuan
-                </h2>
-                <div class="row g-4" id="kue-satuan-container">
-                    <!-- Dinamis: Diisi oleh JS -->
-                    <div class="col-12 text-center py-5">
-                        <div class="spinner-border text-primary-custom" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
+            <div class="row g-4" id="all-products-container">
+                <!-- Dinamis: Diisi oleh JS -->
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-primary-custom" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
             </div>

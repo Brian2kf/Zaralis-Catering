@@ -1,6 +1,7 @@
-// js/menu.js - Logika Fetch API dan Filter untuk halaman menu.html
+// js/menu.js - Logika Fetch API dan Filter/Sort untuk halaman menu.html
 
 const API_URL = 'api/products/index.php';
+let allProducts = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     loadMenu();
@@ -11,9 +12,11 @@ async function loadMenu() {
         const response = await fetch(API_URL);
         const data = await response.json();
 
-        // Tampilkan produk ke masing-masing kontainer
-        displayProducts(data.kue_satuan, 'kue-satuan-container', 'kue-satuan');
-        displayProducts(data.paket_besar, 'paket-besar-container', 'paket-besar');
+        // Gabungkan semua produk
+        allProducts = [...(data.kue_satuan || []), ...(data.paket_besar || [])];
+
+        // Default sort: terbaru
+        sortProducts('newest');
 
         // Inisialisasi logika filter dan search setelah data dimuat
         initFilterAndSearch();
@@ -22,27 +25,50 @@ async function loadMenu() {
         if (typeof initCartEvents === 'function') initCartEvents();
     } catch (error) {
         console.error('Gagal mengambil data menu:', error);
-        const containers = ['kue-satuan-container', 'paket-besar-container'];
-        containers.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.innerHTML = '<div class="col-12 text-center text-danger py-4">Gagal memuat menu. Silakan coba lagi nanti.</div>';
-        });
+        const container = document.getElementById('all-products-container');
+        if (container) {
+            container.innerHTML = '<div class="col-12 text-center text-danger py-4">Gagal memuat menu. Silakan coba lagi nanti.</div>';
+        }
     }
 }
 
-function displayProducts(products, containerId, category) {
+function sortProducts(sortType) {
+    let sortedProducts = [...allProducts];
+
+    switch (sortType) {
+        case 'newest':
+            // Asumsi created_at ada, jika tidak urutkan terbalik saja (item terakhir = terbaru)
+            sortedProducts.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+            break;
+        case 'price_high':
+            sortedProducts.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+            break;
+        case 'price_low':
+            sortedProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+            break;
+        case 'popular':
+            sortedProducts.sort((a, b) => (b.sold_count || 0) - (a.sold_count || 0));
+            break;
+        default:
+            break;
+    }
+
+    displayProducts(sortedProducts, 'all-products-container');
+}
+
+function displayProducts(products, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
     container.innerHTML = '';
 
     if (!products || products.length === 0) {
-        container.innerHTML = '<div class="col-12 text-center text-muted py-4">Belum ada produk untuk kategori ini.</div>';
+        container.innerHTML = '<div class="col-12 text-center text-muted py-4">Belum ada produk yang ditemukan.</div>';
         return;
     }
 
     products.forEach(product => {
-        const isKueSatuan = category === 'kue-satuan';
+        const isKueSatuan = product.category === 'kue_satuan';
         
         // Sesuaikan tombol berdasarkan kategori
         const buttonHTML = isKueSatuan 
@@ -62,7 +88,7 @@ function displayProducts(products, containerId, category) {
         const priceLabel = isKueSatuan ? ' / pcs' : '';
 
         const productHTML = `
-        <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="${category}">
+        <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="${product.category}">
             <div class="product-card h-100 d-flex flex-column">
                 <div class="product-img-wrapper position-relative">
                     <img src="${product.image || 'assets/images/placeholder.png'}" alt="${product.name}" onerror="this.src='assets/images/placeholder.png'">
@@ -85,14 +111,13 @@ function displayProducts(products, containerId, category) {
 
 function initFilterAndSearch() {
     const searchInput = document.querySelector('input[placeholder="Cari sajian..."]');
-    const filterBtns = document.querySelectorAll('.chip-btn');
-    const productItems = document.querySelectorAll('.product-item');
-    const sections = document.querySelectorAll('.product-section');
+    const sortBtns = document.querySelectorAll('.sort-btn');
 
     // 1. Logika Pencarian
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase();
+            const productItems = document.querySelectorAll('.product-item');
             
             productItems.forEach(item => {
                 const title = item.querySelector('h3').innerText.toLowerCase();
@@ -111,42 +136,27 @@ function initFilterAndSearch() {
         });
     }
 
-    // 2. Logika Filter Kategori
-    if (filterBtns.length > 0) {
-        filterBtns.forEach(btn => {
+    // 2. Logika Sort
+    if (sortBtns.length > 0) {
+        sortBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 // Style tombol aktif
-                filterBtns.forEach(b => {
+                sortBtns.forEach(b => {
                     b.classList.remove('btn-primary-custom', 'border-0', 'text-white');
                     b.classList.add('btn-light', 'border', 'text-muted');
                 });
                 btn.classList.remove('btn-light', 'border', 'text-muted');
                 btn.classList.add('btn-primary-custom', 'border-0', 'text-white');
 
-                const targetCategory = btn.getAttribute('data-target');
+                const sortType = btn.getAttribute('data-sort');
+                
+                // Urutkan ulang data dan render
+                sortProducts(sortType);
 
-                // Filter Seksi (Heading + Container)
-                sections.forEach(section => {
-                    const sectionId = section.getAttribute('id');
-                    if (targetCategory === 'Semua' || sectionId === `section-${targetCategory}`) {
-                        section.style.display = 'block';
-                    } else {
-                        section.style.display = 'none';
-                    }
-                });
-
-                // Filter Item (Animasi)
-                productItems.forEach(item => {
-                    item.style.opacity = '0';
-                    setTimeout(() => {
-                        if (targetCategory === 'Semua' || item.getAttribute('data-category') === targetCategory) {
-                            item.style.display = 'block';
-                            setTimeout(() => item.style.opacity = '1', 50);
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    }, 300);
-                });
+                // Re-apply search filter jika ada text di search input
+                if (searchInput && searchInput.value) {
+                    searchInput.dispatchEvent(new Event('input'));
+                }
             });
         });
     }

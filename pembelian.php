@@ -40,8 +40,8 @@ redirect_admin_from_public();
         <div class="filter-card">
             <!-- Primary Status Tabs -->
             <div class="d-flex flex-wrap gap-2 mb-3 pb-3 border-bottom border-light">
-                <button class="filter-btn">Semua</button>
-                <button class="filter-btn active d-flex align-items-center gap-1">
+                <button class="filter-btn active">Semua</button>
+                <button class="filter-btn d-flex align-items-center gap-1">
                     Berlangsung
                     <span class="material-symbols-outlined fs-6">expand_more</span>
                 </button>
@@ -50,11 +50,11 @@ redirect_admin_from_public();
             </div>
             
             <!-- Secondary Sub-filters -->
-            <div class="d-flex flex-wrap gap-2 ps-2">
-                <button class="subfilter-btn">Menunggu Konfirmasi</button>
+            <div class="flex-wrap gap-2 ps-2" style="display: none;">
+                <button class="subfilter-btn">Menunggu Verifikasi</button>
                 <button class="subfilter-btn active">Diproses</button>
                 <button class="subfilter-btn">Dikirim</button>
-                <button class="subfilter-btn">Tiba di Tujuan</button>
+                <button class="subfilter-btn">Selesai</button>
             </div>
         </div>
 

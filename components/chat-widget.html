@@ -1,0 +1,53 @@
+<!-- components/chat-widget.html -->
+<div id="live-chat-widget" class="live-chat-widget">
+    <button id="chat-toggle-btn" class="chat-toggle-btn" aria-label="Buka Live Chat">
+        <span class="material-symbols-outlined chat-icon-open">chat</span>
+        <span class="material-symbols-outlined chat-icon-close d-none">close</span>
+        <span id="chat-unread-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">
+            !
+            <span class="visually-hidden">pesan belum dibaca</span>
+        </span>
+    </button>
+
+    <div id="chat-window" class="chat-window d-none shadow-lg">
+        <div class="chat-header bg-primary-custom text-white p-3 rounded-top d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+                <span class="material-symbols-outlined">support_agent</span>
+                <h5 class="mb-0 fs-6 fw-bold">Live Chat Admin</h5>
+            </div>
+            <button id="chat-close-window-btn" class="btn btn-link text-white p-0 border-0">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <!-- Registration Form (for guests) -->
+        <div id="chat-register-form" class="chat-body p-3 bg-light text-center">
+            <span class="material-symbols-outlined fs-1 text-primary-custom mb-2">forum</span>
+            <p class="small text-muted mb-3">Silakan masukkan nama Anda untuk memulai obrolan dengan kami.</p>
+            <div class="mb-3">
+                <input type="text" id="chat-guest-name" class="form-control" placeholder="Nama Anda" autocomplete="name">
+            </div>
+            <button id="chat-start-btn" class="btn btn-primary-custom w-100 rounded-pill fw-bold">Mulai Chat</button>
+        </div>
+
+        <!-- Chat Messages Area -->
+        <div id="chat-messages-area" class="chat-body p-3 d-none d-flex flex-column gap-2" style="height: 300px; overflow-y: auto; background-color: #f8f9fa;">
+            <div class="text-center text-muted small py-2">
+                Selamat datang di Zarali's Catering Live Chat. Admin akan segera membalas pesan Anda.
+            </div>
+            <div id="chat-message-list" class="d-flex flex-column gap-2">
+                <!-- Messages will be appended here -->
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div id="chat-input-area" class="chat-footer p-2 border-top bg-white d-none rounded-bottom">
+            <form id="chat-send-form" class="d-flex align-items-center gap-2 m-0">
+                <input type="text" id="chat-message-input" class="form-control border-0 bg-light rounded-pill px-3" placeholder="Tulis pesan..." autocomplete="off">
+                <button type="submit" class="btn btn-primary-custom rounded-circle p-2 d-flex align-items-center justify-content-center border-0 flex-shrink-0" aria-label="Kirim">
+                    <span class="material-symbols-outlined fs-6">send</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

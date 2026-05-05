@@ -61,10 +61,11 @@
 
 .table-custom {
     margin-bottom: 0;
+    --bs-table-bg: white !important;
 }
 
 .table-custom th {
-    background-color: #f8faf6;
+    background-color: white !important;
     border-bottom: 1px solid rgba(0,0,0,0.05);
     font-size: 0.875rem;
     color: #6c757d;
@@ -81,8 +82,12 @@
     color: #212529;
 }
 
+.table-custom tr, .table-custom td {
+    background-color: white !important;
+}
+
 .table-custom tbody {
-    background-color: white;
+    background-color: white !important;
 }
 
 .table-custom tbody tr {
@@ -155,7 +160,7 @@
 }
 
 .pagination-wrapper {
-    background-color: #f8faf6;
+    background-color: white;
     border-top: 1px solid rgba(0,0,0,0.05);
     padding: 1rem 1.5rem;
 }

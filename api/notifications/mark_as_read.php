@@ -1,6 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: POST");
 
 require_once '../../config/database.php';
 require_once '../../helpers/session.php';
@@ -16,29 +17,16 @@ if (!is_logged_in()) {
 $user = current_user();
 $userId = $user['id'];
 
-if (!$userId) {
-    http_response_code(401);
-    echo json_encode(["success" => false, "message" => "User ID not found in session."]);
-    exit();
-}
-
 try {
     $db = Database::getInstance();
     
-    $query = "SELECT id, title, message, is_read, created_at FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 10";
+    $query = "UPDATE notifications SET is_read = 1 WHERE user_id = ? AND is_read = 0";
     $stmt = $db->prepare($query);
     $stmt->execute([$userId]);
-    $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // Hitung yang belum dibaca
-    $stmtUnread = $db->prepare("SELECT COUNT(*) FROM notifications WHERE user_id = ? AND is_read = 0");
-    $stmtUnread->execute([$userId]);
-    $unreadCount = $stmtUnread->fetchColumn();
-
     echo json_encode([
         "success" => true,
-        "notifications" => $notifications,
-        "unread_count" => (int)$unreadCount
+        "message" => "All notifications marked as read."
     ]);
 
 } catch (Exception $e) {

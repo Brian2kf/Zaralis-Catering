@@ -159,14 +159,14 @@ $phone = htmlspecialchars($user['phone']);
                                 <div class="invalid-feedback">Nomor rumah wajib diisi.</div>
                             </div>
                             <div class="col-3">
-                                <label for="rt" class="form-label small fw-bold text-dark">RT *</label>
-                                <input type="text" class="form-control bg-light-input py-2" id="rt" placeholder="001" required>
-                                <div class="invalid-feedback">RT wajib diisi.</div>
+                                <label for="rt" class="form-label small fw-bold text-dark">RT</label>
+                                <input type="text" class="form-control bg-light-input py-2" id="rt" placeholder="0xx">
+                                <div class="invalid-feedback">RT.</div>
                             </div>
                             <div class="col-3">
-                                <label for="rw" class="form-label small fw-bold text-dark">RW *</label>
-                                <input type="text" class="form-control bg-light-input py-2" id="rw" placeholder="005" required>
-                                <div class="invalid-feedback">RW wajib diisi.</div>
+                                <label for="rw" class="form-label small fw-bold text-dark">RW</label>
+                                <input type="text" class="form-control bg-light-input py-2" id="rw" placeholder="0xx">
+                                <div class="invalid-feedback">RW.</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="kelurahan" class="form-label small fw-bold text-dark">Kelurahan *</label>
@@ -192,9 +192,9 @@ $phone = htmlspecialchars($user['phone']);
                                 <div class="invalid-feedback">Pilih kecamatan.</div>
                             </div>
                             <div class="col-md-6">
-                                <label for="postalCode" class="form-label small fw-bold text-dark">Kode Pos *</label>
-                                <input type="text" class="form-control bg-light-input py-2" id="postalCode" placeholder="contoh: 16423" required>
-                                <div class="invalid-feedback">Kode pos wajib diisi.</div>
+                                <label for="postalCode" class="form-label small fw-bold text-dark">Kode Pos</label>
+                                <input type="text" class="form-control bg-light-input py-2" id="postalCode" placeholder="contoh: 16424">
+                                <div class="invalid-feedback">Kode Pos.</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="landmark" class="form-label small fw-bold text-dark">Patokan Lokasi <span class="text-muted fw-normal">(opsional)</span></label>

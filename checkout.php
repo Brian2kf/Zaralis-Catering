@@ -288,7 +288,7 @@ redirect_admin_from_public();
                         <div class="shipping-rate-info small" style="color: #6b5345;">
                             <span class="material-symbols-outlined align-middle" style="font-size: 14px;">info</span>
                             Biaya pengiriman dihitung otomatis berdasarkan jarak tempuh dari lokasi kami ke alamat Anda
-                            dengan tarif <strong style="color: #2D6A4F;">Rp 4.000 / km</strong>.
+                            dengan tarif <strong style="color: #2D6A4F;">Rp 2.000 / km</strong>.
                         </div>
                     </div>
 

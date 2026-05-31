@@ -22,7 +22,7 @@ try {
     // Cari pesanan berdasarkan customer_email (Retroaktif)
     // Urutkan dari yang terbaru
     $query = "
-        SELECT o.order_number, o.created_at, o.total_amount, o.status,
+        SELECT o.id, o.order_number, o.created_at, o.updated_at, o.total_amount, o.status,
                (SELECT product_name_snapshot FROM order_items WHERE order_id = o.id LIMIT 1) as item_reg,
                (SELECT package_name FROM order_packages WHERE order_id = o.id LIMIT 1) as item_pkg
         FROM orders o

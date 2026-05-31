@@ -23,7 +23,7 @@ redirect_admin_from_public();
     <link rel="stylesheet" href="css/custom.css">
 </head>
 
-<body class="d-flex flex-column min-vh-100" style="background-color: #FFF8F0;">
+<body class="d-flex flex-column min-vh-100" style="background-color: #F8FAF6;">
 
     <!-- Navbar Placeholder -->
     <div id="navbar-placeholder"></div>

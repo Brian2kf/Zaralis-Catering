@@ -90,12 +90,14 @@ function displayProducts(products, containerId) {
         const productHTML = `
         <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="${product.category}">
             <div class="product-card h-100 d-flex flex-column">
-                <div class="product-img-wrapper position-relative">
+                <a href="product-detail.php?id=${product.id}" class="product-img-wrapper position-relative text-decoration-none d-block">
                     <img src="${product.image || 'assets/images/placeholder.png'}" alt="${product.name}" onerror="this.src='assets/images/placeholder.png'">
                     ${badgeHTML}
-                </div>
+                </a>
                 <div class="p-3 d-flex flex-column flex-grow-1">
-                    <h3 class="h5 fw-bold mb-2">${product.name.toUpperCase()}</h3>
+                    <a href="product-detail.php?id=${product.id}" class="text-decoration-none text-dark">
+                        <h3 class="h5 fw-bold mb-2">${product.name.toUpperCase()}</h3>
+                    </a>
                     <p class="text-muted small mb-3 flex-grow-1">${product.description || 'Tidak ada deskripsi.'}</p>
                     <div class="d-flex justify-content-between align-items-center pt-2 border-top">
                         <span class="text-secondary-custom fw-bold">Rp ${Number(product.price).toLocaleString('id-ID')} <span class="text-muted fw-normal small">${priceLabel}</span></span>

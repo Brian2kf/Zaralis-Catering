@@ -25,12 +25,12 @@ if ($stmt_product->rowCount() > 0) {
     $row = $stmt_product->fetch(PDO::FETCH_ASSOC);
 
     $product = [
-        "id" => $row['id'],
-        "name" => $row['name'],
+        "id"       => $row['id'],
+        "name"     => $row['name'],
         "description" => $row['description'],
-        "price" => $row['price'],
+        "price"    => $row['price'],
         "category" => $row['category'],
-        "images" => []
+        "images"   => []
     ];
 
     // Query untuk mengambil semua gambar milik produk ini
@@ -41,6 +41,15 @@ if ($stmt_product->rowCount() > 0) {
     while ($img_row = $stmt_images->fetch(PDO::FETCH_ASSOC)) {
         array_push($product["images"], $img_row);
     }
+
+    // Query untuk menghitung rata-rata rating dan jumlah ulasan
+    $query_rating = "SELECT AVG(rating) as avg_rating, COUNT(id) as review_count FROM product_reviews WHERE product_id = ?";
+    $stmt_rating = $db->prepare($query_rating);
+    $stmt_rating->execute([$id]);
+    $rating_row = $stmt_rating->fetch(PDO::FETCH_ASSOC);
+
+    $product["avg_rating"]   = $rating_row['avg_rating'] ? round((float)$rating_row['avg_rating'], 1) : null;
+    $product["review_count"] = (int)$rating_row['review_count'];
 
     http_response_code(200);
     echo json_encode($product);

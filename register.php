@@ -81,10 +81,10 @@ $csrfToken = csrf_token();
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label small fw-bold text-dark mb-1">Nomor Telepon / WA</label>
+                    <label class="form-label small fw-bold text-dark mb-1">Nomor Telepon</label>
                     <div class="auth-input-group">
                         <span class="material-symbols-outlined auth-input-icon">call</span>
-                        <input type="tel" class="form-control auth-input py-2" id="phone" placeholder="08123456789"
+                        <input type="tel" class="form-control auth-input py-2" id="phone" placeholder="Contoh: 08123..."
                             required>
                     </div>
                 </div>

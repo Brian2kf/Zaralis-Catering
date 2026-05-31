@@ -4,6 +4,10 @@
 // Endpoint proxy untuk menghitung biaya pengiriman dari server.
 // Mengatasi masalah CORS yang terjadi saat browser memanggil
 // Nominatim / OSRM secara langsung.
+// Sistem Tarif Hibrida:
+//   - Biaya minimum: Rp 16.000 (dari DB)
+//   - 0 - 20 km     : Rp 2.000 / km (Tier 1)
+//   - > 20 km       : (20 × Rp2.000) + (sisa km × Rp2.500)
 // ============================================================
 
 header("Access-Control-Allow-Origin: *");
@@ -25,12 +29,35 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 require_once '../../config/database.php';
 
+// ============================================================
+// Daftar kota/kabupaten Jabodetabek yang diizinkan
+// ============================================================
+$ALLOWED_CITIES = [
+    'Kota Depok',
+    'Kota Jakarta Selatan',
+    'Kota Jakarta Timur',
+    'Kota Jakarta Pusat',
+    'Kota Jakarta Barat',
+    'Kota Jakarta Utara',
+    'Kota Bogor',
+    'Kabupaten Bogor',
+    'Kota Tangerang',
+    'Kota Tangerang Selatan',
+    'Kabupaten Tangerang',
+    'Kota Bekasi',
+    'Kabupaten Bekasi',
+];
+
 // --- Ambil pengaturan bisnis ---
 try {
     $db = Database::getInstance();
     $stmtSettings = $db->query(
         "SELECT setting_key, setting_value FROM business_settings
-         WHERE setting_key IN ('origin_latitude', 'origin_longitude', 'shipping_rate_per_km')"
+         WHERE setting_key IN (
+           'origin_latitude', 'origin_longitude',
+           'shipping_min_cost', 'shipping_rate_tier1_km',
+           'shipping_rate_tier2_km', 'shipping_tier_threshold_km'
+         )"
     );
     $settings = [];
     while ($row = $stmtSettings->fetch(PDO::FETCH_ASSOC)) {
@@ -42,18 +69,21 @@ try {
     exit();
 }
 
-$origin_lat  = floatval($settings['origin_latitude']  ?? -6.3683159);
-$origin_lon  = floatval($settings['origin_longitude']  ?? 106.8461364);
-$rate_per_km = floatval($settings['shipping_rate_per_km'] ?? 7000);
+$origin_lat       = floatval($settings['origin_latitude']           ?? -6.3683159);
+$origin_lon       = floatval($settings['origin_longitude']          ?? 106.8461364);
+$min_cost         = floatval($settings['shipping_min_cost']         ?? 16000);
+$rate_tier1       = floatval($settings['shipping_rate_tier1_km']    ?? 2000);
+$rate_tier2       = floatval($settings['shipping_rate_tier2_km']    ?? 2500);
+$tier_threshold   = floatval($settings['shipping_tier_threshold_km'] ?? 20);
 
 // --- Ambil data alamat dari frontend ---
 $data = json_decode(file_get_contents("php://input"));
 
-if (!$data || empty($data->street) || empty($data->kel) || empty($data->kec)) {
+if (!$data || empty($data->street) || empty($data->kel) || empty($data->kec) || empty($data->kota)) {
     http_response_code(400);
     echo json_encode([
         "success" => false,
-        "message" => "Harap lengkapi field Nama Jalan, Kelurahan, dan Kecamatan."
+        "message" => "Harap lengkapi field Nama Jalan, Kelurahan, Kecamatan, dan Kota/Kabupaten."
     ]);
     exit();
 }
@@ -62,15 +92,28 @@ $street = trim($data->street);
 $house  = trim($data->house ?? '');
 $kel    = trim($data->kel);
 $kec    = trim($data->kec);
+$kota   = trim($data->kota);
+
+// ============================================================
+// Validasi: kota harus termasuk dalam whitelist Jabodetabek
+// ============================================================
+if (!in_array($kota, $ALLOWED_CITIES)) {
+    http_response_code(400);
+    echo json_encode([
+        "success" => false,
+        "message" => "Maaf, kami belum melayani pengiriman ke wilayah \"$kota\". Kami hanya melayani area Jabodetabek."
+    ]);
+    exit();
+}
 
 // ============================================================
 // STEP 1: Geocoding via Nominatim (Server-side, tanpa CORS)
+// Gunakan nama kota secara dinamis dari input frontend
 // ============================================================
-$suffix  = "Kota Depok, Jawa Barat";
 $queries = [
-    "{$street}, {$kel}, {$kec}, {$suffix}",
-    "{$kel}, {$kec}, {$suffix}",
-    "{$kec}, {$suffix}",
+    "{$street}, {$kel}, {$kec}, {$kota}, Indonesia",
+    "{$kel}, {$kec}, {$kota}, Indonesia",
+    "{$kec}, {$kota}, Indonesia",
 ];
 
 $geoResult = null;
@@ -82,8 +125,6 @@ foreach ($queries as $q) {
             'format'       => 'json',
             'limit'        => 1,
             'countrycodes' => 'id',
-            'viewbox'      => '106.7,-6.3,106.9,-6.5',
-            'bounded'      => 0,
         ]);
 
     $ch = curl_init();
@@ -108,7 +149,6 @@ foreach ($queries as $q) {
     }
 
     if ($httpCode === 403) {
-        // Rate limited — beri tahu frontend
         http_response_code(503);
         echo json_encode([
             "success" => false,
@@ -133,7 +173,7 @@ if (!$geoResult) {
     http_response_code(404);
     echo json_encode([
         "success" => false,
-        "message" => "Alamat tidak ditemukan. Pastikan nama jalan, kelurahan, dan kecamatan sudah benar."
+        "message" => "Alamat tidak ditemukan. Pastikan nama jalan, kelurahan, kecamatan, dan kota sudah benar."
     ]);
     exit();
 }
@@ -183,22 +223,42 @@ if (!$osrmOk) {
 }
 
 // ============================================================
-// STEP 3: Hitung biaya pengiriman
+// STEP 3: Hitung biaya pengiriman dengan sistem HIBRIDA
 // ============================================================
-$roundedKm    = ceil($distanceKm * 10) / 10; // Bulatkan ke 0.1 km terdekat ke atas
-$shippingCost = round($roundedKm * $rate_per_km);
+$roundedKm = ceil($distanceKm * 10) / 10; // Bulatkan ke 0.1 km terdekat ke atas
+
+if ($roundedKm <= $tier_threshold) {
+    // Jarak masih di Tier 1 (0 - threshold km)
+    $calculated   = $roundedKm * $rate_tier1;
+    $tier1_km     = $roundedKm;
+    $tier2_km     = 0;
+} else {
+    // Jarak melewati threshold, hitung kelebihannya saja di Tier 2
+    $tier1_km     = $tier_threshold;
+    $tier2_km     = $roundedKm - $tier_threshold;
+    $calculated   = ($tier1_km * $rate_tier1) + ($tier2_km * $rate_tier2);
+}
+
+$shippingCost = max($min_cost, (int) round($calculated));
+$min_applied  = ($shippingCost === (int) $min_cost && round($calculated) < $min_cost);
 
 // --- Kirim response ---
 http_response_code(200);
 echo json_encode([
-    "success"       => true,
-    "lat"           => $custLat,
-    "lon"           => $custLon,
-    "distance_km"   => round($distanceKm, 2),
-    "rounded_km"    => $roundedKm,
-    "shipping_cost" => $shippingCost,
-    "rate_per_km"   => $rate_per_km,
-    "used_fallback" => $usedFallback,
+    "success"        => true,
+    "lat"            => $custLat,
+    "lon"            => $custLon,
+    "distance_km"    => round($distanceKm, 2),
+    "rounded_km"     => $roundedKm,
+    "shipping_cost"  => $shippingCost,
+    "min_cost"       => $min_cost,
+    "min_applied"    => $min_applied,
+    "tier1_km"       => $tier1_km,
+    "tier2_km"       => $tier2_km,
+    "rate_tier1"     => $rate_tier1,
+    "rate_tier2"     => $rate_tier2,
+    "tier_threshold" => $tier_threshold,
+    "used_fallback"  => $usedFallback,
 ]);
 
 // ============================================================

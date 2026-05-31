@@ -28,7 +28,7 @@ redirect_admin_from_public();
     <link rel="stylesheet" href="css/pages/checkout.css">
 </head>
 
-<body class="d-flex flex-column min-vh-100" style="background-color: #FFF8F0;">
+<body class="d-flex flex-column min-vh-100" style="background-color: #F8FAF6;">
     <!-- Navbar Placeholder -->
     <div id="navbar-placeholder"></div>
 
@@ -74,7 +74,7 @@ redirect_admin_from_public();
                                 <label for="phone" class="form-label small fw-bold text-dark">No. WhatsApp / Telepon
                                     *</label>
                                 <input type="tel" class="form-control bg-light-input py-2" id="phone"
-                                    placeholder="08xx..." required>
+                                    placeholder="contoh: 0812..." required>
                                 <div class="invalid-feedback">Nomor telepon wajib diisi.</div>
                             </div>
                         </div>
@@ -158,20 +158,39 @@ redirect_admin_from_public();
                                 <div class="invalid-feedback">Kelurahan wajib diisi.</div>
                             </div>
                             <div class="col-md-6">
+                                <label for="kota" class="form-label small fw-bold text-dark">Kota / Kabupaten *</label>
+                                <select class="form-select bg-light-input py-2" id="kota" required>
+                                    <option value="" selected disabled>Pilih Kota / Kabupaten</option>
+                                    <optgroup label="DKI Jakarta">
+                                        <option value="Kota Jakarta Selatan">Jakarta Selatan</option>
+                                        <option value="Kota Jakarta Timur">Jakarta Timur</option>
+                                        <option value="Kota Jakarta Pusat">Jakarta Pusat</option>
+                                        <option value="Kota Jakarta Barat">Jakarta Barat</option>
+                                        <option value="Kota Jakarta Utara">Jakarta Utara</option>
+                                    </optgroup>
+                                    <optgroup label="Bogor">
+                                        <option value="Kota Bogor">Kota Bogor</option>
+                                        <option value="Kabupaten Bogor">Kabupaten Bogor</option>
+                                    </optgroup>
+                                    <optgroup label="Depok">
+                                        <option value="Kota Depok">Kota Depok</option>
+                                    </optgroup>
+                                    <optgroup label="Tangerang">
+                                        <option value="Kota Tangerang">Kota Tangerang</option>
+                                        <option value="Kota Tangerang Selatan">Kota Tangerang Selatan</option>
+                                        <option value="Kabupaten Tangerang">Kabupaten Tangerang</option>
+                                    </optgroup>
+                                    <optgroup label="Bekasi">
+                                        <option value="Kota Bekasi">Kota Bekasi</option>
+                                        <option value="Kabupaten Bekasi">Kabupaten Bekasi</option>
+                                    </optgroup>
+                                </select>
+                                <div class="invalid-feedback">Pilih kota/kabupaten tujuan.</div>
+                            </div>
+                            <div class="col-md-6">
                                 <label for="kecamatan" class="form-label small fw-bold text-dark">Kecamatan *</label>
-                                <select class="form-select bg-light-input py-2" id="kecamatan" required>
-                                    <option value="" selected disabled>Pilih Kecamatan</option>
-                                    <option value="Beji">Beji</option>
-                                    <option value="Bojongsari">Bojongsari</option>
-                                    <option value="Cilodong">Cilodong</option>
-                                    <option value="Cimanggis">Cimanggis</option>
-                                    <option value="Cinere">Cinere</option>
-                                    <option value="Cipayung">Cipayung</option>
-                                    <option value="Limo">Limo</option>
-                                    <option value="Pancoran Mas">Pancoran Mas</option>
-                                    <option value="Sawangan">Sawangan</option>
-                                    <option value="Sukmajaya">Sukmajaya</option>
-                                    <option value="Tapos">Tapos</option>
+                                <select class="form-select bg-light-input py-2" id="kecamatan" required disabled>
+                                    <option value="" selected disabled>Pilih kota terlebih dahulu</option>
                                 </select>
                                 <div class="invalid-feedback">Pilih kecamatan.</div>
                             </div>
@@ -282,13 +301,14 @@ redirect_admin_from_public();
                             <strong style="color: #c0563d;">Perhatian</strong>
                         </div>
                         <p class="small mb-2" style="color: #6b5345;">
-                            Zarali's Catering saat ini hanya melayani pengiriman di dalam area <strong>Kota Depok, Jawa
-                                Barat</strong>. Pesanan dari luar area ini tidak dapat kami proses.
+                            Zarali's Catering melayani pengiriman di seluruh wilayah <strong>Jabodetabek</strong> (Jakarta, Bogor, Depok, Tangerang, dan Bekasi). Pesanan dari luar wilayah ini tidak dapat kami proses.
                         </p>
                         <div class="shipping-rate-info small" style="color: #6b5345;">
                             <span class="material-symbols-outlined align-middle" style="font-size: 14px;">info</span>
-                            Biaya pengiriman dihitung otomatis berdasarkan jarak tempuh dari lokasi kami ke alamat Anda
-                            dengan tarif <strong style="color: #2D6A4F;">Rp 2.000 / km</strong>.
+                            Biaya pengiriman dihitung berdasarkan jarak tempuh dengan tarif bertingkat:
+                            <strong style="color: #2D6A4F;">Rp 2.000/km</strong> (0–20 km pertama),
+                            lalu <strong style="color: #2D6A4F;">Rp 2.500/km</strong> untuk km berikutnya.
+                            Minimum biaya kirim <strong style="color: #2D6A4F;">Rp 16.000</strong>.
                         </div>
                     </div>
 

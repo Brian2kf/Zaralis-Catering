@@ -1,5 +1,24 @@
 // js/checkout.js — Checkout Page Logic dengan Backend Proxy API
 
+// ============================================================
+// Data Kecamatan per Kota/Kabupaten Jabodetabek
+// ============================================================
+const KECAMATAN_BY_KOTA = {
+    'Kota Jakarta Selatan': ['Cilandak','Jagakarsa','Kebayoran Baru','Kebayoran Lama','Mampang Prapatan','Pancoran','Pasar Minggu','Pesanggrahan','Setiabudi','Tebet'],
+    'Kota Jakarta Timur': ['Cakung','Ciracas','Duren Sawit','Jatinegara','Kramat Jati','Makasar','Matraman','Pasar Rebo','Pulo Gadung','Cipayung'],
+    'Kota Jakarta Pusat': ['Cempaka Putih','Gambir','Johar Baru','Kemayoran','Menteng','Sawah Besar','Senen','Tanah Abang'],
+    'Kota Jakarta Barat': ['Cengkareng','Grogol Petamburan','Kalideres','Kebon Jeruk','Kembangan','Palmerah','Taman Sari','Tambora'],
+    'Kota Jakarta Utara': ['Cilincing','Kelapa Gading','Koja','Pademangan','Penjaringan','Tanjung Priok'],
+    'Kota Bogor': ['Bogor Barat','Bogor Selatan','Bogor Tengah','Bogor Timur','Bogor Utara','Tanah Sareal'],
+    'Kabupaten Bogor': ['Babakan Madang','Bojonggede','Caringin','Cariu','Cigombong','Cileungsi','Ciomas','Cisarua','Citeureup','Dramaga','Gunung Putri','Gunung Sindur','Jonggol','Kemang','Klapanunggal','Leuwiliang','Megamendung','Nanggung','Parung','Parung Panjang','Rumpin','Sukaraja','Sukamakmur','Tamansari','Tenjo','Tenjolaya'],
+    'Kota Depok': ['Beji','Bojongsari','Cilodong','Cimanggis','Cinere','Cipayung','Limo','Pancoran Mas','Sawangan','Sukmajaya','Tapos'],
+    'Kota Tangerang': ['Batuceper','Benda','Ciledug','Cipondoh','Jatiuwung','Karang Tengah','Karawaci','Larangan','Neglasari','Periuk','Pinang','Tangerang','Cibodas'],
+    'Kota Tangerang Selatan': ['Ciputat','Ciputat Timur','Pamulang','Pondok Aren','Serpong','Serpong Utara','Setu'],
+    'Kabupaten Tangerang': ['Balaraja','Cisauk','Cisoka','Cikupa','Curug','Gunung Kaler','Jambe','Jayanti','Kelapa Dua','Kemiri','Kosambi','Kronjo','Kresek','Legok','Mauk','Mekar Baru','Muncul','Pagedangan','Pakuhaji','Panongan','Pasar Kemis','Rajeg','Sepatan','Sepatan Timur','Sindang Jaya','Solear','Sukadiri','Sukamulya','Tigaraksa'],
+    'Kota Bekasi': ['Bantargebang','Bekasi Barat','Bekasi Selatan','Bekasi Timur','Bekasi Utara','Jatiasih','Jatisampurna','Medan Satria','Mustikajaya','Pondok Gede','Pondok Melati','Rawalumbu'],
+    'Kabupaten Bekasi': ['Babelan','Bojongmangu','Cabangbungin','Cibarusah','Cibitung','Cikarang Barat','Cikarang Pusat','Cikarang Selatan','Cikarang Timur','Cikarang Utara','Kedungwaringin','Muara Gembong','Pebayuran','Serang Baru','Setu','Sukawangi','Sukakarya','Sukatani','Sukawijaya','Tambun Selatan','Tambun Utara','Tambelang','Tarumajaya'],
+};
+
 class CheckoutController {
     constructor(cartManager) {
         this.cart = cartManager;
@@ -12,10 +31,36 @@ class CheckoutController {
 
     init() {
         this.initDatePicker();
+        this.initKotaKecamatanDropdown();
         this.bindShippingButton();
         this.bindOrderButton();
         this.bindAddressChangeReset();
         this.initAutofill();
+    }
+
+    // --- Cascading Kota → Kecamatan ---
+    initKotaKecamatanDropdown() {
+        const kotaEl = document.getElementById('kota');
+        const kecEl  = document.getElementById('kecamatan');
+        if (!kotaEl || !kecEl) return;
+
+        kotaEl.addEventListener('change', () => {
+            const selectedKota = kotaEl.value;
+            kecEl.innerHTML = '<option value="" selected disabled>Pilih Kecamatan</option>';
+            if (selectedKota && KECAMATAN_BY_KOTA[selectedKota]) {
+                KECAMATAN_BY_KOTA[selectedKota].forEach(kec => {
+                    const opt = document.createElement('option');
+                    opt.value = kec;
+                    opt.textContent = kec;
+                    kecEl.appendChild(opt);
+                });
+                kecEl.disabled = false;
+            } else {
+                kecEl.innerHTML = '<option value="" selected disabled>Pilih kota terlebih dahulu</option>';
+                kecEl.disabled = true;
+            }
+            this.resetShipping();
+        });
     }
 
     // --- Autofill Profile Data ---
@@ -97,7 +142,21 @@ class CheckoutController {
         if (document.getElementById('rt')) document.getElementById('rt').value = addr.rt || '';
         if (document.getElementById('rw')) document.getElementById('rw').value = addr.rw || '';
         if (document.getElementById('kelurahan')) document.getElementById('kelurahan').value = addr.kelurahan || '';
-        if (document.getElementById('kecamatan')) document.getElementById('kecamatan').value = addr.kecamatan || '';
+        // Kecamatan saja, kota diabaikan karena alamat lama tidak menyimpan kota
+        const kecEl = document.getElementById('kecamatan');
+        if (kecEl && addr.kecamatan) {
+            // Coba set kecamatan; jika dropdown masih kosong (kota belum dipilih), tetap set value-nya
+            kecEl.value = addr.kecamatan;
+            if (kecEl.value !== addr.kecamatan) {
+                // Tambahkan option sementara agar tidak kosong
+                const opt = document.createElement('option');
+                opt.value = addr.kecamatan;
+                opt.textContent = addr.kecamatan;
+                kecEl.appendChild(opt);
+                kecEl.value = addr.kecamatan;
+                kecEl.disabled = false;
+            }
+        }
         if (document.getElementById('postalCode')) document.getElementById('postalCode').value = addr.postal_code || '';
         if (document.getElementById('landmark')) document.getElementById('landmark').value = addr.landmark || '';
         this.resetShipping();
@@ -121,7 +180,11 @@ class CheckoutController {
         if (document.getElementById('rt')) document.getElementById('rt').value = '';
         if (document.getElementById('rw')) document.getElementById('rw').value = '';
         if (document.getElementById('kelurahan')) document.getElementById('kelurahan').value = '';
-        if (document.getElementById('kecamatan')) document.getElementById('kecamatan').value = '';
+        // Reset kota & kecamatan
+        const kotaEl = document.getElementById('kota');
+        if (kotaEl) kotaEl.value = '';
+        const kecEl = document.getElementById('kecamatan');
+        if (kecEl) { kecEl.innerHTML = '<option value="" selected disabled>Pilih kota terlebih dahulu</option>'; kecEl.disabled = true; }
         if (document.getElementById('postalCode')) document.getElementById('postalCode').value = '';
         if (document.getElementById('landmark')) document.getElementById('landmark').value = '';
         this.resetShipping();
@@ -161,7 +224,7 @@ class CheckoutController {
 
     // --- Reset shipping when address changes ---
     bindAddressChangeReset() {
-        const addressFields = ['streetName', 'houseNumber', 'kelurahan', 'kecamatan', 'postalCode'];
+        const addressFields = ['streetName', 'houseNumber', 'kelurahan', 'kota', 'kecamatan', 'postalCode'];
         addressFields.forEach(id => {
             const el = document.getElementById(id);
             if (el) {
@@ -202,12 +265,13 @@ class CheckoutController {
 
     getAddressFields() {
         const street = document.getElementById('streetName')?.value?.trim() || '';
-        const house = document.getElementById('houseNumber')?.value?.trim() || '';
-        const kel = document.getElementById('kelurahan')?.value?.trim() || '';
-        const kec = document.getElementById('kecamatan')?.value || '';
+        const house  = document.getElementById('houseNumber')?.value?.trim() || '';
+        const kel    = document.getElementById('kelurahan')?.value?.trim() || '';
+        const kec    = document.getElementById('kecamatan')?.value || '';
+        const kota   = document.getElementById('kota')?.value || '';
 
-        if (!street || !house || !kel || !kec) return null;
-        return { street, house, kel, kec };
+        if (!street || !house || !kel || !kec || !kota) return null;
+        return { street, house, kel, kec, kota };
     }
 
     async calculateShipping() {
@@ -235,9 +299,10 @@ class CheckoutController {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     street: fields.street,
-                    house: fields.house,
-                    kel: fields.kel,
-                    kec: fields.kec
+                    house:  fields.house,
+                    kel:    fields.kel,
+                    kec:    fields.kec,
+                    kota:   fields.kota
                 })
             });
 
@@ -247,15 +312,30 @@ class CheckoutController {
                 throw new Error(result.message || 'Gagal menghitung biaya pengiriman.');
             }
 
-            const { lat, lon, rounded_km, shipping_cost, used_fallback } = result;
+            const { lat, lon, rounded_km, shipping_cost, used_fallback,
+                    min_applied, tier1_km, tier2_km, rate_tier1, rate_tier2, min_cost } = result;
 
             this.shippingCalculated = true;
             this.cart.shippingCost = shipping_cost;
 
             // Simpan koordinat dan jarak untuk payload order
-            this.custLat = lat;
-            this.custLon = lon;
+            this.custLat   = lat;
+            this.custLon   = lon;
             this.distanceKm = rounded_km;
+
+            // Buat teks breakdown tarif
+            let breakdownHtml = '';
+            if (min_applied) {
+                breakdownHtml = `<div class="text-muted" style="font-size:11px; margin-top:4px;">Tarif minimum Rp ${min_cost.toLocaleString('id-ID')} diterapkan.</div>`;
+            } else if (tier2_km > 0) {
+                breakdownHtml = `
+                    <div class="text-muted" style="font-size:11px; margin-top:4px;">
+                        ${tier1_km.toFixed(1)} km × Rp ${rate_tier1.toLocaleString('id-ID')} +
+                        ${tier2_km.toFixed(1)} km × Rp ${rate_tier2.toLocaleString('id-ID')}
+                    </div>`;
+            } else {
+                breakdownHtml = `<div class="text-muted" style="font-size:11px; margin-top:4px;">${tier1_km.toFixed(1)} km × Rp ${rate_tier1.toLocaleString('id-ID')}</div>`;
+            }
 
             const fallbackNote = used_fallback
                 ? `<div class="d-flex align-items-center gap-1 mt-2">
@@ -278,6 +358,7 @@ class CheckoutController {
                         <span class="text-muted small">Biaya pengiriman</span>
                         <span class="fw-bold" style="color: #2D6A4F;">${this.cart.formatRp(shipping_cost)}</span>
                     </div>
+                    ${breakdownHtml}
                     ${fallbackNote}
                 </div>
             `;
@@ -340,7 +421,7 @@ class CheckoutController {
 
         let valid = true;
 
-        const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'deliveryDate', 'deliveryTime', 'streetName', 'houseNumber', 'kelurahan', 'kecamatan'];
+        const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'deliveryDate', 'deliveryTime', 'streetName', 'houseNumber', 'kelurahan', 'kota', 'kecamatan'];
         requiredFields.forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;
@@ -393,13 +474,14 @@ class CheckoutController {
             customer_phone: document.getElementById('phone').value.trim(),
             subtotal: this.cart.checkoutSubtotal,
             shipping_distance_km: this.distanceKm,
-            delivery_street: document.getElementById('streetName').value.trim(),
-            delivery_house_number: document.getElementById('houseNumber').value.trim(),
-            delivery_rt: document.getElementById('rt').value.trim(),
-            delivery_rw: document.getElementById('rw').value.trim(),
-            delivery_kelurahan: document.getElementById('kelurahan').value.trim(),
-            delivery_kecamatan: document.getElementById('kecamatan').value,
-            delivery_postal_code: document.getElementById('postalCode').value.trim(),
+            delivery_street:        document.getElementById('streetName').value.trim(),
+            delivery_house_number:  document.getElementById('houseNumber').value.trim(),
+            delivery_rt:            document.getElementById('rt').value.trim(),
+            delivery_rw:            document.getElementById('rw').value.trim(),
+            delivery_kelurahan:     document.getElementById('kelurahan').value.trim(),
+            delivery_kecamatan:     document.getElementById('kecamatan').value,
+            delivery_kota:          document.getElementById('kota')?.value || '',
+            delivery_postal_code:   document.getElementById('postalCode').value.trim(),
             delivery_landmark: document.getElementById('landmark') ? document.getElementById('landmark').value.trim() : '',
             dest_latitude: this.custLat,
             dest_longitude: this.custLon,

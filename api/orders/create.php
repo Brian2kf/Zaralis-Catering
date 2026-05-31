@@ -29,15 +29,18 @@ try {
     $db->beginTransaction();
 
     // 1. Ambil pengaturan bisnis untuk asal pengiriman dan tarif
-    $stmtSettings = $db->query("SELECT setting_key, setting_value FROM business_settings WHERE setting_key IN ('origin_latitude', 'origin_longitude', 'shipping_rate_per_km')");
+    $stmtSettings = $db->query("SELECT setting_key, setting_value FROM business_settings WHERE setting_key IN ('origin_latitude', 'origin_longitude', 'shipping_min_cost', 'shipping_rate_tier1_km', 'shipping_rate_tier2_km', 'shipping_tier_threshold_km')");
     $settings = [];
     while ($row = $stmtSettings->fetch(PDO::FETCH_ASSOC)) {
         $settings[$row['setting_key']] = $row['setting_value'];
     }
 
-    $origin_lat = $settings['origin_latitude'];
-    $origin_lon = $settings['origin_longitude'];
-    $rate_per_km = $settings['shipping_rate_per_km'];
+    $origin_lat     = floatval($settings['origin_latitude']            ?? -6.3683159);
+    $origin_lon     = floatval($settings['origin_longitude']           ?? 106.8461364);
+    $min_cost       = floatval($settings['shipping_min_cost']          ?? 16000);
+    $rate_tier1     = floatval($settings['shipping_rate_tier1_km']     ?? 2000);
+    $rate_tier2     = floatval($settings['shipping_rate_tier2_km']     ?? 2500);
+    $tier_threshold = floatval($settings['shipping_tier_threshold_km'] ?? 20);
 
     // 2. Validasi Jarak di Sisi Server (OSRM + Haversine fallback)
     $dest_lat = $data->dest_latitude;
@@ -82,9 +85,16 @@ try {
 
     // Gunakan jarak dari frontend (yang sudah divalidasi) agar harga yang
     // ditampilkan di halaman checkout sama persis dengan yang tersimpan di database.
-    // Formula disamakan: ceil(km × 10) / 10 × rate (bulatkan ke 0.1 km terdekat ke atas)
+    // Formula disamakan: ceil(km × 10) / 10 (bulatkan ke 0.1 km terdekat ke atas)
     $validated_km = ceil($frontend_distance * 10) / 10;
-    $shipping_cost = round($validated_km * $rate_per_km);
+
+    // Hitung biaya dengan sistem hibrida bertingkat
+    if ($validated_km <= $tier_threshold) {
+        $calculated = $validated_km * $rate_tier1;
+    } else {
+        $calculated = ($tier_threshold * $rate_tier1) + (($validated_km - $tier_threshold) * $rate_tier2);
+    }
+    $shipping_cost = max($min_cost, (int) round($calculated));
 
     // 3. Generate Nomor Pesanan CTR-YYYYMMDD-XXXX
     $today = date('Y-m-d');
@@ -111,9 +121,9 @@ try {
         order_number, user_id, customer_name, customer_email, customer_phone, 
         status, subtotal, shipping_cost, total_amount, shipping_distance_km, 
         delivery_street, delivery_house_number, delivery_rt, delivery_rw, 
-        delivery_kelurahan, delivery_kecamatan, delivery_postal_code, delivery_landmark, 
+        delivery_kelurahan, delivery_kecamatan, delivery_kota, delivery_postal_code, delivery_landmark, 
         dest_latitude, dest_longitude, delivery_date, delivery_time, order_notes
-    ) VALUES (?, ?, ?, ?, ?, 'pending_payment', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    ) VALUES (?, ?, ?, ?, ?, 'pending_payment', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmtOrder = $db->prepare($queryOrder);
     $stmtOrder->execute([
@@ -131,7 +141,8 @@ try {
         $data->delivery_rt,
         $data->delivery_rw,
         $data->delivery_kelurahan,
-        $data->delivery_kecamatan,
+        $data->delivery_kecamatan ?? '',
+        $data->delivery_kota ?? '',
         $data->delivery_postal_code,
         $data->delivery_landmark,
         $dest_lat,

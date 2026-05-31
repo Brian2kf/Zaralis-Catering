@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/helpers/session.php';
 require_once __DIR__ . '/helpers/admin_middleware.php';
@@ -52,8 +52,7 @@ redirect_admin_from_public();
         <div class="d-flex align-items-center justify-content-center gap-2 py-3 px-4 rounded-pill mx-auto shadow-sm"
             style="max-width: 520px; background-color: #2D6A4F; color: white;">
             <span class="material-symbols-outlined" style="font-size: 20px;">local_shipping</span>
-            <span class="fw-medium small">Saat ini kami melayani pengiriman di area <strong>Kota Depok, Jawa
-                    Barat</strong></span>
+            <span class="fw-medium small">Kami melayani pengiriman di seluruh wilayah <strong>Jabodetabek</strong></span>
         </div>
     </div>
 

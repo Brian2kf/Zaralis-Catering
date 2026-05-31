@@ -38,7 +38,7 @@
 
         <!-- Header Section -->
         <header class="mb-5">
-            <h1 class="display-5 fw-bold text-dark mb-3 d-flex align-items-center gap-2" style="font-family: 'Outfit', sans-serif;">
+            <h1 class="display-5 fw-bold text-primary-custom mb-3 d-flex align-items-center gap-2" style="font-family: 'Outfit', sans-serif;">
                 <span class="material-symbols-outlined fs-1">search</span>
                 Cek Status Pesanan
             </h1>

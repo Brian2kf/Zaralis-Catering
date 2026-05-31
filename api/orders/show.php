@@ -62,15 +62,16 @@ try {
 
     foreach ($regularItems as $item) {
         $itemData = [
-            'type' => 'paket_besar',
-            'name' => $item['product_name_snapshot'],
-            'product_name_snapshot' => $item['product_name_snapshot'],
-            'price' => $item['product_price_snapshot'],
+            'type'                   => 'paket_besar',
+            'product_id'             => $item['product_id'],
+            'name'                   => $item['product_name_snapshot'],
+            'product_name_snapshot'  => $item['product_name_snapshot'],
+            'price'                  => $item['product_price_snapshot'],
             'product_price_snapshot' => $item['product_price_snapshot'],
-            'quantity' => $item['quantity'],
-            'subtotal' => $item['subtotal']
+            'quantity'               => $item['quantity'],
+            'subtotal'               => $item['subtotal']
         ];
-        $formattedItems[] = $itemData;
+        $formattedItems[]        = $itemData;
         $formattedRegularItems[] = $itemData;
     }
 
@@ -108,12 +109,13 @@ try {
     $response = [
         "status" => "success",
         "data" => [
-            "id" => $order['id'],
+            "id"           => $order['id'],
             "order_number" => $order['order_number'],
-            "status" => $order['status'],
+            "status"       => $order['status'],
             "total_amount" => $order['total_amount'],
-            "shipping_cost" => $order['shipping_cost'] ?? 0,
-            "created_at" => $order['created_at'],
+            "shipping_cost"=> $order['shipping_cost'] ?? 0,
+            "created_at"   => $order['created_at'],
+            "updated_at"   => $order['updated_at'],
             "customer_name" => $order['customer_name'],
             "customer_email" => $order['customer_email'],
             "customer_phone" => $order['customer_phone'],

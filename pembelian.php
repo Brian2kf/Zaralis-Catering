@@ -24,7 +24,7 @@ redirect_admin_from_public();
     <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/pages/pembelian.css">
 </head>
-<body class="d-flex flex-column min-vh-100" style="background-color: #FFF8F0;">
+<body class="d-flex flex-column min-vh-100" style="background-color: #F8FAF6;">
     <!-- Navbar Placeholder -->
     <div id="navbar-placeholder"></div>
 
@@ -96,6 +96,34 @@ redirect_admin_from_public();
         </div>
 
     </main>
+
+    <!-- ===== Modal Review Produk ===== -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header border-0 pb-0" style="background: linear-gradient(135deg, #f8faf6, #ffffff);">
+                    <div>
+                        <h5 class="modal-title fw-bold text-dark" id="reviewModalLabel">Review Produk</h5>
+                        <p class="text-muted small mb-0" id="review-modal-order-num"></p>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body pt-3" id="review-modal-body">
+                    <!-- Diisi oleh pembelian.js -->
+                    <div class="text-center py-4">
+                        <div class="spinner-border text-primary-custom" role="status"></div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0" id="review-modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary-custom fw-semibold" id="btn-submit-reviews" style="display:none;">
+                        <span class="material-symbols-outlined align-middle me-1" style="font-size:18px;">send</span>
+                        Kirim Review
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
